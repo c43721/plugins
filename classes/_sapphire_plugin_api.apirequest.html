@@ -180,7 +180,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#constructor">constructor</a></p>
 								<p>Overrides Readable.__constructor</p>
 								<ul>
-									<li>Defined in node_modules/@types/node/http.d.ts:319</li>
+									<li>Defined in node_modules/@types/node/http.d.ts:694</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -203,9 +203,20 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#aborted">aborted</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:322</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:701</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <code>message.aborted</code> property will be <code>true</code> if the request has
+							been aborted.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v10.1.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="auth" class="tsd-anchor"></a>
@@ -213,7 +224,7 @@
 					<div class="tsd-signature tsd-kind-icon">auth<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_sapphire_plugin_api.authdata.html" class="tsd-signature-type">AuthData</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/03bbed6/packages/api/src/lib/structures/api/ApiRequest.ts#L27">packages/api/src/lib/structures/api/ApiRequest.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/api/ApiRequest.ts#L27">packages/api/src/lib/structures/api/ApiRequest.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -233,7 +244,7 @@
 					<div class="tsd-signature tsd-kind-icon">body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">unknown</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/03bbed6/packages/api/src/lib/structures/api/ApiRequest.ts#L18">packages/api/src/lib/structures/api/ApiRequest.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/api/ApiRequest.ts#L18">packages/api/src/lib/structures/api/ApiRequest.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -249,9 +260,35 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#complete">complete</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:326</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:736</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <code>message.complete</code> property will be <code>true</code> if a complete HTTP message has
+							been received and successfully parsed.</p>
+						</div>
+						<p>This property is particularly useful as a means of determining if a client or
+						server fully transmitted a message before a connection was terminated:</p>
+						<pre><code class="language-js"><span class="hljs-keyword">const</span> req = http.request({
+  <span class="hljs-attr">host</span>: <span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,
+  <span class="hljs-attr">port</span>: <span class="hljs-number">8080</span>,
+  <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>
+}, <span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+  res.resume();
+  res.on(<span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">if</span> (!res.complete)
+      <span class="hljs-built_in">console</span>.error(
+        <span class="hljs-string">&#x27;The connection was terminated while the message was still being sent&#x27;</span>);
+  });
+});
+</code></pre>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.3.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="connection" class="tsd-anchor"></a>
@@ -260,13 +297,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#connection">connection</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:330</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:742</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Alias for <code>message.socket</code>.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.1.90</p>
+							</dd>
 							<dt>deprecated</dt>
-							<dd><p>since v13.0.0 - Use <code>socket</code> instead.</p>
+							<dd><p>Since v16.0.0 - Use <code>socket</code>.</p>
 							</dd>
 						</dl>
 					</div>
@@ -278,9 +321,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#destroyed">destroyed</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/stream.d.ts:41</li>
+							<li>Defined in node_modules/@types/node/stream.d.ts:97</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Is <code>true</code> after <code>readable.destroy()</code> has been called.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v8.0.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="headers" class="tsd-anchor"></a>
@@ -289,9 +342,36 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#headers">headers</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:332</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:779</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The request/response headers object.</p>
+						</div>
+						<p>Key-value pairs of header names and values. Header names are lower-cased.</p>
+						<pre><code class="language-js"><span class="hljs-comment">// Prints something like:</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// { &#x27;user-agent&#x27;: &#x27;curl/7.22.0&#x27;,</span>
+<span class="hljs-comment">//   host: &#x27;127.0.0.1:8000&#x27;,</span>
+<span class="hljs-comment">//   accept: &#x27;*&#x27; }</span>
+<span class="hljs-built_in">console</span>.log(request.headers);
+</code></pre>
+						<p>Duplicates in raw headers are handled in the following ways, depending on the
+						header name:</p>
+						<ul>
+							<li>Duplicates of <code>age</code>, <code>authorization</code>, <code>content-length</code>, <code>content-type</code>,<code>etag</code>, <code>expires</code>, <code>from</code>, <code>host</code>, <code>if-modified-since</code>, <code>if-unmodified-since</code>,<code>last-modified</code>, <code>location</code>,
+							<code>max-forwards</code>, <code>proxy-authorization</code>, <code>referer</code>,<code>retry-after</code>, <code>server</code>, or <code>user-agent</code> are discarded.</li>
+							<li><code>set-cookie</code> is always an array. Duplicates are added to the array.</li>
+							<li>For duplicate <code>cookie</code> headers, the values are joined together with &#39;; &#39;.</li>
+							<li>For all other headers, the values are joined together with &#39;, &#39;.</li>
+						</ul>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.1.5</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="httpversion" class="tsd-anchor"></a>
@@ -300,9 +380,22 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#httpversion">httpVersion</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:323</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:710</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>In case of server request, the HTTP version sent by the client. In the case of
+								client response, the HTTP version of the connected-to server.
+							Probably either <code>&#39;1.1&#39;</code> or <code>&#39;1.0&#39;</code>.</p>
+						</div>
+						<p>Also <code>message.httpVersionMajor</code> is the first integer and<code>message.httpVersionMinor</code> is the second.</p>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.1.1</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="httpversionmajor" class="tsd-anchor"></a>
@@ -311,7 +404,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#httpversionmajor">httpVersionMajor</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:324</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:711</li>
 						</ul>
 					</aside>
 				</section>
@@ -322,24 +415,30 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#httpversionminor">httpVersionMinor</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:325</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:712</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="method" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> method</h3>
-					<div class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<div class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#method">method</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:340</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:827</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Only valid for request obtained from http.Server.</p>
+							<p><strong>Only valid for request obtained from <a href="_sapphire_plugin_api.server.html">Server</a>.</strong></p>
 						</div>
+						<p>The request method as a string. Read only. Examples: <code>&#39;GET&#39;</code>, <code>&#39;DELETE&#39;</code>.</p>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.1.1</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
@@ -348,7 +447,7 @@
 					<div class="tsd-signature tsd-kind-icon">params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/03bbed6/packages/api/src/lib/structures/api/ApiRequest.ts#L13">packages/api/src/lib/structures/api/ApiRequest.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/api/ApiRequest.ts#L13">packages/api/src/lib/structures/api/ApiRequest.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -363,7 +462,7 @@
 					<div class="tsd-signature tsd-kind-icon">query<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/03bbed6/packages/api/src/lib/structures/api/ApiRequest.ts#L8">packages/api/src/lib/structures/api/ApiRequest.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/api/ApiRequest.ts#L8">packages/api/src/lib/structures/api/ApiRequest.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -379,9 +478,35 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#rawheaders">rawHeaders</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:333</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:804</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The raw request/response headers list exactly as they were received.</p>
+						</div>
+						<p>The keys and values are in the same list. It is <em>not</em> a
+							list of tuples. So, the even-numbered offsets are key values, and the
+						odd-numbered offsets are the associated values.</p>
+						<p>Header names are not lowercased, and duplicates are not merged.</p>
+						<pre><code class="language-js"><span class="hljs-comment">// Prints something like:</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// [ &#x27;user-agent&#x27;,</span>
+<span class="hljs-comment">//   &#x27;this is invalid because there can be only one&#x27;,</span>
+<span class="hljs-comment">//   &#x27;User-Agent&#x27;,</span>
+<span class="hljs-comment">//   &#x27;curl/7.22.0&#x27;,</span>
+<span class="hljs-comment">//   &#x27;Host&#x27;,</span>
+<span class="hljs-comment">//   &#x27;127.0.0.1:8000&#x27;,</span>
+<span class="hljs-comment">//   &#x27;ACCEPT&#x27;,</span>
+<span class="hljs-comment">//   &#x27;*&#x27; ]</span>
+<span class="hljs-built_in">console</span>.log(request.rawHeaders);
+</code></pre>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.11.6</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="rawtrailers" class="tsd-anchor"></a>
@@ -390,9 +515,20 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#rawtrailers">rawTrailers</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:335</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:815</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The raw request/response trailer keys and values exactly as they were
+							received. Only populated at the <code>&#39;end&#39;</code> event.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.11.6</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="readable" class="tsd-anchor"></a>
@@ -401,9 +537,20 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#readable">readable</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/stream.d.ts:34</li>
+							<li>Defined in node_modules/@types/node/stream.d.ts:59</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Is <code>true</code> if it is safe to call <code>readable.read()</code>, which means
+							the stream has not been destroyed or emitted <code>&#39;error&#39;</code> or <code>&#39;end&#39;</code>.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v11.4.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="readableencoding" class="tsd-anchor"></a>
@@ -412,9 +559,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#readableencoding">readableEncoding</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/stream.d.ts:35</li>
+							<li>Defined in node_modules/@types/node/stream.d.ts:64</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Getter for the property <code>encoding</code> of a given <code>Readable</code> stream. The <code>encoding</code>property can be set using the <code>readable.setEncoding()</code> method.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v12.7.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="readableended" class="tsd-anchor"></a>
@@ -423,9 +580,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#readableended">readableEnded</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/stream.d.ts:36</li>
+							<li>Defined in node_modules/@types/node/stream.d.ts:69</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Becomes <code>true</code> when <code>&#39;end&#39;</code> event is emitted.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v12.9.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="readableflowing" class="tsd-anchor"></a>
@@ -434,9 +601,20 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#readableflowing">readableFlowing</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/stream.d.ts:37</li>
+							<li>Defined in node_modules/@types/node/stream.d.ts:75</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This property reflects the current state of a <code>Readable</code> stream as described
+							in the <code>Three states</code> section.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v9.4.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="readablehighwatermark" class="tsd-anchor"></a>
@@ -445,9 +623,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#readablehighwatermark">readableHighWaterMark</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/stream.d.ts:38</li>
+							<li>Defined in node_modules/@types/node/stream.d.ts:80</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns the value of <code>highWaterMark</code> passed when creating this <code>Readable</code>.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v9.3.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="readablelength" class="tsd-anchor"></a>
@@ -456,9 +644,21 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#readablelength">readableLength</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/stream.d.ts:39</li>
+							<li>Defined in node_modules/@types/node/stream.d.ts:87</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This property contains the number of bytes (or objects) in the queue
+								ready to be read. The value provides introspection data regarding
+							the status of the <code>highWaterMark</code>.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v9.4.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="readableobjectmode" class="tsd-anchor"></a>
@@ -467,9 +667,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#readableobjectmode">readableObjectMode</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/stream.d.ts:40</li>
+							<li>Defined in node_modules/@types/node/stream.d.ts:92</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Getter for the property <code>objectMode</code> of a given <code>Readable</code> stream.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v12.3.0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="socket" class="tsd-anchor"></a>
@@ -478,40 +688,67 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#socket">socket</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:331</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="statuscode" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> status<wbr>Code</h3>
-					<div class="tsd-signature tsd-kind-icon">status<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#statuscode">statusCode</a></p>
-						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:348</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:754</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Only valid for response obtained from http.ClientRequest.</p>
+							<p>The <code>net.Socket</code> object associated with the connection.</p>
 						</div>
+						<p>With HTTPS support, use <code>request.socket.getPeerCertificate()</code> to obtain the
+						client&#39;s authentication details.</p>
+						<p>This property is guaranteed to be an instance of the <code>&lt;net.Socket&gt;</code> class,
+							a subclass of <code>&lt;stream.Duplex&gt;</code>, unless the user specified a socket
+						type other than <code>&lt;net.Socket&gt;</code>.</p>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.3.0</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="statuscode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> status<wbr>Code</h3>
+					<div class="tsd-signature tsd-kind-icon">status<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#statuscode">statusCode</a></p>
+						<ul>
+							<li>Defined in node_modules/@types/node/http.d.ts:874</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p><strong>Only valid for response obtained from {@link ClientRequest}.</strong></p>
+						</div>
+						<p>The 3-digit HTTP response status code. E.G. <code>404</code>.</p>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.1.1</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="statusmessage" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> status<wbr>Message</h3>
-					<div class="tsd-signature tsd-kind-icon">status<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<div class="tsd-signature tsd-kind-icon">status<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#statusmessage">statusMessage</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:352</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:881</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Only valid for response obtained from http.ClientRequest.</p>
+							<p><strong>Only valid for response obtained from {@link ClientRequest}.</strong></p>
 						</div>
+						<p>The HTTP response status message (reason phrase). E.G. <code>OK</code> or <code>Internal Server Error</code>.</p>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.11.10</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
@@ -521,24 +758,65 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#trailers">trailers</a></p>
 						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:334</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="url" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> url</h3>
-					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#url">url</a></p>
-						<ul>
-							<li>Defined in node_modules/@types/node/http.d.ts:344</li>
+							<li>Defined in node_modules/@types/node/http.d.ts:809</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Only valid for request obtained from http.Server.</p>
+							<p>The request/response trailers object. Only populated at the <code>&#39;end&#39;</code> event.</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.3.0</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="url" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> url</h3>
+					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#url">url</a></p>
+						<ul>
+							<li>Defined in node_modules/@types/node/http.d.ts:867</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p><strong>Only valid for request obtained from <a href="_sapphire_plugin_api.server.html">Server</a>.</strong></p>
+						</div>
+						<p>Request URL string. This contains only the URL that is present in the actual
+						HTTP request. Take the following request:</p>
+						<pre><code class="language-http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/status?name=ryan</span> <span class="hljs-meta">HTTP/1.1</span>
+<span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/plain
+</code></pre>
+						<p>To parse the URL into its parts:</p>
+						<pre><code class="language-js"><span class="hljs-keyword">new</span> URL(request.url, <span class="hljs-string">`http://<span class="hljs-subst">${request.headers.host}</span>`</span>);
+</code></pre>
+						<p>When <code>request.url</code> is <code>&#39;/status?name=ryan&#39;</code> and<code>request.headers.host</code> is <code>&#39;localhost:3000&#39;</code>:</p>
+						<pre><code class="language-console"><span class="hljs-meta">$</span><span class="bash"> node</span>
+<span class="hljs-meta">&gt;</span><span class="bash"> new URL(request.url, `http://<span class="hljs-variable">${request.headers.host}</span>`)</span>
+URL {
+  href: &#x27;http://localhost:3000/status?name=ryan&#x27;,
+  origin: &#x27;http://localhost:3000&#x27;,
+  protocol: &#x27;http:&#x27;,
+  username: &#x27;&#x27;,
+  password: &#x27;&#x27;,
+  host: &#x27;localhost:3000&#x27;,
+  hostname: &#x27;localhost&#x27;,
+  port: &#x27;3000&#x27;,
+  pathname: &#x27;/status&#x27;,
+  search: &#x27;?name=ryan&#x27;,
+  searchParams: URLSearchParams { &#x27;name&#x27; =&gt; &#x27;ryan&#x27; },
+  hash: &#x27;&#x27;
+}
+</code></pre>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>v0.1.90</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
@@ -555,7 +833,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#_symbol_asynciterator_">[Symbol.asyncIterator]</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:131</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:461</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">AsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -573,7 +851,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#_construct">_construct</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:43</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:99</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -615,7 +893,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#_destroy">_destroy</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:54</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:381</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -660,7 +938,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#_read">_read</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:44</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:100</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -692,7 +970,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#addlistener">addListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:68</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:405</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -738,7 +1016,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#addlistener">addListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:69</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:406</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -775,7 +1053,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#addlistener">addListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:70</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:407</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -806,7 +1084,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#addlistener">addListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:71</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:408</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -843,7 +1121,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#addlistener">addListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:72</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:409</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -874,7 +1152,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#addlistener">addListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:73</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:410</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -905,7 +1183,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#addlistener">addListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:74</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:411</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -936,7 +1214,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#addlistener">addListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:75</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:412</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -982,9 +1260,20 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#destroy">destroy</a></p>
 								<p>Overrides Readable.destroy</p>
 								<ul>
-									<li>Defined in node_modules/@types/node/http.d.ts:353</li>
+									<li>Defined in node_modules/@types/node/http.d.ts:887</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls <code>destroy()</code> on the socket that received the <code>IncomingMessage</code>. If <code>error</code>is provided, an <code>&#39;error&#39;</code> event is emitted on the socket and <code>error</code> is passed
+									as an argument to any listeners on the event.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.3.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1014,7 +1303,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#emit">emit</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:77</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:413</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1030,7 +1319,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#emit">emit</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:78</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:414</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1049,7 +1338,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#emit">emit</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:79</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:415</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1065,7 +1354,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#emit">emit</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:80</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:416</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1084,7 +1373,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#emit">emit</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:81</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:417</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1100,7 +1389,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#emit">emit</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:82</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:418</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1116,7 +1405,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#emit">emit</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:83</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:419</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1132,7 +1421,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#emit">emit</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:84</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:420</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1159,9 +1448,31 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#eventnames">eventNames</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/events.d.ts:87</li>
+									<li>Defined in node_modules/@types/node/events.d.ts:435</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns an array listing the events for which the emitter has registered
+									listeners. The values in the array are strings or <code>Symbol</code>s.</p>
+								</div>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> EventEmitter = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;events&#x27;</span>);
+<span class="hljs-keyword">const</span> myEE = <span class="hljs-keyword">new</span> EventEmitter();
+myEE.on(<span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-function">() =&gt;</span> {});
+myEE.on(<span class="hljs-string">&#x27;bar&#x27;</span>, <span class="hljs-function">() =&gt;</span> {});
+
+<span class="hljs-keyword">const</span> sym = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">&#x27;symbol&#x27;</span>);
+myEE.on(sym, <span class="hljs-function">() =&gt;</span> {});
+
+<span class="hljs-built_in">console</span>.log(myEE.eventNames());
+<span class="hljs-comment">// Prints: [ &#x27;foo&#x27;, &#x27;bar&#x27;, Symbol(symbol) ]</span>
+</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v6.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -1177,9 +1488,20 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#getmaxlisteners">getMaxListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/events.d.ts:79</li>
+									<li>Defined in node_modules/@types/node/events.d.ts:292</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the current max listener value for the <code>EventEmitter</code> which is either
+									set by <code>emitter.setMaxListeners(n)</code> or defaults to <a href="_sapphire_plugin_api.server.html#defaultmaxlisteners">defaultMaxListeners</a>.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v1.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -1195,9 +1517,29 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#ispaused">isPaused</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:49</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:260</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <code>readable.isPaused()</code> method returns the current operating state of the<code>Readable</code>. This is used primarily by the mechanism that underlies the<code>readable.pipe()</code> method. In most
+										typical cases, there will be no reason to
+									use this method directly.</p>
+								</div>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> readable = <span class="hljs-keyword">new</span> stream.Readable();
+
+readable.isPaused(); <span class="hljs-comment">// === false</span>
+readable.pause();
+readable.isPaused(); <span class="hljs-comment">// === true</span>
+readable.resume();
+readable.isPaused(); <span class="hljs-comment">// === false</span>
+</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.11.14</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -1206,20 +1548,33 @@
 					<a name="listenercount" class="tsd-anchor"></a>
 					<h3>listener<wbr>Count</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">listener<wbr>Count<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">listener<wbr>Count<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#listenercount">listenerCount</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/events.d.ts:83</li>
+									<li>Defined in node_modules/@types/node/events.d.ts:382</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the number of listeners listening to the event named <code>eventName</code>.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v3.2.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
+									<h5>eventName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the event being listened for</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1230,20 +1585,36 @@
 					<a name="listeners" class="tsd-anchor"></a>
 					<h3>listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">listeners<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">listeners<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#listeners">listeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/events.d.ts:80</li>
+									<li>Defined in node_modules/@types/node/events.d.ts:305</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a copy of the array of listeners for the event named <code>eventName</code>.</p>
+								</div>
+								<pre><code class="language-js">server.on(<span class="hljs-string">&#x27;connection&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">stream</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;someone connected!&#x27;</span>);
+});
+<span class="hljs-built_in">console</span>.log(util.inspect(server.listeners(<span class="hljs-string">&#x27;connection&#x27;</span>)));
+<span class="hljs-comment">// Prints: [ [Function] ]</span>
+</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.1.26</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
+									<h5>eventName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -1254,20 +1625,30 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#off">off</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/events.d.ts:76</li>
+									<li>Defined in node_modules/@types/node/events.d.ts:265</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Alias for <code>emitter.removeListener()</code>.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v10.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
+									<h5>eventName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
 								</li>
 								<li>
 									<h5>listener: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
@@ -1314,7 +1695,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#on">on</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:86</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:421</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1345,7 +1726,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#on">on</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:87</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:422</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1382,7 +1763,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#on">on</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:88</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:423</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1413,7 +1794,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#on">on</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:89</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:424</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1450,7 +1831,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#on">on</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:90</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:425</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1481,7 +1862,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#on">on</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:91</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:426</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1512,7 +1893,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#on">on</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:92</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:427</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1543,7 +1924,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#on">on</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#on">on</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:93</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:428</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1596,7 +1977,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#once">once</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:95</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:429</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1627,7 +2008,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#once">once</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:96</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:430</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1664,7 +2045,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#once">once</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:97</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:431</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1695,7 +2076,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#once">once</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:98</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:432</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1732,7 +2113,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#once">once</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:99</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:433</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1763,7 +2144,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#once">once</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:100</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:434</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1794,7 +2175,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#once">once</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:101</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:435</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1825,7 +2206,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#once">once</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#once">once</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:102</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:436</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1870,9 +2251,33 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:47</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:224</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <code>readable.pause()</code> method will cause a stream in flowing mode to stop
+										emitting <code>&#39;data&#39;</code> events, switching out of flowing mode. Any data that
+									becomes available will remain in the internal buffer.</p>
+								</div>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> readable = getReadableStreamSomehow();
+readable.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">chunk</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Received <span class="hljs-subst">${chunk.length}</span> bytes of data.`</span>);
+  readable.pause();
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;There will be no additional data for 1 second.&#x27;</span>);
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Now data will start flowing again.&#x27;</span>);
+    readable.resume();
+  }, <span class="hljs-number">1000</span>);
+});
+</code></pre>
+								<p>The <code>readable.pause()</code> method has no effect if there is a <code>&#39;readable&#39;</code>event listener.</p>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.9.4</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
 					</ul>
@@ -1881,14 +2286,14 @@
 					<a name="pipe" class="tsd-anchor"></a>
 					<h3>pipe</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">pipe&lt;T&gt;<span class="tsd-signature-symbol">(</span>destination<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>end<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+						<li class="tsd-signature tsd-kind-icon">pipe&lt;T&gt;<span class="tsd-signature-symbol">(</span>destination<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>end<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:6</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:23</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1903,7 +2308,7 @@
 									<h5>destination: <span class="tsd-signature-type">T</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>end<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>end<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> }</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
@@ -1929,7 +2334,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependlistener">prependListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:104</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:437</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1960,7 +2365,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependlistener">prependListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:105</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:438</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1997,7 +2402,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependlistener">prependListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:106</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:439</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2028,7 +2433,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependlistener">prependListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:107</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:440</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2065,7 +2470,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependlistener">prependListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:108</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:441</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2096,7 +2501,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependlistener">prependListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:109</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:442</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2127,7 +2532,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependlistener">prependListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:110</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:443</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2158,7 +2563,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependlistener">prependListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:111</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:444</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2211,7 +2616,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependoncelistener">prependOnceListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:113</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:445</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2242,7 +2647,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependoncelistener">prependOnceListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:114</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:446</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2279,7 +2684,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependoncelistener">prependOnceListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:115</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:447</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2310,7 +2715,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependoncelistener">prependOnceListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:116</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:448</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2347,7 +2752,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependoncelistener">prependOnceListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:117</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:449</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2378,7 +2783,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependoncelistener">prependOnceListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:118</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:450</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2409,7 +2814,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependoncelistener">prependOnceListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:119</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:451</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2440,7 +2845,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#prependoncelistener">prependOnceListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:120</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:452</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2485,7 +2890,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#push">push</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:53</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:380</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2505,20 +2910,53 @@
 					<a name="rawlisteners" class="tsd-anchor"></a>
 					<h3>raw<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">raw<wbr>Listeners<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">raw<wbr>Listeners<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#rawlisteners">rawListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/events.d.ts:81</li>
+									<li>Defined in node_modules/@types/node/events.d.ts:335</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a copy of the array of listeners for the event named <code>eventName</code>,
+									including any wrappers (such as those created by <code>.once()</code>).</p>
+								</div>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> emitter = <span class="hljs-keyword">new</span> EventEmitter();
+emitter.once(<span class="hljs-string">&#x27;log&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;log once&#x27;</span>));
+
+<span class="hljs-comment">// Returns a new Array with a function `onceWrapper` which has a property</span>
+<span class="hljs-comment">// `listener` which contains the original listener bound above</span>
+<span class="hljs-keyword">const</span> listeners = emitter.rawListeners(<span class="hljs-string">&#x27;log&#x27;</span>);
+<span class="hljs-keyword">const</span> logFnWrapper = listeners[<span class="hljs-number">0</span>];
+
+<span class="hljs-comment">// Logs &quot;log once&quot; to the console and does not unbind the `once` event</span>
+logFnWrapper.listener();
+
+<span class="hljs-comment">// Logs &quot;log once&quot; to the console and removes the listener</span>
+logFnWrapper();
+
+emitter.on(<span class="hljs-string">&#x27;log&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;log persistently&#x27;</span>));
+<span class="hljs-comment">// Will return a new Array with a single function bound by `.on()` above</span>
+<span class="hljs-keyword">const</span> newListeners = emitter.rawListeners(<span class="hljs-string">&#x27;log&#x27;</span>);
+
+<span class="hljs-comment">// Logs &quot;log persistently&quot; twice</span>
+newListeners[<span class="hljs-number">0</span>]();
+emitter.emit(<span class="hljs-string">&#x27;log&#x27;</span>);
+</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v9.4.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
+									<h5>eventName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -2536,13 +2974,84 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#read">read</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:45</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:177</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <code>readable.read()</code> method pulls some data out of the internal buffer and
+										returns it. If no data available to be read, <code>null</code> is returned. By default,
+										the data will be returned as a <code>Buffer</code> object unless an encoding has been
+										specified using the <code>readable.setEncoding()</code> method or the stream is operating
+									in object mode.</p>
+								</div>
+								<p>The optional <code>size</code> argument specifies a specific number of bytes to read. If<code>size</code> bytes are not available to be read, <code>null</code> will be returned _unless_the stream has ended, in which
+									case all of the data remaining in the internal
+								buffer will be returned.</p>
+								<p>If the <code>size</code> argument is not specified, all of the data contained in the
+								internal buffer will be returned.</p>
+								<p>The <code>size</code> argument must be less than or equal to 1 GiB.</p>
+								<p>The <code>readable.read()</code> method should only be called on <code>Readable</code> streams
+									operating in paused mode. In flowing mode, <code>readable.read()</code> is called
+								automatically until the internal buffer is fully drained.</p>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> readable = getReadableStreamSomehow();
+
+<span class="hljs-comment">// &#x27;readable&#x27; may be triggered multiple times as data is buffered in</span>
+readable.on(<span class="hljs-string">&#x27;readable&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">let</span> chunk;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Stream is readable (new data received in buffer)&#x27;</span>);
+  <span class="hljs-comment">// Use a loop to make sure we read all currently available data</span>
+  <span class="hljs-keyword">while</span> (<span class="hljs-literal">null</span> !== (chunk = readable.read())) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Read <span class="hljs-subst">${chunk.length}</span> bytes of data...`</span>);
+  }
+});
+
+<span class="hljs-comment">// &#x27;end&#x27; will be triggered once when there is no more data available</span>
+readable.on(<span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Reached end of stream.&#x27;</span>);
+});
+</code></pre>
+								<p>Each call to <code>readable.read()</code> returns a chunk of data, or <code>null</code>. The chunks
+									are not concatenated. A <code>while</code> loop is necessary to consume all data
+									currently in the buffer. When reading a large file <code>.read()</code> may return <code>null</code>,
+									having consumed all buffered content so far, but there is still more data to
+									come not yet buffered. In this case a new <code>&#39;readable&#39;</code> event will be emitted
+									when there is more data in the buffer. Finally the <code>&#39;end&#39;</code> event will be
+								emitted when there is no more data to come.</p>
+								<p>Therefore to read a file&#39;s whole contents from a <code>readable</code>, it is necessary
+								to collect chunks across multiple <code>&#39;readable&#39;</code> events:</p>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> chunks = [];
+
+readable.on(<span class="hljs-string">&#x27;readable&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">let</span> chunk;
+  <span class="hljs-keyword">while</span> (<span class="hljs-literal">null</span> !== (chunk = readable.read())) {
+    chunks.push(chunk);
+  }
+});
+
+readable.on(<span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> content = chunks.join(<span class="hljs-string">&#x27;&#x27;</span>);
+});
+</code></pre>
+								<p>A <code>Readable</code> stream in object mode will always return a single item from
+								a call to <code>readable.read(size)</code>, regardless of the value of the<code>size</code> argument.</p>
+								<p>If the <code>readable.read()</code> method returns a chunk of data, a <code>&#39;data&#39;</code> event will
+								also be emitted.</p>
+								<p>Calling <a href="_sapphire_plugin_api.apirequest.html#read">read</a> after the <code>&#39;end&#39;</code> event has
+								been emitted will return <code>null</code>. No runtime error will be raised.</p>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.9.4</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> size: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional argument to specify how much data to read.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -2560,9 +3069,23 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#removealllisteners">removeAllListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/events.d.ts:77</li>
+									<li>Defined in node_modules/@types/node/events.d.ts:276</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Removes all listeners, or those of the specified <code>eventName</code>.</p>
+								</div>
+								<p>It is bad practice to remove listeners added elsewhere in the code,
+									particularly when the <code>EventEmitter</code> instance was created by some other
+								component or module (e.g. sockets or file streams).</p>
+								<p>Returns a reference to the <code>EventEmitter</code>, so that calls can be chained.</p>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.1.26</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -2592,7 +3115,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:122</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:453</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2623,7 +3146,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:123</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:454</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2660,7 +3183,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:124</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:455</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2691,7 +3214,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:125</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:456</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2728,7 +3251,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:126</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:457</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2759,7 +3282,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:127</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:458</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2790,7 +3313,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:128</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:459</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2821,7 +3344,7 @@
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#removelistener">removeListener</a></p>
 								<p>Overrides <a href="_sapphire_plugin_api.server.html">Server</a>.<a href="_sapphire_plugin_api.server.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:129</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:460</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2866,9 +3389,29 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:48</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:243</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <code>readable.resume()</code> method causes an explicitly paused <code>Readable</code> stream to
+									resume emitting <code>&#39;data&#39;</code> events, switching the stream into flowing mode.</p>
+								</div>
+								<p>The <code>readable.resume()</code> method can be used to fully consume the data from a
+								stream without actually processing any of that data:</p>
+								<pre><code class="language-js">getReadableStreamSomehow()
+  .resume()
+  .on(<span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Reached the end, but did not read anything.&#x27;</span>);
+  });
+</code></pre>
+								<p>The <code>readable.resume()</code> method has no effect if there is a <code>&#39;readable&#39;</code>event listener.</p>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.9.4</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
 					</ul>
@@ -2884,13 +3427,41 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#setencoding">setEncoding</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:46</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:202</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <code>readable.setEncoding()</code> method sets the character encoding for
+									data read from the <code>Readable</code> stream.</p>
+								</div>
+								<p>By default, no encoding is assigned and stream data will be returned as<code>Buffer</code> objects. Setting an encoding causes the stream data
+									to be returned as strings of the specified encoding rather than as <code>Buffer</code>objects. For instance, calling <code>readable.setEncoding(&#39;utf8&#39;)</code> will cause the
+									output data to be interpreted as UTF-8 data, and passed as strings. Calling<code>readable.setEncoding(&#39;hex&#39;)</code> will cause the data to be encoded in hexadecimal
+								string format.</p>
+								<p>The <code>Readable</code> stream will properly handle multi-byte characters delivered
+									through the stream that would otherwise become improperly decoded if simply
+								pulled from the stream as <code>Buffer</code> objects.</p>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> readable = getReadableStreamSomehow();
+readable.setEncoding(<span class="hljs-string">&#x27;utf8&#x27;</span>);
+readable.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">chunk</span>) =&gt;</span> {
+  assert.equal(<span class="hljs-keyword">typeof</span> chunk, <span class="hljs-string">&#x27;string&#x27;</span>);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Got %d characters of string data:&#x27;</span>, chunk.length);
+});
+</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.9.4</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>encoding: <span class="tsd-signature-type">BufferEncoding</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The encoding to use.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -2908,9 +3479,23 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#setmaxlisteners">setMaxListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/events.d.ts:78</li>
+									<li>Defined in node_modules/@types/node/events.d.ts:286</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>By default <code>EventEmitter</code>s will print a warning if more than <code>10</code> listeners are
+										added for a particular event. This is a useful default that helps finding
+										memory leaks. The <code>emitter.setMaxListeners()</code> method allows the limit to be
+									modified for this specific <code>EventEmitter</code> instance. The value can be set to<code>Infinity</code> (or <code>0</code>) to indicate an unlimited number of listeners.</p>
+								</div>
+								<p>Returns a reference to the <code>EventEmitter</code>, so that calls can be chained.</p>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.3.5</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -2932,9 +3517,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#settimeout">setTimeout</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/http.d.ts:336</li>
+									<li>Defined in node_modules/@types/node/http.d.ts:820</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls <code>message.socket.setTimeout(msecs, callback)</code>.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.5.9</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -2959,13 +3554,43 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#unpipe">unpipe</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:50</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:287</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <code>readable.unpipe()</code> method detaches a <code>Writable</code> stream previously attached
+									using the <a href="_sapphire_plugin_api.apirequest.html#pipe">pipe</a> method.</p>
+								</div>
+								<p>If the <code>destination</code> is not specified, then <em>all</em> pipes are detached.</p>
+								<p>If the <code>destination</code> is specified, but no pipe is set up for it, then
+								the method does nothing.</p>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>);
+<span class="hljs-keyword">const</span> readable = getReadableStreamSomehow();
+<span class="hljs-keyword">const</span> writable = fs.createWriteStream(<span class="hljs-string">&#x27;file.txt&#x27;</span>);
+<span class="hljs-comment">// All the data from readable goes into &#x27;file.txt&#x27;,</span>
+<span class="hljs-comment">// but only for the first second.</span>
+readable.pipe(writable);
+<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Stop writing to file.txt.&#x27;</span>);
+  readable.unpipe(writable);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Manually close the file stream.&#x27;</span>);
+  writable.end();
+}, <span class="hljs-number">1000</span>);
+</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.9.4</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> destination: <span class="tsd-signature-type">NodeJS.WritableStream</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional specific stream to unpipe</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -2983,16 +3608,85 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#unshift">unshift</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:51</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:353</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Passing <code>chunk</code> as <code>null</code> signals the end of the stream (EOF) and behaves the
+										same as <code>readable.push(null)</code>, after which no more data can be written. The EOF
+										signal is put at the end of the buffer and any buffered data will still be
+									flushed.</p>
+								</div>
+								<p>The <code>readable.unshift()</code> method pushes a chunk of data back into the internal
+									buffer. This is useful in certain situations where a stream is being consumed by
+									code that needs to &quot;un-consume&quot; some amount of data that it has optimistically
+								pulled out of the source, so that the data can be passed on to some other party.</p>
+								<p>The <code>stream.unshift(chunk)</code> method cannot be called after the <code>&#39;end&#39;</code> event
+								has been emitted or a runtime error will be thrown.</p>
+								<p>Developers using <code>stream.unshift()</code> often should consider switching to
+								use of a <code>Transform</code> stream instead. See the <code>API for stream implementers</code> section for more information.</p>
+								<pre><code class="language-js"><span class="hljs-comment">// Pull off a header delimited by \n\n.</span>
+<span class="hljs-comment">// Use unshift() if we get too much.</span>
+<span class="hljs-comment">// Call the callback with (error, header, stream).</span>
+<span class="hljs-keyword">const</span> { StringDecoder } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;string_decoder&#x27;</span>);
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseHeader</span>(<span class="hljs-params">stream, callback</span>) </span>{
+  stream.on(<span class="hljs-string">&#x27;error&#x27;</span>, callback);
+  stream.on(<span class="hljs-string">&#x27;readable&#x27;</span>, onReadable);
+  <span class="hljs-keyword">const</span> decoder = <span class="hljs-keyword">new</span> StringDecoder(<span class="hljs-string">&#x27;utf8&#x27;</span>);
+  <span class="hljs-keyword">let</span> header = <span class="hljs-string">&#x27;&#x27;</span>;
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onReadable</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> chunk;
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">null</span> !== (chunk = stream.read())) {
+      <span class="hljs-keyword">const</span> str = decoder.write(chunk);
+      <span class="hljs-keyword">if</span> (str.match(<span class="hljs-regexp">/\n\n/</span>)) {
+        <span class="hljs-comment">// Found the header boundary.</span>
+        <span class="hljs-keyword">const</span> split = str.split(<span class="hljs-regexp">/\n\n/</span>);
+        header += split.shift();
+        <span class="hljs-keyword">const</span> remaining = split.join(<span class="hljs-string">&#x27;\n\n&#x27;</span>);
+        <span class="hljs-keyword">const</span> buf = Buffer.from(remaining, <span class="hljs-string">&#x27;utf8&#x27;</span>);
+        stream.removeListener(<span class="hljs-string">&#x27;error&#x27;</span>, callback);
+        <span class="hljs-comment">// Remove the &#x27;readable&#x27; listener before unshifting.</span>
+        stream.removeListener(<span class="hljs-string">&#x27;readable&#x27;</span>, onReadable);
+        <span class="hljs-keyword">if</span> (buf.length)
+          stream.unshift(buf);
+        <span class="hljs-comment">// Now the body of the message can be read from the stream.</span>
+        callback(<span class="hljs-literal">null</span>, header, stream);
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// Still reading the header.</span>
+        header += str;
+      }
+    }
+  }
+}
+</code></pre>
+								<p>Unlike <a href="_sapphire_plugin_api.apirequest.html#push">push</a>, <code>stream.unshift(chunk)</code> will not
+									end the reading process by resetting the internal reading state of the stream.
+									This can cause unexpected results if <code>readable.unshift()</code> is called during a
+									read (i.e. from within a <a href="_sapphire_plugin_api.apirequest.html#_read">_read</a> implementation on a
+									custom stream). Following the call to <code>readable.unshift()</code> with an immediate <a href="_sapphire_plugin_api.apirequest.html#push">push</a> will reset the reading state appropriately,
+									however it is best to simply avoid calling <code>readable.unshift()</code> while in the
+								process of performing a read.</p>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.9.11</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>chunk: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Chunk of data to unshift onto the read queue. For streams not operating in object mode, <code>chunk</code> must be a string, <code>Buffer</code>, <code>Uint8Array</code> or <code>null</code>. For object mode
+										streams, <code>chunk</code> may be any JavaScript value.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> encoding: <span class="tsd-signature-type">BufferEncoding</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Encoding of string chunks. Must be a valid <code>Buffer</code> encoding, such as <code>&#39;utf8&#39;</code> or <code>&#39;ascii&#39;</code>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3003,20 +3697,49 @@
 					<a name="wrap" class="tsd-anchor"></a>
 					<h3>wrap</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">wrap<span class="tsd-signature-symbol">(</span>oldStream<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadableStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">wrap<span class="tsd-signature-symbol">(</span>stream<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadableStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#wrap">wrap</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:52</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:379</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Prior to Node.js 0.10, streams did not implement the entire <code>stream</code> module API
+									as it is currently defined. (See <code>Compatibility</code> for more information.)</p>
+								</div>
+								<p>When using an older Node.js library that emits <code>&#39;data&#39;</code> events and has a <a href="_sapphire_plugin_api.apirequest.html#pause">pause</a> method that is advisory only, the<code>readable.wrap()</code> method can be used to create a <code>Readable</code>
+									stream that uses
+								the old stream as its data source.</p>
+								<p>It will rarely be necessary to use <code>readable.wrap()</code> but the method has been
+									provided as a convenience for interacting with older Node.js applications and
+								libraries.</p>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> { OldReader } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./old-api-module.js&#x27;</span>);
+<span class="hljs-keyword">const</span> { Readable } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;stream&#x27;</span>);
+<span class="hljs-keyword">const</span> oreader = <span class="hljs-keyword">new</span> OldReader();
+<span class="hljs-keyword">const</span> myReader = <span class="hljs-keyword">new</span> Readable().wrap(oreader);
+
+myReader.on(<span class="hljs-string">&#x27;readable&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  myReader.read(); <span class="hljs-comment">// etc.</span>
+});
+</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v0.9.4</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>oldStream: <span class="tsd-signature-type">ReadableStream</span></h5>
+									<h5>stream: <span class="tsd-signature-type">ReadableStream</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An &quot;old style&quot; readable stream</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -3034,7 +3757,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.apirequest.html">ApiRequest</a>.<a href="_sapphire_plugin_api.apirequest.html#from">from</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/stream.d.ts:32</li>
+									<li>Defined in node_modules/@types/node/stream.d.ts:53</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3065,6 +3788,9 @@
 					</li>
 					<li class="current tsd-kind-module">
 						<a href="../modules/_sapphire_plugin_api.html">@sapphire/plugin-<wbr>api</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_sapphire_plugin_editable_commands.html">@sapphire/plugin-<wbr>editable-<wbr>commands</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_sapphire_plugin_i18next.html">@sapphire/plugin-<wbr>i18next</a>
@@ -3279,6 +4005,7 @@
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AuthData | Sapphire Plugins</title>
+	<title>InternationalizationContext | Sapphire Plugins</title>
 	<meta name="description" content="Documentation for Sapphire Plugins">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,13 +52,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_sapphire_plugin_api.html">@sapphire/plugin-api</a>
+					<a href="../modules/_sapphire_plugin_i18next.html">@sapphire/plugin-i18next</a>
 				</li>
 				<li>
-					<a href="_sapphire_plugin_api.authdata.html">AuthData</a>
+					<a href="_sapphire_plugin_i18next.internationalizationcontext.html">InternationalizationContext</a>
 				</li>
 			</ul>
-			<h1>Interface AuthData</h1>
+			<h1>Interface InternationalizationContext</h1>
 		</div>
 	</div>
 </header>
@@ -68,20 +68,16 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Defines the authentication data, this is to be encrypted and decrypted by the server.</p>
+						<p>Context for {@link I18nextBaseImplementation.fetchLanguage} functions.
+						This context enables implementation of per-guild, per-channel, and per-user localization.</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>since</dt>
-						<dd><p>1.0.0</p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">AuthData</span>
+						<span class="target">InternationalizationContext</span>
 					</li>
 				</ul>
 			</section>
@@ -92,10 +88,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_api.authdata.html#expires" class="tsd-kind-icon">expires</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_api.authdata.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_api.authdata.html#refresh" class="tsd-kind-icon">refresh</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_api.authdata.html#token" class="tsd-kind-icon">token</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_i18next.internationalizationcontext.html#author" class="tsd-kind-icon">author</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_i18next.internationalizationcontext.html#channel" class="tsd-kind-icon">channel</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_i18next.internationalizationcontext.html#guild" class="tsd-kind-icon">guild</a></li>
 							</ul>
 						</section>
 					</div>
@@ -104,84 +99,34 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="expires" class="tsd-anchor"></a>
-					<h3>expires</h3>
-					<div class="tsd-signature tsd-kind-icon">expires<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="author" class="tsd-anchor"></a>
+					<h3>author</h3>
+					<div class="tsd-signature tsd-kind-icon">author<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">User</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/http/Auth.ts#L153">packages/api/src/lib/structures/http/Auth.ts:153</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/i18next/src/lib/types.ts#L68">packages/i18next/src/lib/types.ts:68</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The timestamp at which the token expires.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>since</dt>
-							<dd><p>1.0.0</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="channel" class="tsd-anchor"></a>
+					<h3>channel</h3>
+					<div class="tsd-signature tsd-kind-icon">channel<span class="tsd-signature-symbol">:</span> <a href="../modules/_sapphire_plugin_i18next.html#discordchannel" class="tsd-signature-type">DiscordChannel</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/http/Auth.ts#L147">packages/api/src/lib/structures/http/Auth.ts:147</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/i18next/src/lib/types.ts#L67">packages/i18next/src/lib/types.ts:67</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The user ID.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>since</dt>
-							<dd><p>1.0.0</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="refresh" class="tsd-anchor"></a>
-					<h3>refresh</h3>
-					<div class="tsd-signature tsd-kind-icon">refresh<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="guild" class="tsd-anchor"></a>
+					<h3>guild</h3>
+					<div class="tsd-signature tsd-kind-icon">guild<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Guild</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/http/Auth.ts#L159">packages/api/src/lib/structures/http/Auth.ts:159</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/i18next/src/lib/types.ts#L66">packages/i18next/src/lib/types.ts:66</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The refresh token.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>since</dt>
-							<dd><p>1.0.0</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="token" class="tsd-anchor"></a>
-					<h3>token</h3>
-					<div class="tsd-signature tsd-kind-icon">token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/http/Auth.ts#L165">packages/api/src/lib/structures/http/Auth.ts:165</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The access token.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>since</dt>
-							<dd><p>1.0.0</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -191,13 +136,13 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/_sapphire_plugin_api.html">@sapphire/plugin-<wbr>api</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_sapphire_plugin_editable_commands.html">@sapphire/plugin-<wbr>editable-<wbr>commands</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/_sapphire_plugin_i18next.html">@sapphire/plugin-<wbr>i18next</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -210,27 +155,63 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_sapphire_plugin_i18next.internationalizationhandler.html" class="tsd-kind-icon">Internationalization<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_sapphire_plugin_i18next.internationalizationclientoptions.html" class="tsd-kind-icon">Internationalization<wbr>Client<wbr>Options</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sapphire_plugin_api.authdata.html" class="tsd-kind-icon">Auth<wbr>Data</a>
+						<a href="_sapphire_plugin_i18next.internationalizationcontext.html" class="tsd-kind-icon">Internationalization<wbr>Context</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sapphire_plugin_api.authdata.html#expires" class="tsd-kind-icon">expires</a>
+								<a href="_sapphire_plugin_i18next.internationalizationcontext.html#author" class="tsd-kind-icon">author</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sapphire_plugin_api.authdata.html#id" class="tsd-kind-icon">id</a>
+								<a href="_sapphire_plugin_i18next.internationalizationcontext.html#channel" class="tsd-kind-icon">channel</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sapphire_plugin_api.authdata.html#refresh" class="tsd-kind-icon">refresh</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sapphire_plugin_api.authdata.html#token" class="tsd-kind-icon">token</a>
+								<a href="_sapphire_plugin_i18next.internationalizationcontext.html#guild" class="tsd-kind-icon">guild</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_sapphire_plugin_i18next.internationalizationoptions.html" class="tsd-kind-icon">Internationalization<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="_sapphire_plugin_i18next.localizedmessageoptions.html" class="tsd-kind-icon">Localized<wbr>Message<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="_sapphire_plugin_i18next.partiallocalizedmessageoptions.html" class="tsd-kind-icon">Partial<wbr>Localized<wbr>Message<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_sapphire_plugin_i18next.html#discordchannel" class="tsd-kind-icon">Discord<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-private">
+						<a href="../modules/_sapphire_plugin_i18next.html#dynamicoptions" class="tsd-kind-icon">Dynamic<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_sapphire_plugin_i18next.html#textbaseddiscordchannel" class="tsd-kind-icon">Text<wbr>Based<wbr>Discord<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/_sapphire_plugin_i18next.html#editlocalized" class="tsd-kind-icon">edit<wbr>Localized</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_sapphire_plugin_i18next.html#fetchlanguage" class="tsd-kind-icon">fetch<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_sapphire_plugin_i18next.html#fetcht" class="tsd-kind-icon">fetchT</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/_sapphire_plugin_i18next.html#resolvekey" class="tsd-kind-icon">resolve<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/_sapphire_plugin_i18next.html#sendlocalized" class="tsd-kind-icon">send<wbr>Localized</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

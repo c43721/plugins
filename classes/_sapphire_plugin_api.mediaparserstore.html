@@ -107,14 +107,13 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_sapphire_plugin_api.mediaparserstore.html#strategy" class="tsd-kind-icon">strategy</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_sapphire_plugin_api.mediaparserstore.html#default" class="tsd-kind-icon">default</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_sapphire_plugin_api.mediaparserstore.html#defaultstrategy" class="tsd-kind-icon">default<wbr>Strategy</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_sapphire_plugin_api.mediaparserstore.html#injectedcontext" class="tsd-kind-icon">injected<wbr>Context</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_sapphire_plugin_api.mediaparserstore.html#logger" class="tsd-kind-icon">logger</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_sapphire_plugin_api.mediaparserstore.html#context" class="tsd-kind-icon">context</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_sapphire_plugin_api.mediaparserstore.html#container" class="tsd-kind-icon">container</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -180,7 +179,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Store.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/03bbed6/packages/api/src/lib/structures/MediaParserStore.ts#L7">packages/api/src/lib/structures/MediaParserStore.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/MediaParserStore.ts#L7">packages/api/src/lib/structures/MediaParserStore.ts:7</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_sapphire_plugin_api.mediaparserstore.html" class="tsd-signature-type">MediaParserStore</a></h4>
@@ -197,7 +196,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#constructor-1">Constructor</a></p>
 						<ul>
-							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:74</li>
+							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:192</li>
 						</ul>
 					</aside>
 				</section>
@@ -208,7 +207,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#name">name</a></p>
 						<ul>
-							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:75</li>
+							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:193</li>
 						</ul>
 					</aside>
 				</section>
@@ -219,7 +218,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#paths">paths</a></p>
 						<ul>
-							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:76</li>
+							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:194</li>
 						</ul>
 					</aside>
 				</section>
@@ -241,7 +240,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#strategy">strategy</a></p>
 						<ul>
-							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:77</li>
+							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:195</li>
 						</ul>
 					</aside>
 				</section>
@@ -263,92 +262,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#defaultstrategy">defaultStrategy</a></p>
 						<ul>
-							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:215</li>
+							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:268</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The default strategy, defaults to [[LoaderStrategy]], which is constructed on demand when a store is constructed,
+							<p>The default strategy, defaults to {@link LoaderStrategy}, which is constructed on demand when a store is constructed,
 							when none was set beforehand.</p>
 						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-					<a name="injectedcontext" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> injected<wbr>Context</h3>
-					<div class="tsd-signature tsd-kind-icon">injected<wbr>Context<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_sapphire_plugin_api._pieces_.piececontextextras.html" class="tsd-signature-type">PieceContextExtras</a></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#injectedcontext">injectedContext</a></p>
-						<ul>
-							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:210</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The injected variables that will be accessible to all stores and pieces. To add an extra property, simply mutate
-							the object to add it, and this will update all stores and pieces simultaneously.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>example</dt>
-							<dd><pre><code class="language-typescript"><span class="hljs-comment">// Add a reference to the Client:</span>
-<span class="hljs-keyword">import</span> { Store } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;(at)sapphire/pieces&#x27;</span>;
-
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SapphireClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Client</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">options</span>)</span> {
-    <span class="hljs-built_in">super</span>(options);
-
-    Store.injectedContext.client = <span class="hljs-built_in">this</span>;
-  }
-}
-
-<span class="hljs-comment">// Can be placed anywhere in a TypeScript file, for JavaScript projects,</span>
-<span class="hljs-comment">// you can create an `augments.d.ts` and place the code there.</span>
-<span class="hljs-keyword">declare</span> <span class="hljs-built_in">module</span> <span class="hljs-string">&#x27;(at)sapphire/pieces&#x27;</span> {
-  <span class="hljs-keyword">interface</span> PieceContextExtras {
-    <span class="hljs-attr">client</span>: SapphireClient;
-  }
-}
-
-<span class="hljs-comment">// In any piece, core, plugin, or custom:</span>
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserCommand</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Command</span> </span>{
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">run</span>(<span class="hljs-params">message, args</span>)</span> {
-    <span class="hljs-comment">// The injected client is available here:</span>
-    <span class="hljs-keyword">const</span> { client } = <span class="hljs-built_in">this</span>.context;
-
-    <span class="hljs-comment">// ...</span>
-  }
-}
-</code></pre>
-							</dd>
-							<dt>example</dt>
-							<dd><pre><code class="language-typescript"><span class="hljs-comment">// In a plugin&#x27;s context, e.g. API:</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Api</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Plugin</span> </span>{
-  <span class="hljs-keyword">static</span> [postInitialization]() {
-    <span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> Server(<span class="hljs-built_in">this</span>);
-    Store.injectedContext.server = server;
-
-    <span class="hljs-comment">// ...</span>
-  }
-}
-
-<span class="hljs-keyword">declare</span> <span class="hljs-built_in">module</span> <span class="hljs-string">&#x27;(at)sapphire/pieces&#x27;</span> {
-  <span class="hljs-keyword">interface</span> PieceContextExtras {
-    <span class="hljs-attr">server</span>: Server;
-  }
-}
-
-<span class="hljs-comment">// In any piece, even those that aren&#x27;t routes nor middlewares:</span>
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRoute</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Route</span> </span>{
-  <span class="hljs-keyword">public</span> [methods.POST](message, args) {
-    <span class="hljs-comment">// The injected server is available here:</span>
-    <span class="hljs-keyword">const</span> { server } = <span class="hljs-built_in">this</span>.context;
-
-    <span class="hljs-comment">// ...</span>
-  }
-}
-</code></pre>
-							</dd>
-						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
@@ -358,7 +279,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#logger">logger</a></p>
 						<ul>
-							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:219</li>
+							<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:272</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -371,25 +292,30 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Accessors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-					<a name="context" class="tsd-anchor"></a>
-					<h3>context</h3>
+					<a name="container" class="tsd-anchor"></a>
+					<h3>container</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> context<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_sapphire_plugin_api._pieces_.piececontextextras.html" class="tsd-signature-type">PieceContextExtras</a></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> container<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Container</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#context">context</a></p>
+								<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#container">container</a></p>
 								<ul>
-									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:86</li>
+									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:205</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>The extras to be used for dependency injection in all pieces. Returns a reference of [[Store.defaultExtras]].</p>
+									<p>A reference to the {@link Container} object for ease of use.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p>container</p>
+									</dd>
+								</dl>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_sapphire_plugin_api._pieces_.piececontextextras.html" class="tsd-signature-type">PieceContextExtras</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Container</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -523,12 +449,12 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#construct">construct</a></p>
 								<ul>
-									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:132</li>
+									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:251</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Constructs a [[Piece]] instance.</p>
+									<p>Constructs a {@link Piece} instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -536,7 +462,7 @@
 								<li>
 									<h5>Ctor: <span class="tsd-signature-type">ILoaderResultEntry</span><span class="tsd-signature-symbol">&lt;</span><a href="_sapphire_plugin_api.mediaparser.html" class="tsd-signature-type">MediaParser</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The [[Piece]]&#39;s constructor used to build the instance.</p>
+										<p>The {@link Piece}&#39;s constructor used to build the instance.</p>
 									</div>
 								</li>
 								<li>
@@ -1568,7 +1494,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#insert">insert</a></p>
 								<ul>
-									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:125</li>
+									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:244</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1743,7 +1669,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#load">load</a></p>
 								<ul>
-									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:103</li>
+									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:222</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1776,7 +1702,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#loadall">loadAll</a></p>
 								<ul>
-									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:113</li>
+									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:232</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2044,7 +1970,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/03bbed6/packages/api/src/lib/structures/MediaParserStore.ts#L17">packages/api/src/lib/structures/MediaParserStore.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/9af3e85/packages/api/src/lib/structures/MediaParserStore.ts#L17">packages/api/src/lib/structures/MediaParserStore.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2352,7 +2278,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#registerpath">registerPath</a></p>
 								<ul>
-									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:97</li>
+									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:216</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2392,7 +2318,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#resolve">resolve</a></p>
 								<ul>
-									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:119</li>
+									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:238</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2864,7 +2790,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_sapphire_plugin_api.routestore.html">RouteStore</a>.<a href="_sapphire_plugin_api.routestore.html#unload">unload</a></p>
 								<ul>
-									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:109</li>
+									<li>Defined in node_modules/@sapphire/pieces/dist/index.d.ts:228</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2896,6 +2822,9 @@
 					</li>
 					<li class="current tsd-kind-module">
 						<a href="../modules/_sapphire_plugin_api.html">@sapphire/plugin-<wbr>api</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_sapphire_plugin_editable_commands.html">@sapphire/plugin-<wbr>editable-<wbr>commands</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_sapphire_plugin_i18next.html">@sapphire/plugin-<wbr>i18next</a>
@@ -2940,13 +2869,10 @@
 								<a href="_sapphire_plugin_api.mediaparserstore.html#defaultstrategy" class="tsd-kind-icon">default<wbr>Strategy</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_sapphire_plugin_api.mediaparserstore.html#injectedcontext" class="tsd-kind-icon">injected<wbr>Context</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 								<a href="_sapphire_plugin_api.mediaparserstore.html#logger" class="tsd-kind-icon">logger</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_sapphire_plugin_api.mediaparserstore.html#context" class="tsd-kind-icon">context</a>
+								<a href="_sapphire_plugin_api.mediaparserstore.html#container" class="tsd-kind-icon">container</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_sapphire_plugin_api.mediaparserstore.html#array" class="tsd-kind-icon">array</a>
@@ -3088,15 +3014,16 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
