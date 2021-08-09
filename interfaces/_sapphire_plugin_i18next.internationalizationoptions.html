@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_i18next.internationalizationoptions.html#defaultmissingkey" class="tsd-kind-icon">default<wbr>Missing<wbr>Key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_i18next.internationalizationoptions.html#defaultns" class="tsd-kind-icon">defaultNS</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_i18next.internationalizationoptions.html#defaultname" class="tsd-kind-icon">default<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_i18next.internationalizationoptions.html#fetchlanguage" class="tsd-kind-icon">fetch<wbr>Language</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sapphire_plugin_i18next.internationalizationoptions.html#i18next" class="tsd-kind-icon">i18next</a></li>
 							</ul>
 						</section>
@@ -111,7 +112,7 @@
 					<div class="tsd-signature tsd-kind-icon">backend<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">i18nextFsBackend.i18nextFsBackendOptions</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/7c17a92/packages/i18next/src/lib/types.ts#L28">packages/i18next/src/lib/types.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/30c8f7f/packages/i18next/src/lib/types.ts#L29">packages/i18next/src/lib/types.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -131,7 +132,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Language<wbr>Directory<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/7c17a92/packages/i18next/src/lib/types.ts#L41">packages/i18next/src/lib/types.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/30c8f7f/packages/i18next/src/lib/types.ts#L42">packages/i18next/src/lib/types.ts:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -152,7 +153,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Missing<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/7c17a92/packages/i18next/src/lib/types.ts#L48">packages/i18next/src/lib/types.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/30c8f7f/packages/i18next/src/lib/types.ts#L49">packages/i18next/src/lib/types.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -173,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">defaultNS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/7c17a92/packages/i18next/src/lib/types.ts#L55">packages/i18next/src/lib/types.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/30c8f7f/packages/i18next/src/lib/types.ts#L56">packages/i18next/src/lib/types.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -194,7 +195,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/7c17a92/packages/i18next/src/lib/types.ts#L22">packages/i18next/src/lib/types.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/30c8f7f/packages/i18next/src/lib/types.ts#L23">packages/i18next/src/lib/types.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -210,12 +211,38 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="fetchlanguage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> fetch<wbr>Language</h3>
+					<div class="tsd-signature tsd-kind-icon">fetch<wbr>Language<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="_sapphire_plugin_i18next.internationalizationcontext.html" class="tsd-signature-type">InternationalizationContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Awaited</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/30c8f7f/packages/i18next/src/lib/types.ts#L67">packages/i18next/src/lib/types.ts:67</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A function that is to be used to retrieve the language for the current context.
+							Context exists of a {@link Guild <code>guild</code>}, a <a href="../modules/_sapphire_plugin_i18next.html#discordchannel"><code>channel</code></a> and a {@link User <code>user</code>}.</p>
+						</div>
+						<p>If this is not set, then the language will always be the default language.</p>
+						<p>This will be inserted for <a href="../classes/_sapphire_plugin_i18next.internationalizationhandler.html#fetchlanguage">InternationalizationHandler.fetchLanguage</a>.</p>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>2.0.0</p>
+							</dd>
+							<dt>default</dt>
+							<dd><p>() =&gt; InternationalizationOptions.defaultName</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="i18next" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> i18next</h3>
 					<div class="tsd-signature tsd-kind-icon">i18next<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InitOptions</span><span class="tsd-signature-symbol"> | </span><a href="../modules/_sapphire_plugin_i18next.html#dynamicoptions" class="tsd-signature-type">DynamicOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">InitOptions</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/7c17a92/packages/i18next/src/lib/types.ts#L34">packages/i18next/src/lib/types.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/sapphiredev/plugins/blob/30c8f7f/packages/i18next/src/lib/types.ts#L35">packages/i18next/src/lib/types.ts:35</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -284,6 +311,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_sapphire_plugin_i18next.internationalizationoptions.html#defaultname" class="tsd-kind-icon">default<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_sapphire_plugin_i18next.internationalizationoptions.html#fetchlanguage" class="tsd-kind-icon">fetch<wbr>Language</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_sapphire_plugin_i18next.internationalizationoptions.html#i18next" class="tsd-kind-icon">i18next</a>
