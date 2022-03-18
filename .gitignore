@@ -39,3 +39,6 @@ package-lock.json
 
 # Ignore Turbo caching
 .turbo
+
+# Remove when finished
+src_old/
