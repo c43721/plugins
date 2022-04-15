@@ -21,7 +21,7 @@
 		"@commitlint/config-conventional": "^16.2.1",
 		"@favware/npm-deprecate": "^1.0.4",
 		"@sapphire/eslint-config": "^4.3.0",
-		"@sapphire/framework": "^2.4.1",
+		"@sapphire/framework": "next",
 		"@sapphire/pieces": "^3.3.0",
 		"@sapphire/prettier-config": "^1.4.0",
 		"@sapphire/stopwatch": "^1.4.0",

@@ -1,6 +1,16 @@
-import { type Args, type Awaitable, Command, type CommandContext, type PieceContext } from '@sapphire/framework';
+import {
+	fromAsync,
+	isErr,
+	type ChatInputCommand,
+	type Args,
+	type Awaitable,
+	Command,
+	type MessageCommandContext,
+	type PieceContext
+} from '@sapphire/framework';
 import type { CommandInteraction, Message } from 'discord.js';
 import { ChatInputSubcommandGroupMappings, ChatInputSubcommandMappings, type SubcommandMappingsArray } from './SubcommandMappings';
+import { Events } from './types/Events';
 
 export class SubCommand extends Command {
 	public readonly subCommands: Map<string, SubcommandMappingsArray>;
@@ -11,7 +21,7 @@ export class SubCommand extends Command {
 		this.subCommands = new Map();
 	}
 
-	public messageRun(message: Message, args: Args, context: CommandContext): Awaitable<unknown> {
+	public messageRun(message: Message, args: Args, context: MessageCommandContext): Awaitable<unknown> {
 		// Pick one argument, then try to match a subcommand:
 		args.save();
 		const value = args.nextMaybe();
@@ -25,7 +35,7 @@ export class SubCommand extends Command {
 		throw new Error(`The command ${this.name} does not support sub-commands.`);
 	}
 
-	public chatInputRun(interaction: CommandInteraction): Awaitable<unknown> {
+	public async chatInputRun(interaction: CommandInteraction, context: ChatInputCommand.RunContext): Awaitable<unknown> {
 		if (!this.subCommands) return;
 
 		const subcommand = interaction.options.getSubcommand();
@@ -39,12 +49,20 @@ export class SubCommand extends Command {
 			const mappedSubcommand = this.subCommands.get(subcommand) ?? this.subCommands.get(group);
 
 			if (mappedSubcommand instanceof ChatInputSubcommandMappings) {
-				// TODO: We have chat input subcommand, run it and check result
 				const toRun = mappedSubcommand.subcommands.find((scmd) => scmd.name === subcommand);
 
 				if (toRun) {
-					try {
-					} catch {}
+					const result = await fromAsync(async () => {
+						interaction.client.emit(Events.SubcommandRun, { interaction, subcommand, ...context });
+
+						await toRun.to(interaction, context);
+
+						interaction.client.emit(Events.SubcommandSuccess, { interaction, subcommand, ...context });
+					});
+
+					if (isErr(result)) {
+						interaction.client.emit(Events.SubcommandError, result.error, {});
+					}
 				}
 			} else if (mappedSubcommand instanceof ChatInputSubcommandGroupMappings) {
 				// TODO: We have chat input group, run it and check result

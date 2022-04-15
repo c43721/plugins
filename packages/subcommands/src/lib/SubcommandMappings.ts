@@ -1,3 +1,6 @@
+import type { Awaitable, ChatInputCommand } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
+
 export type SubcommandMappingsArray = (ChatInputSubcommandGroupMappings | ChatInputSubcommandMappings)[];
 // TODO: Add support for message subcommands
 // | MessageSubcommandGroupMappings
@@ -52,7 +55,7 @@ export interface SubcommandMappingArrayValue {
 	 *
 	 * @since 3.0.0
 	 */
-	to: string;
+	to: (interaction: CommandInteraction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
 
 	/**
 	 * Should this command be ran if no input is given
