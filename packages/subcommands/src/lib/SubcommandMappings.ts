@@ -64,7 +64,7 @@ export interface SubCommandMappingValue {
 	name: string;
 
 	/**
-	 * The method method / name used to run the subcommand
+	 * The method or name used used to run the subcommand
 	 *
 	 * @since 3.0.0
 	 */
@@ -80,7 +80,7 @@ export interface SubCommandMappingValue {
 
 export interface SubCommandMessageRunMappingValue extends Omit<SubCommandMappingValue, 'to'> {
 	/**
-	 * The method method / name used to run the subcommand
+	 * The method or name used used to run the subcommand
 	 *
 	 * @since 3.0.0
 	 */
