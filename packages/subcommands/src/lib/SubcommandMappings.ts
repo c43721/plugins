@@ -1,11 +1,9 @@
-import type { Awaitable, ChatInputCommand } from '@sapphire/framework';
-import type { CommandInteraction } from 'discord.js';
+import type { Args, Awaitable, ChatInputCommand, MessageCommandContext } from '@sapphire/framework';
+import type { CommandInteraction, Message } from 'discord.js';
 
-export type SubcommandMappingsArray = (ChatInputSubcommandGroupMappings | ChatInputSubcommandMappings)[];
-// TODO: Add support for message subcommands
-// | MessageSubcommandGroupMappings
-// | MessageSubcommandMappings
-
+export type SubcommandMappingsArray = (SubCommandMappingValue | ChatInputSubcommandMappings | SubcommandMessageRunMappings)[];
+export type SubCommandInteractionToProperty = (interaction: CommandInteraction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
+export type SubCommandMessageToProperty = (message: Message, args: Args, context: MessageCommandContext) => Awaitable<unknown>;
 export class ChatInputSubcommandGroupMappings {
 	/**
 	 * Name of the subcommand group
@@ -19,9 +17,9 @@ export class ChatInputSubcommandGroupMappings {
 	 * /config   mod-roles  add         role
 	 * command   group      subcommand  option
 	 */
-	public subcommands: SubcommandMappingArrayValue[];
+	public subcommands: SubCommandMappingValue[];
 
-	public constructor(groupName: string, mappings: SubcommandMappingArrayValue[]) {
+	public constructor(groupName: string, mappings: SubCommandMappingValue[]) {
 		this.groupName = groupName;
 		this.subcommands = mappings;
 	}
@@ -35,14 +33,29 @@ export class ChatInputSubcommandMappings {
 	 * /config  language   en-US
 	 *          command    subcommand option
 	 */
-	public subcommands: SubcommandMappingArrayValue[];
+	public subcommands: SubCommandMappingValue[];
 
-	public constructor(subcommands: SubcommandMappingArrayValue[]) {
+	public constructor(subcommands: SubCommandMappingValue[]) {
 		this.subcommands = subcommands;
 	}
 }
 
-export interface SubcommandMappingArrayValue {
+export class SubcommandMessageRunMappings {
+	/**
+	 * Subcommands for this Command
+	 *
+	 * @example
+	 * /config  language   en-US
+	 *          command    subcommand option
+	 */
+	public subcommands: SubCommandMessageRunMappingValue[];
+
+	public constructor(subcommands: SubCommandMessageRunMappingValue[]) {
+		this.subcommands = subcommands;
+	}
+}
+
+export interface SubCommandMappingValue {
 	/**
 	 * Name of the Subcommand
 	 *
@@ -51,11 +64,11 @@ export interface SubcommandMappingArrayValue {
 	name: string;
 
 	/**
-	 * The method name used to run the subcommand
+	 * The method or name used used to run the subcommand
 	 *
 	 * @since 3.0.0
 	 */
-	to: (interaction: CommandInteraction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
+	to: SubCommandInteractionToProperty | string;
 
 	/**
 	 * Should this command be ran if no input is given
@@ -63,4 +76,13 @@ export interface SubcommandMappingArrayValue {
 	 * @since 3.0.0
 	 */
 	default?: boolean;
+}
+
+export interface SubCommandMessageRunMappingValue extends Omit<SubCommandMappingValue, 'to'> {
+	/**
+	 * The method or name used used to run the subcommand
+	 *
+	 * @since 3.0.0
+	 */
+	to: SubCommandMessageToProperty | string;
 }
