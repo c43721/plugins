@@ -14,10 +14,10 @@ export const Events = {
 declare module 'discord.js' {
 	interface ClientEvents {
 		[Events.SubCommandInteractionRun]: [interaction: Interaction, subcommand: SubCommandMappingValue, context: ChatInputCommand.Context];
-		[Events.SubCommandInteractionSuccess]: [interaction: Interaction, subCommand: string, context: ChatInputCommandContext];
+		[Events.SubCommandInteractionSuccess]: [interaction: Interaction, subCommand: SubCommandMappingValue, context: ChatInputCommandContext];
 		[Events.subCommandInteractionNotFound]: [interaction: Interaction, subcommand: SubCommandMappingValue, context: ChatInputCommand.Context];
 		[Events.SubCommandMessageRun]: [Message: Message, subcommand: SubCommandMessageRunMappingValue, context: MessageCommand.Context];
-		[Events.SubCommandMessageSuccess]: [Message: Message, subcommand: string, context: MessageCommand.Context];
+		[Events.SubCommandMessageSuccess]: [Message: Message, subcommand: SubCommandMessageRunMappingValue, context: MessageCommand.Context];
 		[Events.subCommandMessageNotFound]: [
 			interaction: Interaction,
 			subcommand: SubCommandMessageRunMappingValue,

@@ -1,6 +1,5 @@
 import { fromAsync, isErr, type Args, Command, type MessageCommandContext, type PieceContext, ChatInputCommand } from '@sapphire/framework';
 import type { CommandInteraction, Message } from 'discord.js';
-
 import {
 	SubCommandMessageRunMappingValue,
 	SubcommandMessageRunMappings,
@@ -63,7 +62,7 @@ export class SubCommand extends Command {
 		const result = await fromAsync(async () => {
 			interaction.client.emit(Events.SubCommandMessageRun as never, interaction, subCommand, context);
 			await subCommand.to(interaction, context);
-			interaction.client.emit(Events.SubCommandMessageSuccess as never, interaction, subCommand.name, context);
+			interaction.client.emit(Events.SubCommandMessageSuccess as never, interaction, subCommand, context);
 		});
 
 		if (isErr(result)) {
@@ -75,7 +74,7 @@ export class SubCommand extends Command {
 		const result = await fromAsync(async () => {
 			message.client.emit(Events.SubCommandMessageRun as never, message, subCommand, context);
 			await subCommand.to(message, args, context);
-			message.client.emit(Events.SubCommandMessageSuccess as never, message, subCommand.name, context);
+			message.client.emit(Events.SubCommandMessageSuccess as never, message, subCommand, context);
 		});
 
 		if (isErr(result)) {
