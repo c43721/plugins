@@ -26,3 +26,10 @@ declare module 'discord.js' {
 		[Events.SubCommandError]: [error: unknown, payload: ChatInputCommand.RunContext | MessageCommand.Context];
 	}
 }
+
+declare module '@sapphire/framework' {
+	enum Identifiers {
+		SubCommandMessageNoMatch = 'subCommandMessageNoMatch',
+		SubCommandInteractionNoMatch = 'subCommandInteractionNoMatch'
+	}
+}

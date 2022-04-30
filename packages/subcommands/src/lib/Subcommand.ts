@@ -1,4 +1,15 @@
-import { fromAsync, isErr, type Args, Command, type MessageCommandContext, type PieceContext, ChatInputCommand } from '@sapphire/framework';
+import {
+	fromAsync,
+	isErr,
+	type Args,
+	Command,
+	type MessageCommandContext,
+	type PieceContext,
+	ChatInputCommand,
+	err,
+	UserError,
+	Identifiers
+} from '@sapphire/framework';
 import type { CommandInteraction, Message } from 'discord.js';
 import {
 	SubCommandMessageRunMappingValue,
@@ -21,16 +32,21 @@ export class SubCommand extends Command {
 	public messageRun(message: Message, args: Args, context: MessageCommandContext) {
 		args.save();
 		const value = args.nextMaybe();
+		let defaultCommmand: SubCommandMessageRunMappingValue | null = null;
 
 		for (const mapping of this.subCommands) {
 			if (!(mapping instanceof SubcommandMessageRunMappings)) continue;
+			defaultCommmand = mapping.subcommands.find((s) => s.default === true) ?? null;
 			const subCommand = mapping.subcommands.find(({ name }) => name === value.value);
 			if (subCommand) return this.#handleMessageRun(message, args, context, subCommand);
 		}
 
 		// No subcommand matched, let's restore and try to run default, if any:
 		args.restore();
-		throw new Error(`The command ${this.name} does not support sub-commands.`);
+		if (defaultCommmand) return this.#handleMessageRun(message, args, context, defaultCommmand);
+
+		// No match and no subcommand, return an err:
+		return err(new UserError({ identifier: Identifiers.SubCommandMessageNoMatch, context }));
 	}
 
 	public chatInputRun(interaction: CommandInteraction, context: ChatInputCommand.RunContext) {
@@ -40,6 +56,7 @@ export class SubCommand extends Command {
 		if (subCommandName && !subCommandGroupName) {
 			for (const mapping of this.subCommands) {
 				if (!(mapping instanceof ChatInputSubcommandMappings)) continue;
+
 				const subCommand = mapping.subcommands.find(({ name }) => name === subCommandName);
 				if (subCommand) return this.#handleInteractionRun(interaction, context, subCommand);
 			}
@@ -55,7 +72,8 @@ export class SubCommand extends Command {
 			}
 		}
 
-		throw new Error(`The command ${this.name} does not support sub-commands.`);
+		// No match and no subcommand, return an err:
+		return err(new UserError({ identifier: Identifiers.SubCommandInteractionNoMatch, context }));
 	}
 
 	async #handleInteractionRun(interaction: CommandInteraction, context: ChatInputCommand.RunContext, subCommand: SubCommandMappingValue) {
