@@ -23,8 +23,8 @@ import {
 } from './SubcommandMappings';
 import { Events } from './types/Events';
 
-export class SubCommand extends Command {
-	public subCommands: SubcommandMappingsArray;
+export class SubCommandPluginCommand extends Command {
+	public readonly subCommands: SubcommandMappingsArray;
 
 	public constructor(context: PieceContext, options: SubCommandPluginCommandOptions) {
 		super(context, options);
