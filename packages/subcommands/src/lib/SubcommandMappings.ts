@@ -2,6 +2,8 @@ import type { Args, Awaitable, ChatInputCommand, MessageCommandContext } from '@
 import type { CommandInteraction, Message } from 'discord.js';
 
 export type SubcommandMappingsArray = (SubCommandMappingValue | ChatInputSubcommandMappings | SubcommandMessageRunMappings)[];
+export type SubCommandInteractionToProperty = (interaction: CommandInteraction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
+export type SubCommandMessageToProperty = (message: Message, args: Args, context: MessageCommandContext) => Awaitable<unknown>;
 export class ChatInputSubcommandGroupMappings {
 	/**
 	 * Name of the subcommand group
@@ -62,11 +64,11 @@ export interface SubCommandMappingValue {
 	name: string;
 
 	/**
-	 * The method name used to run the subcommand
+	 * The method method / name used to run the subcommand
 	 *
 	 * @since 3.0.0
 	 */
-	to: (interaction: CommandInteraction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
+	to: SubCommandInteractionToProperty | string;
 
 	/**
 	 * Should this command be ran if no input is given
@@ -78,9 +80,9 @@ export interface SubCommandMappingValue {
 
 export interface SubCommandMessageRunMappingValue extends Omit<SubCommandMappingValue, 'to'> {
 	/**
-	 * The method name used to run the subcommand
+	 * The method method / name used to run the subcommand
 	 *
 	 * @since 3.0.0
 	 */
-	to: (message: Message, args: Args, context: MessageCommandContext) => Awaitable<unknown>;
+	to: SubCommandMessageToProperty | string;
 }

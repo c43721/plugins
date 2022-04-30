@@ -17,7 +17,9 @@ import {
 	type SubcommandMappingsArray,
 	ChatInputSubcommandMappings,
 	SubCommandMappingValue,
-	ChatInputSubcommandGroupMappings
+	ChatInputSubcommandGroupMappings,
+	SubCommandInteractionToProperty,
+	SubCommandMessageToProperty
 } from './SubcommandMappings';
 import { Events } from './types/Events';
 
@@ -79,7 +81,17 @@ export class SubCommand extends Command {
 	async #handleInteractionRun(interaction: CommandInteraction, context: ChatInputCommand.RunContext, subCommand: SubCommandMappingValue) {
 		const result = await fromAsync(async () => {
 			interaction.client.emit(Events.SubCommandMessageRun as never, interaction, subCommand, context);
-			await subCommand.to(interaction, context);
+			if (typeof subCommand.to === 'string') {
+				const method = Reflect.get(this, subCommand.to) as SubCommandInteractionToProperty | undefined;
+				if (method) {
+					await method(interaction, context);
+				} else {
+					err(new UserError({ identifier: Identifiers.SubCommandMethodNotFound, context }));
+				}
+			} else {
+				await subCommand.to(interaction, context);
+			}
+
 			interaction.client.emit(Events.SubCommandMessageSuccess as never, interaction, subCommand, context);
 		});
 
@@ -91,7 +103,18 @@ export class SubCommand extends Command {
 	async #handleMessageRun(message: Message, args: Args, context: MessageCommandContext, subCommand: SubCommandMessageRunMappingValue) {
 		const result = await fromAsync(async () => {
 			message.client.emit(Events.SubCommandMessageRun as never, message, subCommand, context);
-			await subCommand.to(message, args, context);
+
+			if (typeof subCommand.to === 'string') {
+				const method = Reflect.get(this, subCommand.to) as SubCommandMessageToProperty | undefined;
+				if (method) {
+					await method(message, args, context);
+				} else {
+					err(new UserError({ identifier: Identifiers.SubCommandMethodNotFound, context }));
+				}
+			} else {
+				await subCommand.to(message, args, context);
+			}
+
 			message.client.emit(Events.SubCommandMessageSuccess as never, message, subCommand, context);
 		});
 
