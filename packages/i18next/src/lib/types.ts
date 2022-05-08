@@ -1,8 +1,20 @@
 import type { Awaitable, NonNullObject } from '@sapphire/utilities';
+import type { Backend } from '@skyra/i18next-backend';
 import type { WatchOptions } from 'chokidar';
-import type { Guild, Message, MessageOptions, StageChannel, StoreChannel, User, VoiceChannel } from 'discord.js';
+import type {
+	BaseCommandInteraction,
+	Guild,
+	Interaction,
+	InteractionReplyOptions,
+	Message,
+	MessageComponentInteraction,
+	MessageOptions,
+	StageChannel,
+	StoreChannel,
+	User,
+	VoiceChannel
+} from 'discord.js';
 import type { InitOptions, StringMap, TFunctionKeys, TOptions } from 'i18next';
-import type { i18nextFsBackend } from 'i18next-fs-backend';
 
 /**
  * Configure whether to use Hot-Module-Replacement (HMR) for your i18next resources using these options. The minimum config to enable HMR is to set `enabled` to true. Any other properties are optional.
@@ -56,7 +68,7 @@ export interface InternationalizationOptions {
 	 * The options passed to `backend` in `i18next.init`.
 	 * @since 1.0.0
 	 */
-	backend?: i18nextFsBackend.i18nextFsBackendOptions;
+	backend?: Backend.Options;
 
 	/**
 	 * The options passed to `i18next.init`.
@@ -121,9 +133,19 @@ export type DiscordChannel = TextBasedDiscordChannel | StoreChannel | StageChann
  * This context enables implementation of per-guild, per-channel, and per-user localization.
  */
 export interface InternationalizationContext {
+	/** The {@link Guild} object to fetch the preferred language for, or `null` if the language is to be fetched in a DM. */
 	guild: Guild | null;
+	/** The {@link DiscordChannel} object to fetch the preferred language for. */
 	channel: DiscordChannel | null;
-	author: User | null;
+	/**
+	 * @deprecated Use {@link InternationalizationContext.user} instead; this will be removed in the next major version.
+	 * The user to fetch the preferred language for.
+	 */
+	author?: User | null;
+	/** The user to fetch the preferred language for. */
+	user: User | null;
+	interactionGuildLocale?: Interaction['guildLocale'];
+	interactionLocale?: Interaction['locale'];
 }
 
 export interface InternationalizationClientOptions {
@@ -135,9 +157,19 @@ export interface I18nextFormatters {
 	format(value: any, lng: string | undefined, options: any): string;
 }
 
+export interface LocalizedInteractionReplyOptions<TKeys extends TFunctionKeys = string, TInterpolationMap extends NonNullObject = StringMap>
+	extends PartialLocalizedInteractionReplyOptions<TInterpolationMap> {
+	keys: TKeys | TKeys[];
+}
+
 export interface LocalizedMessageOptions<TKeys extends TFunctionKeys = string, TInterpolationMap extends NonNullObject = StringMap>
 	extends PartialLocalizedMessageOptions<TInterpolationMap> {
 	keys: TKeys | TKeys[];
+}
+
+export interface PartialLocalizedInteractionReplyOptions<TInterpolationMap extends NonNullObject = StringMap>
+	extends Omit<InteractionReplyOptions, 'content'> {
+	formatOptions?: TOptions<TInterpolationMap>;
 }
 
 export interface PartialLocalizedMessageOptions<TInterpolationMap extends NonNullObject = StringMap> extends Omit<MessageOptions, 'content'> {
@@ -145,4 +177,4 @@ export interface PartialLocalizedMessageOptions<TInterpolationMap extends NonNul
 }
 
 export type ChannelTarget = Message | DiscordChannel;
-export type Target = ChannelTarget | Guild;
+export type Target = BaseCommandInteraction | ChannelTarget | Guild | MessageComponentInteraction;

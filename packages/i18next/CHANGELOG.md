@@ -1,7 +1,43 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [@sapphire/plugin-i18next@2.5.0](https://github.com/sapphiredev/plugins/compare/@sapphire/plugin-i18next@2.4.2...@sapphire/plugin-i18next@2.5.0) - (2022-04-19)
+
+## Bug Fixes
+
+- **i18next:** Edit a reply when an already deferred or edited reply is passed into `replyLocalized` ([fab3db9](https://github.com/sapphiredev/plugins/commit/fab3db9212d19ddeda2cec1e92ded7dfa561385d))
+- **i18next:** Ensure an interaction is deferred or replied before editing ([34f6057](https://github.com/sapphiredev/plugins/commit/34f605739ec335f205a6ddbb36fd811eac2f7a77))
+
+## Features
+
+- **i18next:** Add `guildLocale` and `locale` to `fetchLanguage` context ([d1e09f4](https://github.com/sapphiredev/plugins/commit/d1e09f47e659c1b296e07dd6805606af302ee6ed))
+
+# [@sapphire/plugin-i18next@2.4.2](https://github.com/sapphiredev/plugins/compare/@sapphire/plugin-i18next@2.4.1...@sapphire/plugin-i18next@2.4.2) - (2022-04-18)
+
+## Bug Fixes
+
+- **i18next:** Actually fix files array ([81debfc](https://github.com/sapphiredev/plugins/commit/81debfc53bfa7e16ba429d74276ebd531aeae8d9))
+
+# [@sapphire/plugin-i18next@2.4.1](https://github.com/sapphiredev/plugins/compare/@sapphire/plugin-i18next@2.4.0...@sapphire/plugin-i18next@2.4.1) - (2022-04-18)
+
+## Bug Fixes
+
+- Fixed files array ([1e13a35](https://github.com/sapphiredev/plugins/commit/1e13a3502b9d909ba9c349ab078a763d2bee0c58))
+
+# [@sapphire/plugin-i18next@2.4.0](https://github.com/sapphiredev/plugins/compare/@sapphire/plugin-i18next@2.3.1...@sapphire/plugin-i18next@2.4.0) - (2022-04-18)
+
+## Bug Fixes
+
+- **deps:** Update dependency i18next to ^21.6.15 ([5a5995c](https://github.com/sapphiredev/plugins/commit/5a5995cb7afa7691a889968519abf716c8e2f5ec))
+
+## Documentation
+
+- Update typedoc setup ([5c855bd](https://github.com/sapphiredev/plugins/commit/5c855bd8341f155a41c9b85738541f1f47ac837a))
+
+## Features
+
+- **i18next:** Support interaction (#272) ([8681e7d](https://github.com/sapphiredev/plugins/commit/8681e7d4f649216ae63a24a3f18a45d78279bd50))
 
 ## [2.3.1](https://github.com/sapphiredev/plugins/compare/@sapphire/plugin-i18next@2.3.0...@sapphire/plugin-i18next@2.3.1) (2022-04-01)
 
