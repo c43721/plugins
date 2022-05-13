@@ -72,8 +72,8 @@ declare module 'discord.js' {
 
 declare module '@sapphire/framework' {
 	const enum Identifiers {
-		MessageSubcommandNoMatch = 'MessageSubcommandNoMatch',
-		ChatInputSubcommandNoMatch = 'ChatInputSubcommandNoMatch',
+		MessageSubcommandNoMatch = 'messageSubcommandNoMatch',
+		ChatInputSubcommandNoMatch = 'chatInputSubcommandNoMatch',
 		SubcommandMethodNotFound = 'subcommandMethodNotFound'
 	}
 }
