@@ -63,9 +63,9 @@ declare module 'discord.js' {
 			subcommand: ChatInputSubcommandMappingValue,
 			context: ChatInputCommand.Context
 		];
-		[Events.MessageSubcommandRun]: [Message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandRunPayload];
-		[Events.MessageSubcommandSuccess]: [Message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandSuccessPayload];
-		[Events.MessageSubcommandNotFound]: [interaction: Interaction, subcommand: MessageSubcommandMappingValue, context: ChatInputCommand.Context];
+		[Events.MessageSubcommandRun]: [message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandRunPayload];
+		[Events.MessageSubcommandSuccess]: [message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandSuccessPayload];
+		[Events.MessageSubcommandNotFound]: [message: Message, subcommand: MessageSubcommandMappingValue, context: ChatInputCommand.Context];
 		[Events.SubcommandError]: [error: unknown, payload: ChatInputSubcommandErrorPayload | MessageSubcommandErrorPayload];
 	}
 }
