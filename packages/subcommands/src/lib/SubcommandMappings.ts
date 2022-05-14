@@ -4,6 +4,7 @@ import type { Message } from 'discord.js';
 export type SubcommandMappingsArray = (ChatInputSubcommandGroupMappings | ChatInputSubcommandMappings | MessageSubcommandMappings)[];
 export type ChatInputSubcommandToProperty = (interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
 export type MessageSubcommandToProperty = (message: Message, args: Args, context: MessageCommand.RunContext) => Awaitable<unknown>;
+export type SubCommandType = 'method' | 'command';
 export class ChatInputSubcommandGroupMappings {
 	/**
 	 * Name of the subcommand group
@@ -71,11 +72,10 @@ export interface ChatInputSubcommandMappingValue {
 	to: ChatInputSubcommandToProperty | string;
 
 	/**
-	 * Should this command be ran if no input is given
-	 *
+	 * Select whether you want to execute a command class method or a command registered in the store.
 	 * @since 3.0.0
 	 */
-	default?: boolean;
+	type: SubCommandType;
 }
 
 export interface MessageSubcommandMappingValue extends Omit<ChatInputSubcommandMappingValue, 'to'> {
@@ -85,4 +85,11 @@ export interface MessageSubcommandMappingValue extends Omit<ChatInputSubcommandM
 	 * @since 3.0.0
 	 */
 	to: MessageSubcommandToProperty | string;
+
+	/**
+	 * Should this command be ran if no input is given
+	 *
+	 * @since 3.0.0
+	 */
+	default?: boolean;
 }

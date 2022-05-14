@@ -74,6 +74,6 @@ declare module '@sapphire/framework' {
 	const enum Identifiers {
 		MessageSubcommandNoMatch = 'messageSubcommandNoMatch',
 		ChatInputSubcommandNoMatch = 'chatInputSubcommandNoMatch',
-		SubcommandMethodNotFound = 'subcommandMethodNotFound'
+		SubcommandNotFound = 'subcommandNotFound'
 	}
 }
