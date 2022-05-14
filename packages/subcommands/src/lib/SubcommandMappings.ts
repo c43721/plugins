@@ -4,7 +4,7 @@ import type { Message } from 'discord.js';
 export type SubcommandMappingsArray = (ChatInputSubcommandGroupMappings | ChatInputSubcommandMappings | MessageSubcommandMappings)[];
 export type ChatInputSubcommandToProperty = (interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
 export type MessageSubcommandToProperty = (message: Message, args: Args, context: MessageCommand.RunContext) => Awaitable<unknown>;
-export type SubCommandType = 'method' | 'command';
+export type SubcommandType = 'method' | 'command';
 export class ChatInputSubcommandGroupMappings {
 	/**
 	 * Name of the subcommand group
