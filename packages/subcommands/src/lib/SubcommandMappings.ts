@@ -75,7 +75,7 @@ export interface ChatInputSubcommandMappingValue {
 	 * Select whether you want to execute a command class method or a command registered in the store.
 	 * @since 3.0.0
 	 */
-	type: SubcommandType;
+	type?: SubcommandType;
 }
 
 export interface MessageSubcommandMappingValue extends Omit<ChatInputSubcommandMappingValue, 'to'> {

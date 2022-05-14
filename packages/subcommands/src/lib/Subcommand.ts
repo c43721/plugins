@@ -88,6 +88,7 @@ export class SubCommandPluginCommand extends Command {
 		const result = await fromAsync(async () => {
 			interaction.client.emit(Events.ChatInputSubcommandRun, interaction, subcommand, payload);
 			let result: unknown;
+			subcommand.type ??= 'method';
 
 			if (subcommand.type === 'command') {
 				const command = await this.container.stores.get('commands').get(subcommand.name);
@@ -124,6 +125,7 @@ export class SubCommandPluginCommand extends Command {
 		const result = await fromAsync(async () => {
 			message.client.emit(Events.MessageSubcommandRun, message, subcommand, payload);
 			let result: unknown;
+			subcommand.type ??= 'method';
 
 			if (subcommand.type === 'command') {
 				const command = await this.container.stores.get('commands').get(subcommand.name);
