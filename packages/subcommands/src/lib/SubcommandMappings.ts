@@ -69,7 +69,7 @@ export interface ChatInputSubcommandMappingValue {
 	 *
 	 * @since 3.0.0
 	 */
-	to: ChatInputSubcommandToProperty | string;
+	to?: ChatInputSubcommandToProperty | string;
 
 	/**
 	 * Select whether you want to execute a command class method or a command registered in the store.
@@ -84,7 +84,7 @@ export interface MessageSubcommandMappingValue extends Omit<ChatInputSubcommandM
 	 *
 	 * @since 3.0.0
 	 */
-	to: MessageSubcommandToProperty | string;
+	to?: MessageSubcommandToProperty | string;
 
 	/**
 	 * Should this command be ran if no input is given

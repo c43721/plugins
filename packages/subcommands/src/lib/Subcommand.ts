@@ -98,7 +98,7 @@ export class SubCommandPluginCommand extends Command {
 				err(new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } }));
 			}
 
-			if (subcommand.type === 'method') {
+			if (subcommand.type === 'method' && subcommand.to) {
 				if (typeof subcommand.to === 'string') {
 					const method = Reflect.get(this, subcommand.to) as ChatInputSubcommandToProperty | undefined;
 					if (method) {
@@ -134,7 +134,7 @@ export class SubCommandPluginCommand extends Command {
 				err(new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } }));
 			}
 
-			if (subcommand.type === 'method') {
+			if (subcommand.type === 'method' && subcommand.to) {
 				if (typeof subcommand.to === 'string') {
 					const method = Reflect.get(this, subcommand.to) as MessageSubcommandToProperty | undefined;
 					if (method) {
