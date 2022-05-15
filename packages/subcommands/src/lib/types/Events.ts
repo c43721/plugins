@@ -29,6 +29,7 @@ export interface MessageSubcommandErrorPayload extends MessageSubcommandRunPaylo
 
 export interface MessageSubcommandDeniedPayload extends MessageSubcommandRunPayload {
 	parameters: string;
+	subcommand: MessageSubcommandMappingValue;
 }
 
 export interface MessageSubcommandSuccessPayload extends MessageSubcommandRunPayload {
@@ -48,7 +49,9 @@ export interface ChatInputSubcommandRunPayload extends ChatInputSubcommandAccept
 
 export interface ChatInputSubcommandErrorPayload extends ChatInputSubcommandRunPayload {}
 
-export interface ChatInputSubcommandDeniedPayload extends ChatInputSubcommandRunPayload {}
+export interface ChatInputSubcommandDeniedPayload extends ChatInputSubcommandRunPayload {
+	subcommand: ChatInputSubcommandMappingValue;
+}
 
 export interface ChatInputSubcommandSuccessPayload extends ChatInputSubcommandRunPayload {
 	result: unknown;
