@@ -9,8 +9,7 @@ import {
 	UserError,
 	Identifiers,
 	Awaitable,
-	MessageCommand,
-	Events as SapphireEvents
+	MessageCommand
 } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import {
@@ -99,14 +98,14 @@ export class SubCommandPluginCommand extends Command {
 						.get('preconditions')
 						.chatInputRun(interaction, command as ChatInputCommand, context as any);
 					if (!globalResult.success) {
-						this.container.client.emit(SapphireEvents.ChatInputCommandDenied, globalResult.error, payload);
+						this.container.client.emit(Events.ChatInputSubcommandDenied, globalResult.error, payload);
 						return;
 					}
 
 					// Run command-specific preconditions:
 					const localResult = await command.preconditions.chatInputRun(interaction, command as ChatInputCommand, context as any);
 					if (!localResult.success) {
-						this.container.client.emit(SapphireEvents.ChatInputCommandDenied, localResult.error, payload);
+						this.container.client.emit(Events.ChatInputSubcommandDenied, localResult.error, payload);
 						return;
 					}
 
@@ -157,14 +156,14 @@ export class SubCommandPluginCommand extends Command {
 						.get('preconditions')
 						.messageRun(message, command as MessageCommand, payload as any);
 					if (!globalResult.success) {
-						message.client.emit(SapphireEvents.MessageCommandDenied, globalResult.error, { ...payload, parameters });
+						this.container.client.emit(Events.MessageSubcommandDenied, globalResult.error, { ...payload, parameters });
 						return;
 					}
 
 					// Run command-specific preconditions:
-					const localResult = await command.preconditions.messageRun(message, command as MessageCommand, payload as any);
+					const localResult = await command.preconditions.messageRun(message, command as MessageCommand, context as any);
 					if (!localResult.success) {
-						message.client.emit(SapphireEvents.MessageCommandDenied, localResult.error, { ...payload, parameters });
+						this.container.client.emit(Events.MessageSubcommandDenied, localResult.error, { ...payload, parameters });
 						return;
 					}
 

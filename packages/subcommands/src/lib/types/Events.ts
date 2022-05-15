@@ -1,4 +1,4 @@
-import type { ChatInputCommand, MessageCommand } from '@sapphire/framework';
+import type { ChatInputCommand, MessageCommand, UserError } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import type { ChatInputSubcommandMappingValue, MessageSubcommandMappingValue } from '../SubcommandMappings';
 
@@ -7,9 +7,11 @@ export const Events = {
 	ChatInputSubcommandRun: 'chatInputSubcommandRun' as const,
 	ChatInputSubcommandSuccess: 'chatInputSubcommandSuccess' as const,
 	ChatInputSubcommandNotFound: 'chatInputSubcommandNotFound' as const,
+	ChatInputSubcommandDenied: 'chatInputSubcommandDenied' as const,
 	MessageSubcommandRun: 'messageSubcommandRun' as const,
 	MessageSubcommandSuccess: 'messageSubcommandSuccess' as const,
-	MessageSubcommandNotFound: 'messageSubcommandNotFound' as const
+	MessageSubcommandNotFound: 'messageSubcommandNotFound' as const,
+	MessageSubcommandDenied: 'messageSubcommandDenied' as const
 };
 
 export interface IMessageSubcommandPayload {
@@ -24,6 +26,10 @@ export interface MessageSubcommandAcceptedPayload extends IMessageSubcommandPayl
 export interface MessageSubcommandRunPayload extends MessageSubcommandAcceptedPayload {}
 
 export interface MessageSubcommandErrorPayload extends MessageSubcommandRunPayload {}
+
+export interface MessageSubcommandDeniedPayload extends MessageSubcommandRunPayload {
+	parameters: string;
+}
 
 export interface MessageSubcommandSuccessPayload extends MessageSubcommandRunPayload {
 	result: unknown;
@@ -41,6 +47,8 @@ export interface ChatInputSubcommandAcceptedPayload extends IChatInputSubcommand
 export interface ChatInputSubcommandRunPayload extends ChatInputSubcommandAcceptedPayload {}
 
 export interface ChatInputSubcommandErrorPayload extends ChatInputSubcommandRunPayload {}
+
+export interface ChatInputSubcommandDeniedPayload extends ChatInputSubcommandRunPayload {}
 
 export interface ChatInputSubcommandSuccessPayload extends ChatInputSubcommandRunPayload {
 	result: unknown;
@@ -63,9 +71,11 @@ declare module 'discord.js' {
 			subcommand: ChatInputSubcommandMappingValue,
 			context: ChatInputCommand.Context
 		];
+		[Events.ChatInputSubcommandDenied]: [error: UserError, payload: ChatInputSubcommandDeniedPayload];
 		[Events.MessageSubcommandRun]: [message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandRunPayload];
 		[Events.MessageSubcommandSuccess]: [message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandSuccessPayload];
 		[Events.MessageSubcommandNotFound]: [message: Message, subcommand: MessageSubcommandMappingValue, context: ChatInputCommand.Context];
+		[Events.MessageSubcommandDenied]: [error: UserError, payload: MessageSubcommandDeniedPayload];
 		[Events.SubcommandError]: [error: unknown, payload: ChatInputSubcommandErrorPayload | MessageSubcommandErrorPayload];
 	}
 }
