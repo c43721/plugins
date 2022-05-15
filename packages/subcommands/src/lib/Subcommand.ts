@@ -9,7 +9,8 @@ import {
 	UserError,
 	Identifiers,
 	Awaitable,
-	MessageCommand
+	MessageCommand,
+	Events as SapphireEvents
 } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import {
@@ -91,8 +92,24 @@ export class SubCommandPluginCommand extends Command {
 			subcommand.type ??= 'method';
 
 			if (subcommand.type === 'command') {
-				const command = await this.container.stores.get('commands').get(subcommand.name);
+				const command = this.container.stores.get('commands').get(subcommand.name);
 				if (command && command.chatInputRun) {
+					// Run global preconditions:
+					const globalResult = await this.container.stores
+						.get('preconditions')
+						.chatInputRun(interaction, command as ChatInputCommand, context as any);
+					if (!globalResult.success) {
+						this.container.client.emit(SapphireEvents.ChatInputCommandDenied, globalResult.error, payload);
+						return;
+					}
+
+					// Run command-specific preconditions:
+					const localResult = await command.preconditions.chatInputRun(interaction, command as ChatInputCommand, context as any);
+					if (!localResult.success) {
+						this.container.client.emit(SapphireEvents.ChatInputCommandDenied, localResult.error, payload);
+						return;
+					}
+
 					result = await command.chatInputRun(interaction, context);
 				}
 
@@ -128,8 +145,29 @@ export class SubCommandPluginCommand extends Command {
 			subcommand.type ??= 'method';
 
 			if (subcommand.type === 'command') {
-				const command = await this.container.stores.get('commands').get(subcommand.name);
+				const command = this.container.stores.get('commands').get(subcommand.name);
+
 				if (command && command.messageRun) {
+					const prefixLess = message.content.slice(context.commandPrefix.length).trim();
+					const spaceIndex = prefixLess.indexOf(' ');
+					const parameters = spaceIndex === -1 ? '' : prefixLess.substring(spaceIndex + 1).trim();
+
+					// Run global preconditions:
+					const globalResult = await this.container.stores
+						.get('preconditions')
+						.messageRun(message, command as MessageCommand, payload as any);
+					if (!globalResult.success) {
+						message.client.emit(SapphireEvents.MessageCommandDenied, globalResult.error, { ...payload, parameters });
+						return;
+					}
+
+					// Run command-specific preconditions:
+					const localResult = await command.preconditions.messageRun(message, command as MessageCommand, payload as any);
+					if (!localResult.success) {
+						message.client.emit(SapphireEvents.MessageCommandDenied, localResult.error, { ...payload, parameters });
+						return;
+					}
+
 					result = await command.messageRun(message, args, context);
 				}
 
