@@ -88,16 +88,44 @@ export class SubCommandPluginCommand extends Command {
 		const result = await fromAsync(async () => {
 			interaction.client.emit(Events.ChatInputSubcommandRun, interaction, subcommand, payload);
 			let result: unknown;
+			subcommand.type ??= 'method';
 
-			if (typeof subcommand.to === 'string') {
-				const method = Reflect.get(this, subcommand.to) as ChatInputSubcommandToProperty | undefined;
-				if (method) {
-					result = await Reflect.apply(method, this, [interaction, context]);
-				} else {
-					err(new UserError({ identifier: Identifiers.SubcommandMethodNotFound, context: { ...payload } }));
+			if (subcommand.type === 'command') {
+				const command = this.container.stores.get('commands').get(subcommand.name);
+				if (command && command.chatInputRun) {
+					// Run global preconditions:
+					const globalResult = await this.container.stores
+						.get('preconditions')
+						.chatInputRun(interaction, command as ChatInputCommand, context as any);
+					if (!globalResult.success) {
+						this.container.client.emit(Events.ChatInputSubcommandDenied, globalResult.error, { ...payload, subcommand });
+						return;
+					}
+
+					// Run command-specific preconditions:
+					const localResult = await command.preconditions.chatInputRun(interaction, command as ChatInputCommand, context as any);
+					if (!localResult.success) {
+						this.container.client.emit(Events.ChatInputSubcommandDenied, localResult.error, { ...payload, subcommand });
+						return;
+					}
+
+					result = await command.chatInputRun(interaction, context);
 				}
-			} else {
-				result = await subcommand.to(interaction, context);
+
+				err(new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } }));
+			}
+
+			if (subcommand.type === 'method' && subcommand.to) {
+				if (typeof subcommand.to === 'string') {
+					const method = Reflect.get(this, subcommand.to) as ChatInputSubcommandToProperty | undefined;
+					if (method) {
+						result = await Reflect.apply(method, this, [interaction, context]);
+					} else {
+						err(new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } }));
+					}
+				} else {
+					result = await subcommand.to(interaction, context);
+				}
 			}
 
 			interaction.client.emit(Events.ChatInputSubcommandSuccess, interaction, subcommand, { ...payload, result });
@@ -113,16 +141,49 @@ export class SubCommandPluginCommand extends Command {
 		const result = await fromAsync(async () => {
 			message.client.emit(Events.MessageSubcommandRun, message, subcommand, payload);
 			let result: unknown;
+			subcommand.type ??= 'method';
 
-			if (typeof subcommand.to === 'string') {
-				const method = Reflect.get(this, subcommand.to) as MessageSubcommandToProperty | undefined;
-				if (method) {
-					result = await await Reflect.apply(method, this, [message, args, context]);
-				} else {
-					err(new UserError({ identifier: Identifiers.SubcommandMethodNotFound, context: { ...payload } }));
+			if (subcommand.type === 'command') {
+				const command = this.container.stores.get('commands').get(subcommand.name);
+
+				if (command && command.messageRun) {
+					const prefixLess = message.content.slice(context.commandPrefix.length).trim();
+					const spaceIndex = prefixLess.indexOf(' ');
+					const parameters = spaceIndex === -1 ? '' : prefixLess.substring(spaceIndex + 1).trim();
+
+					// Run global preconditions:
+					const globalResult = await this.container.stores
+						.get('preconditions')
+						.messageRun(message, command as MessageCommand, payload as any);
+					if (!globalResult.success) {
+						this.container.client.emit(Events.MessageSubcommandDenied, globalResult.error, { ...payload, parameters, subcommand });
+						return;
+					}
+
+					// Run command-specific preconditions:
+					const localResult = await command.preconditions.messageRun(message, command as MessageCommand, context as any);
+					if (!localResult.success) {
+						this.container.client.emit(Events.MessageSubcommandDenied, localResult.error, { ...payload, parameters, subcommand });
+						return;
+					}
+
+					result = await command.messageRun(message, args, context);
 				}
-			} else {
-				result = await subcommand.to(message, args, context);
+
+				err(new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } }));
+			}
+
+			if (subcommand.type === 'method' && subcommand.to) {
+				if (typeof subcommand.to === 'string') {
+					const method = Reflect.get(this, subcommand.to) as MessageSubcommandToProperty | undefined;
+					if (method) {
+						result = await await Reflect.apply(method, this, [message, args, context]);
+					} else {
+						err(new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } }));
+					}
+				} else {
+					result = await subcommand.to(message, args, context);
+				}
 			}
 
 			message.client.emit(Events.MessageSubcommandSuccess, message, subcommand, { ...payload, result });
