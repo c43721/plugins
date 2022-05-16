@@ -177,7 +177,7 @@ export class SubCommandPluginCommand extends Command {
 				if (typeof subcommand.to === 'string') {
 					const method = Reflect.get(this, subcommand.to) as MessageSubcommandToProperty | undefined;
 					if (method) {
-						result = await await Reflect.apply(method, this, [message, args, context]);
+						result = await Reflect.apply(method, this, [message, args, context]);
 					} else {
 						err(new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } }));
 					}
