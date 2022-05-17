@@ -1,9 +1,10 @@
-import type { Args, Awaitable, ChatInputCommand, MessageCommandContext } from '@sapphire/framework';
-import type { CommandInteraction, Message } from 'discord.js';
+import type { Args, Awaitable, ChatInputCommand, MessageCommand } from '@sapphire/framework';
+import type { Message } from 'discord.js';
 
-export type SubcommandMappingsArray = (SubCommandMappingValue | ChatInputSubcommandMappings | SubcommandMessageRunMappings)[];
-export type SubCommandInteractionToProperty = (interaction: CommandInteraction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
-export type SubCommandMessageToProperty = (message: Message, args: Args, context: MessageCommandContext) => Awaitable<unknown>;
+export type SubcommandMappingsArray = (ChatInputSubcommandGroupMappings | ChatInputSubcommandMappings | MessageSubcommandMappings)[];
+export type ChatInputSubcommandToProperty = (interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
+export type MessageSubcommandToProperty = (message: Message, args: Args, context: MessageCommand.RunContext) => Awaitable<unknown>;
+export type SubcommandType = 'method' | 'command';
 export class ChatInputSubcommandGroupMappings {
 	/**
 	 * Name of the subcommand group
@@ -17,9 +18,9 @@ export class ChatInputSubcommandGroupMappings {
 	 * /config   mod-roles  add         role
 	 * command   group      subcommand  option
 	 */
-	public subcommands: SubCommandMappingValue[];
+	public subcommands: ChatInputSubcommandMappingValue[];
 
-	public constructor(groupName: string, mappings: SubCommandMappingValue[]) {
+	public constructor(groupName: string, mappings: ChatInputSubcommandMappingValue[]) {
 		this.groupName = groupName;
 		this.subcommands = mappings;
 	}
@@ -33,14 +34,14 @@ export class ChatInputSubcommandMappings {
 	 * /config  language   en-US
 	 *          command    subcommand option
 	 */
-	public subcommands: SubCommandMappingValue[];
+	public subcommands: ChatInputSubcommandMappingValue[];
 
-	public constructor(subcommands: SubCommandMappingValue[]) {
+	public constructor(subcommands: ChatInputSubcommandMappingValue[]) {
 		this.subcommands = subcommands;
 	}
 }
 
-export class SubcommandMessageRunMappings {
+export class MessageSubcommandMappings {
 	/**
 	 * Subcommands for this Command
 	 *
@@ -48,14 +49,14 @@ export class SubcommandMessageRunMappings {
 	 * /config  language   en-US
 	 *          command    subcommand option
 	 */
-	public subcommands: SubCommandMessageRunMappingValue[];
+	public subcommands: MessageSubcommandMappingValue[];
 
-	public constructor(subcommands: SubCommandMessageRunMappingValue[]) {
+	public constructor(subcommands: MessageSubcommandMappingValue[]) {
 		this.subcommands = subcommands;
 	}
 }
 
-export interface SubCommandMappingValue {
+export interface ChatInputSubcommandMappingValue {
 	/**
 	 * Name of the Subcommand
 	 *
@@ -68,7 +69,22 @@ export interface SubCommandMappingValue {
 	 *
 	 * @since 3.0.0
 	 */
-	to: SubCommandInteractionToProperty | string;
+	to?: ChatInputSubcommandToProperty | string;
+
+	/**
+	 * Select whether you want to execute a command class method or a command registered in the store.
+	 * @since 3.0.0
+	 */
+	type?: SubcommandType;
+}
+
+export interface MessageSubcommandMappingValue extends Omit<ChatInputSubcommandMappingValue, 'to'> {
+	/**
+	 * The method or name used used to run the subcommand
+	 *
+	 * @since 3.0.0
+	 */
+	to?: MessageSubcommandToProperty | string;
 
 	/**
 	 * Should this command be ran if no input is given
@@ -76,13 +92,4 @@ export interface SubCommandMappingValue {
 	 * @since 3.0.0
 	 */
 	default?: boolean;
-}
-
-export interface SubCommandMessageRunMappingValue extends Omit<SubCommandMappingValue, 'to'> {
-	/**
-	 * The method or name used used to run the subcommand
-	 *
-	 * @since 3.0.0
-	 */
-	to: SubCommandMessageToProperty | string;
 }
