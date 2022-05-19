@@ -91,7 +91,8 @@ export class SubCommandPluginCommand extends Command {
 			subcommand.type ??= 'method';
 
 			if (subcommand.type === 'command') {
-				const command = this.container.stores.get('commands').get(subcommand.name);
+				const parsedCommandName = subcommand.to && typeof subcommand.to === 'string' ? subcommand.to : subcommand.name;
+				const command = this.container.stores.get('commands').get(parsedCommandName);
 				if (command && command.chatInputRun) {
 					// Run global preconditions:
 					const globalResult = await this.container.stores
@@ -144,7 +145,8 @@ export class SubCommandPluginCommand extends Command {
 			subcommand.type ??= 'method';
 
 			if (subcommand.type === 'command') {
-				const command = this.container.stores.get('commands').get(subcommand.name);
+				const parsedCommandName = subcommand.to && typeof subcommand.to === 'string' ? subcommand.to : subcommand.name;
+				const command = this.container.stores.get('commands').get(parsedCommandName);
 
 				if (command && command.messageRun) {
 					const prefixLess = message.content.slice(context.commandPrefix.length).trim();
