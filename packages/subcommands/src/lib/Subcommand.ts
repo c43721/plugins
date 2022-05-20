@@ -141,7 +141,7 @@ export class SubCommandPluginCommand extends Command {
 			if (subcommand.type === 'command') {
 				const parsedCommandName = subcommand.to && typeof subcommand.to === 'string' ? subcommand.to : subcommand.name;
 				const command = this.container.stores.get('commands').get(parsedCommandName);
-				if (!command || !command.messageRun) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
+				if (!command?.messageRun) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
 
 				const prefixLess = message.content.slice(context.commandPrefix.length).trim();
 				const spaceIndex = prefixLess.indexOf(' ');
