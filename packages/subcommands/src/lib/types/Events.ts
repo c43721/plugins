@@ -3,15 +3,16 @@ import type { Message } from 'discord.js';
 import type { ChatInputSubcommandMappingValue, MessageSubcommandMappingValue } from '../SubcommandMappings';
 
 export const Events = {
-	SubcommandError: 'subcommandError' as const,
 	ChatInputSubcommandRun: 'chatInputSubcommandRun' as const,
 	ChatInputSubcommandSuccess: 'chatInputSubcommandSuccess' as const,
 	ChatInputSubcommandNotFound: 'chatInputSubcommandNotFound' as const,
 	ChatInputSubcommandDenied: 'chatInputSubcommandDenied' as const,
+	ChatInputSubcommandError: 'chatInputSubcommandError' as const,
 	MessageSubcommandRun: 'messageSubcommandRun' as const,
 	MessageSubcommandSuccess: 'messageSubcommandSuccess' as const,
 	MessageSubcommandNotFound: 'messageSubcommandNotFound' as const,
-	MessageSubcommandDenied: 'messageSubcommandDenied' as const
+	MessageSubcommandDenied: 'messageSubcommandDenied' as const,
+	MessageSubcommandError: 'messageSubcommandError' as const
 };
 
 export interface IMessageSubcommandPayload {
@@ -75,11 +76,12 @@ declare module 'discord.js' {
 			context: ChatInputCommand.Context
 		];
 		[Events.ChatInputSubcommandDenied]: [error: UserError, payload: ChatInputSubcommandDeniedPayload];
+		[Events.ChatInputSubcommandError]: [error: unknown, payload: ChatInputSubcommandErrorPayload];
 		[Events.MessageSubcommandRun]: [message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandRunPayload];
 		[Events.MessageSubcommandSuccess]: [message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandSuccessPayload];
 		[Events.MessageSubcommandNotFound]: [message: Message, subcommand: MessageSubcommandMappingValue, context: ChatInputCommand.Context];
 		[Events.MessageSubcommandDenied]: [error: UserError, payload: MessageSubcommandDeniedPayload];
-		[Events.SubcommandError]: [error: unknown, payload: ChatInputSubcommandErrorPayload | MessageSubcommandErrorPayload];
+		[Events.MessageSubcommandError]: [error: unknown, payload: MessageSubcommandErrorPayload];
 	}
 }
 

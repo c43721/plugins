@@ -127,7 +127,7 @@ export class SubCommandPluginCommand extends Command {
 		});
 
 		if (isErr(result)) {
-			interaction.client.emit(Events.SubcommandError, result.error, payload);
+			interaction.client.emit(Events.ChatInputSubcommandError, result.error, payload);
 		}
 	}
 
@@ -179,7 +179,7 @@ export class SubCommandPluginCommand extends Command {
 		});
 
 		if (isErr(result)) {
-			message.client.emit(Events.SubcommandError, result.error, payload);
+			message.client.emit(Events.MessageSubcommandError, result.error, payload);
 		}
 	}
 }
