@@ -4,11 +4,11 @@ import {
 	type Args,
 	Command,
 	type PieceContext,
-	ChatInputCommand,
+	type ChatInputCommand,
 	UserError,
 	Identifiers,
-	Awaitable,
-	MessageCommand
+	type Awaitable,
+	type MessageCommand
 } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import {
@@ -21,7 +21,7 @@ import {
 	MessageSubcommandToProperty,
 	type SubcommandMappingsArray
 } from './SubcommandMappings';
-import { ChatInputSubcommandAcceptedPayload, Events, MessageSubcommandAcceptedPayload } from './types/Events';
+import { type ChatInputSubcommandAcceptedPayload, Events, type MessageSubcommandAcceptedPayload } from './types/Events';
 
 export class SubCommandPluginCommand extends Command {
 	public readonly subcommands: SubcommandMappingsArray;
