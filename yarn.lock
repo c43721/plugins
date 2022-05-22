@@ -1162,6 +1162,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/discord-utilities@npm:^2.11.0":
+  version: 2.11.0
+  resolution: "@sapphire/discord-utilities@npm:2.11.0"
+  dependencies:
+    twemoji-parser: ^14.0.0
+  checksum: 46eca9521ccf13a05968769840c103910941258b184c23ca603cef8c4ce45ce19ff76328e239537d0626cc661a0fcd9a21846ebe257aa9bfc6e939dbff29ccbc
+  languageName: node
+  linkType: hard
+
 "@sapphire/discord.js-utilities@npm:^4.11.0":
   version: 4.11.0
   resolution: "@sapphire/discord.js-utilities@npm:4.11.0"
@@ -1199,25 +1208,25 @@ __metadata:
   linkType: hard
 
 "@sapphire/framework@npm:next":
-  version: 3.0.0-next.8803fa8.0
-  resolution: "@sapphire/framework@npm:3.0.0-next.8803fa8.0"
+  version: 3.0.0-next.4cada3b.0
+  resolution: "@sapphire/framework@npm:3.0.0-next.4cada3b.0"
   dependencies:
-    "@sapphire/discord-utilities": ^2.10.3
-    "@sapphire/discord.js-utilities": ^4.10.0
-    "@sapphire/pieces": ^3.3.1
+    "@sapphire/discord-utilities": ^2.11.0
+    "@sapphire/discord.js-utilities": ^4.11.0
+    "@sapphire/pieces": ^3.3.3
     "@sapphire/ratelimits": ^2.4.4
     "@sapphire/result": ^1.1.1
     "@sapphire/stopwatch": ^1.4.1
     "@sapphire/utilities": ^3.6.2
     lexure: ^0.17.0
     tslib: ^2.4.0
-  checksum: 23c8177d5817f54098011b48919c858c4cca6564bd7e0dca16616b074b8ecfe0545579a87b214f5c8fbf4dcacef73e55a18b9be4e888b9233bb3a518b2640b67
+  checksum: 20c9049d5721b71f12cb2b04149cc61d7b466b784aef76563088781f3487feaf0ec7bef559b4b489b714e64ab63f5fe840a53608ba910ff5f2dd3af2d497b606
   languageName: node
   linkType: hard
 
-"@sapphire/pieces@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "@sapphire/pieces@npm:3.3.1"
+"@sapphire/pieces@npm:^3.3.3":
+  version: 3.3.3
+  resolution: "@sapphire/pieces@npm:3.3.3"
   dependencies:
     "@discordjs/collection": ^0.6.0
     "@sapphire/utilities": ^3.6.2
@@ -6665,8 +6674,8 @@ __metadata:
     "@commitlint/config-conventional": ^17.0.2
     "@favware/cliff-jumper": ^1.8.3
     "@favware/npm-deprecate": ^1.0.4
-    "@sapphire/eslint-config": ^4.3.6
-    "@sapphire/framework": ^2.5.0
+    "@sapphire/eslint-config": ^4.3.5
+    "@sapphire/framework": next
     "@sapphire/pieces": ^3.3.3
     "@sapphire/prettier-config": ^1.4.3
     "@sapphire/stopwatch": ^1.4.1
