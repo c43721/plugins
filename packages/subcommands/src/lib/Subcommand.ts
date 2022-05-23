@@ -90,6 +90,7 @@ export class SubCommandPluginCommand extends Command {
 				const globalResult = await this.container.stores
 					.get('preconditions')
 					.chatInputRun(interaction, command as ChatInputCommand, context as any);
+
 				if (!globalResult.success) {
 					this.container.client.emit(Events.ChatInputSubcommandDenied, globalResult.error, { ...payload, subcommand });
 					return;
@@ -97,6 +98,7 @@ export class SubCommandPluginCommand extends Command {
 
 				// Run command-specific preconditions:
 				const localResult = await command.preconditions.chatInputRun(interaction, command as ChatInputCommand, context as any);
+
 				if (!localResult.success) {
 					this.container.client.emit(Events.ChatInputSubcommandDenied, localResult.error, { ...payload, subcommand });
 					return;
@@ -141,6 +143,7 @@ export class SubCommandPluginCommand extends Command {
 
 				// Run global preconditions:
 				const globalResult = await this.container.stores.get('preconditions').messageRun(message, command as MessageCommand, payload as any);
+
 				if (!globalResult.success) {
 					this.container.client.emit(Events.MessageSubcommandDenied, globalResult.error, { ...payload, parameters, subcommand });
 					return;
@@ -148,6 +151,7 @@ export class SubCommandPluginCommand extends Command {
 
 				// Run command-specific preconditions:
 				const localResult = await command.preconditions.messageRun(message, command as MessageCommand, context as any);
+
 				if (!localResult.success) {
 					this.container.client.emit(Events.MessageSubcommandDenied, localResult.error, { ...payload, parameters, subcommand });
 					return;
