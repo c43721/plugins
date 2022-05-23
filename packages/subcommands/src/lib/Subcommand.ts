@@ -60,7 +60,7 @@ export class SubCommandPluginCommand extends Command {
 				if (subcommand) return this.#handleInteractionRun(interaction, context, subcommand);
 			}
 
-			if (mapping instanceof ChatInputSubcommandGroupMappings && mapping.groupName === subcommandGroupName && subcommandGroupName) {
+			if (mapping instanceof ChatInputSubcommandGroupMappings && subcommandGroupName && mapping.groupName === subcommandGroupName) {
 				const subcommand = mapping.subcommands.find(({ name }) => name === subcommandName);
 				if (subcommand) return this.#handleInteractionRun(interaction, context, subcommand);
 			}
