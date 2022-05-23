@@ -56,7 +56,7 @@ export class MessageSubcommandMappings {
 	}
 }
 
-export interface ChatInputSubcommandMappingValue {
+export interface SubCommandMappingValueBase {
 	/**
 	 * Name of the Subcommand
 	 *
@@ -65,20 +65,22 @@ export interface ChatInputSubcommandMappingValue {
 	name: string;
 
 	/**
-	 * The method or name used used to run the subcommand
-	 *
-	 * @since 3.0.0
-	 */
-	to?: ChatInputSubcommandToProperty | string;
-
-	/**
 	 * Select whether you want to execute a command class method or a command registered in the store.
 	 * @since 3.0.0
 	 */
 	type?: SubcommandType;
 }
 
-export interface MessageSubcommandMappingValue extends Omit<ChatInputSubcommandMappingValue, 'to'> {
+export interface ChatInputSubcommandMappingValue extends SubCommandMappingValueBase {
+	/**
+	 * The method or name used used to run the subcommand
+	 *
+	 * @since 3.0.0
+	 */
+	to?: ChatInputSubcommandToProperty | string;
+}
+
+export interface MessageSubcommandMappingValue extends SubCommandMappingValueBase {
 	/**
 	 * The method or name used used to run the subcommand
 	 *
