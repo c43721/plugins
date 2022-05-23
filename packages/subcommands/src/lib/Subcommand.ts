@@ -7,7 +7,6 @@ import {
 	type ChatInputCommand,
 	UserError,
 	Identifiers,
-	type Awaitable,
 	type MessageCommand
 } from '@sapphire/framework';
 import type { Message } from 'discord.js';
@@ -31,7 +30,7 @@ export class SubCommandPluginCommand extends Command {
 		this.subcommands = options.subcommands ?? [];
 	}
 
-	public messageRun(message: Message, args: Args, context: MessageCommand.RunContext): Awaitable<unknown> {
+	public async messageRun(message: Message, args: Args, context: MessageCommand.RunContext) {
 		args.save();
 		const value = args.nextMaybe();
 		let defaultCommmand: MessageSubcommandMappingValue | null = null;
@@ -51,24 +50,17 @@ export class SubCommandPluginCommand extends Command {
 		throw new UserError({ identifier: Identifiers.MessageSubcommandNoMatch, context });
 	}
 
-	public chatInputRun(interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext): Awaitable<unknown> {
+	public async chatInputRun(interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext) {
 		const subcommandName = interaction.options.getSubcommand(false);
 		const subcommandGroupName = interaction.options.getSubcommandGroup(false);
 
-		if (subcommandName && !subcommandGroupName) {
-			for (const mapping of this.subcommands) {
-				if (!(mapping instanceof ChatInputSubcommandMappings)) continue;
-
+		for (const mapping of this.subcommands) {
+			if (mapping instanceof ChatInputSubcommandMappings && subcommandName && !subcommandGroupName) {
 				const subcommand = mapping.subcommands.find(({ name }) => name === subcommandName);
 				if (subcommand) return this.#handleInteractionRun(interaction, context, subcommand);
 			}
-		}
 
-		if (subcommandGroupName) {
-			for (const mapping of this.subcommands) {
-				if (!(mapping instanceof ChatInputSubcommandGroupMappings)) continue;
-				if (mapping.groupName !== subcommandGroupName) continue;
-
+			if (mapping instanceof ChatInputSubcommandGroupMappings && subcommandGroupName && mapping.groupName === subcommandGroupName) {
 				const subcommand = mapping.subcommands.find(({ name }) => name === subcommandName);
 				if (subcommand) return this.#handleInteractionRun(interaction, context, subcommand);
 			}
@@ -86,8 +78,8 @@ export class SubCommandPluginCommand extends Command {
 		const payload: ChatInputSubcommandAcceptedPayload = { command: this, context, interaction };
 		const result = await fromAsync(async () => {
 			interaction.client.emit(Events.ChatInputSubcommandRun, interaction, subcommand, payload);
-			let result: unknown;
 			subcommand.type ??= 'method';
+			let result: unknown;
 
 			if (subcommand.type === 'command') {
 				const parsedCommandName = subcommand.to && typeof subcommand.to === 'string' ? subcommand.to : subcommand.name;
@@ -98,6 +90,7 @@ export class SubCommandPluginCommand extends Command {
 				const globalResult = await this.container.stores
 					.get('preconditions')
 					.chatInputRun(interaction, command as ChatInputCommand, context as any);
+
 				if (!globalResult.success) {
 					this.container.client.emit(Events.ChatInputSubcommandDenied, globalResult.error, { ...payload, subcommand });
 					return;
@@ -105,6 +98,7 @@ export class SubCommandPluginCommand extends Command {
 
 				// Run command-specific preconditions:
 				const localResult = await command.preconditions.chatInputRun(interaction, command as ChatInputCommand, context as any);
+
 				if (!localResult.success) {
 					this.container.client.emit(Events.ChatInputSubcommandDenied, localResult.error, { ...payload, subcommand });
 					return;
@@ -135,8 +129,8 @@ export class SubCommandPluginCommand extends Command {
 		const payload: MessageSubcommandAcceptedPayload = { message, command: this, context };
 		const result = await fromAsync(async () => {
 			message.client.emit(Events.MessageSubcommandRun, message, subcommand, payload);
-			let result: unknown;
 			subcommand.type ??= 'method';
+			let result: unknown;
 
 			if (subcommand.type === 'command') {
 				const parsedCommandName = subcommand.to && typeof subcommand.to === 'string' ? subcommand.to : subcommand.name;
@@ -149,6 +143,7 @@ export class SubCommandPluginCommand extends Command {
 
 				// Run global preconditions:
 				const globalResult = await this.container.stores.get('preconditions').messageRun(message, command as MessageCommand, payload as any);
+
 				if (!globalResult.success) {
 					this.container.client.emit(Events.MessageSubcommandDenied, globalResult.error, { ...payload, parameters, subcommand });
 					return;
@@ -156,6 +151,7 @@ export class SubCommandPluginCommand extends Command {
 
 				// Run command-specific preconditions:
 				const localResult = await command.preconditions.messageRun(message, command as MessageCommand, context as any);
+
 				if (!localResult.success) {
 					this.container.client.emit(Events.MessageSubcommandDenied, localResult.error, { ...payload, parameters, subcommand });
 					return;
