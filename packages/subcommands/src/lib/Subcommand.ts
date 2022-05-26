@@ -24,11 +24,18 @@ import {
 import { type ChatInputSubcommandAcceptedPayload, Events, type MessageSubcommandAcceptedPayload } from './types/Events';
 
 export class SubCommandPluginCommand extends Command {
-	public readonly subcommands: SubcommandMappingsArray;
+	private subcommandsInternalMapping: SubcommandMappingsArray;
 
 	public constructor(context: PieceContext, options: SubcommandPluginCommandOptions) {
 		super(context, options);
-		this.subcommands = options.subcommands ?? [];
+		this.subcommandsInternalMapping = options.subcommands ?? [];
+	}
+
+	public onLoad() {
+		super.onLoad();
+
+		const externalMapping: SubcommandMappingsArray | undefined = Reflect.get(this, 'subcommandMappings');
+		this.subcommandsInternalMapping = externalMapping ? (typeof externalMapping === 'object' ? externalMapping : []) : [];
 	}
 
 	public async messageRun(message: Message, args: Args, context: MessageCommand.RunContext) {
@@ -37,7 +44,7 @@ export class SubCommandPluginCommand extends Command {
 		const subcommandName = args.nextMaybe();
 		let defaultCommmand: MessageSubcommandMappingValue | null = null;
 
-		for (const mapping of this.subcommands) {
+		for (const mapping of this.subcommandsInternalMapping) {
 			if (mapping instanceof MessageSubcommandMappings && subcommandOrGroup.exists) {
 				defaultCommmand = mapping.subcommands.find((s) => s.default === true) ?? null;
 
@@ -65,7 +72,7 @@ export class SubCommandPluginCommand extends Command {
 		const subcommandName = interaction.options.getSubcommand(false);
 		const subcommandGroupName = interaction.options.getSubcommandGroup(false);
 
-		for (const mapping of this.subcommands) {
+		for (const mapping of this.subcommandsInternalMapping) {
 			if (mapping instanceof ChatInputSubcommandMappings && subcommandName && !subcommandGroupName) {
 				const subcommand = mapping.subcommands.find(({ name }) => name === subcommandName);
 				if (subcommand) return this.#handleInteractionRun(interaction, context, subcommand);
