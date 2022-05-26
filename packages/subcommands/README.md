@@ -57,11 +57,7 @@ import type { Message, CommandInteraction } from 'discord.js';
 
 // Using ApplyOptions decorator makes it easy to configure
 @ApplyOptions<SubCommandPluginCommand.Options>({
-	description: 'A command with subcommands'
-})
-// Extend `SubCommandPluginCommand` instead of `Command`
-export class UserCommand extends SubCommandPluginCommand {
-	public subcommandsMappings: SubcommandMappingsArray = [
+		subcommands: [
 		new MessageSubcommandMappings([
 			{ name: 'add', to: 'messageAdd' },
 			{ name: 'remove', to: 'messageRemove' },
@@ -73,7 +69,9 @@ export class UserCommand extends SubCommandPluginCommand {
 			{ name: 'list', to: 'chatInputList' }
 		])
 	];
-
+})
+// Extend `SubCommandPluginCommand` instead of `Command`
+export class UserCommand extends SubCommandPluginCommand {
 	public async messageAdd(message: Message, args: Args) {}
 
 	public async messageRemove(message: Message, args: Args) {}
@@ -97,11 +95,8 @@ const { SubCommandPluginCommand } = require('@sapphire/plugin-subcommands');
 module.exports = class UserCommand extends SubCommandPluginCommand {
 	constructor(context, options) {
 		super(context, {
-			...options
-		});
-	}
-
-	subcommandsMappings = [
+			...options,
+				subcommands: [
 		new MessageSubcommandMappings([
 			{ name: 'add', to: 'messageAdd' },
 			{ name: 'remove', to: 'messageRemove' },
@@ -113,6 +108,8 @@ module.exports = class UserCommand extends SubCommandPluginCommand {
 			{ name: 'list', to: 'chatInputList' }
 		])
 	];
+		});
+	}
 
 	async messageAdd(message, args) {}
 
