@@ -23,7 +23,7 @@ import {
 } from './SubcommandMappings';
 import { type ChatInputSubcommandAcceptedPayload, Events, type MessageSubcommandAcceptedPayload } from './types/Events';
 
-export class SubCommandPluginCommand extends Command {
+export class SubCommandPluginCommand extends Command<Args, SubCommandPluginCommand.Options> {
 	private subcommandsInternalMapping: SubcommandMappingsArray;
 
 	public constructor(context: PieceContext, options: SubCommandPluginCommand.Options) {
@@ -35,7 +35,11 @@ export class SubCommandPluginCommand extends Command {
 		super.onLoad();
 
 		const externalMapping: SubcommandMappingsArray | undefined = Reflect.get(this, 'subcommandMappings');
-		this.subcommandsInternalMapping = externalMapping ? (typeof externalMapping === 'object' ? externalMapping : []) : [];
+		if (externalMapping) {
+			const subcommands = typeof externalMapping === 'object' ? externalMapping : [];
+			this.subcommandsInternalMapping = subcommands;
+			this.options.subcommands = subcommands;
+		}
 	}
 
 	public async messageRun(message: Message, args: Args, context: MessageCommand.RunContext) {
