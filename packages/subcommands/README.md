@@ -57,7 +57,7 @@ import type { Message, CommandInteraction } from 'discord.js';
 
 // Using ApplyOptions decorator makes it easy to configure
 @ApplyOptions<SubCommandPluginCommand.Options>({
-		subcommands: [
+	subcommands: [
 		new MessageSubcommandMappings([
 			{ name: 'add', to: 'messageAdd' },
 			{ name: 'remove', to: 'messageRemove' },
@@ -68,7 +68,7 @@ import type { Message, CommandInteraction } from 'discord.js';
 			{ name: 'remove', to: 'chatInputRemove' },
 			{ name: 'list', to: 'chatInputList' }
 		])
-	];
+	]
 })
 // Extend `SubCommandPluginCommand` instead of `Command`
 export class UserCommand extends SubCommandPluginCommand {
@@ -97,17 +97,17 @@ module.exports = class UserCommand extends SubCommandPluginCommand {
 		super(context, {
 			...options,
 			subcommands: [
-		new MessageSubcommandMappings([
-			{ name: 'add', to: 'messageAdd' },
-			{ name: 'remove', to: 'messageRemove' },
-			{ name: 'list', to: 'messageList', default: true }
-		]),
-		new ChatInputSubcommandMappings([
-			{ name: 'add', to: 'chatInputAdd' },
-			{ name: 'remove', to: 'chatInputRemove' },
-			{ name: 'list', to: 'chatInputList' }
-		])
-	];
+				new MessageSubcommandMappings([
+					{ name: 'add', to: 'messageAdd' },
+					{ name: 'remove', to: 'messageRemove' },
+					{ name: 'list', to: 'messageList', default: true }
+				]),
+				new ChatInputSubcommandMappings([
+					{ name: 'add', to: 'chatInputAdd' },
+					{ name: 'remove', to: 'chatInputRemove' },
+					{ name: 'list', to: 'chatInputList' }
+				])
+			]
 		});
 	}
 
