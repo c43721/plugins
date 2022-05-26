@@ -18,28 +18,50 @@ import {
 	MessageSubcommandMappings,
 	MessageSubcommandMappingValue,
 	MessageSubcommandToProperty,
-	type SubcommandMappingsArray
+	type SubcommandMappingsArray,
+	MessageSubcommandGroupMappings
 } from './SubcommandMappings';
 import { type ChatInputSubcommandAcceptedPayload, Events, type MessageSubcommandAcceptedPayload } from './types/Events';
 
-export class SubCommandPluginCommand extends Command {
-	public readonly subcommands: SubcommandMappingsArray;
+export class SubCommandPluginCommand extends Command<Args, SubCommandPluginCommand.Options> {
+	private subcommandsInternalMapping: SubcommandMappingsArray;
 
-	public constructor(context: PieceContext, options: SubcommandPluginCommandOptions) {
+	public constructor(context: PieceContext, options: SubCommandPluginCommand.Options) {
 		super(context, options);
-		this.subcommands = options.subcommands ?? [];
+		this.subcommandsInternalMapping = options.subcommands ?? [];
+	}
+
+	public onLoad() {
+		super.onLoad();
+
+		const externalMapping: SubcommandMappingsArray | undefined = Reflect.get(this, 'subcommandMappings');
+		if (externalMapping) {
+			const subcommands = typeof externalMapping === 'object' ? externalMapping : [];
+			this.subcommandsInternalMapping = subcommands;
+			this.options.subcommands = subcommands;
+		}
 	}
 
 	public async messageRun(message: Message, args: Args, context: MessageCommand.RunContext) {
 		args.save();
-		const value = args.nextMaybe();
+		const subcommandOrGroup = args.nextMaybe();
+		const subcommandName = args.nextMaybe();
 		let defaultCommmand: MessageSubcommandMappingValue | null = null;
 
-		for (const mapping of this.subcommands) {
-			if (!(mapping instanceof MessageSubcommandMappings)) continue;
-			defaultCommmand = mapping.subcommands.find((s) => s.default === true) ?? null;
-			const subcommand = mapping.subcommands.find(({ name }) => name === value.value);
-			if (subcommand) return this.#handleMessageRun(message, args, context, subcommand);
+		for (const mapping of this.subcommandsInternalMapping) {
+			if (mapping instanceof MessageSubcommandMappings && subcommandOrGroup.exists) {
+				defaultCommmand = mapping.subcommands.find((s) => s.default === true) ?? null;
+
+				const subcommand = mapping.subcommands.find(({ name }) => name === subcommandOrGroup.value);
+				if (subcommand) return this.#handleMessageRun(message, args, context, subcommand);
+			}
+
+			if (mapping instanceof MessageSubcommandGroupMappings && mapping.groupName === subcommandOrGroup.value) {
+				defaultCommmand = mapping.subcommands.find((s) => s.default === true) ?? null;
+
+				const subcommand = mapping.subcommands.find(({ name }) => name === subcommandName.value);
+				if (subcommand) return this.#handleMessageRun(message, args, context, subcommand);
+			}
 		}
 
 		// No subcommand matched, let's restore and try to run default, if any:
@@ -54,7 +76,7 @@ export class SubCommandPluginCommand extends Command {
 		const subcommandName = interaction.options.getSubcommand(false);
 		const subcommandGroupName = interaction.options.getSubcommandGroup(false);
 
-		for (const mapping of this.subcommands) {
+		for (const mapping of this.subcommandsInternalMapping) {
 			if (mapping instanceof ChatInputSubcommandMappings && subcommandName && !subcommandGroupName) {
 				const subcommand = mapping.subcommands.find(({ name }) => name === subcommandName);
 				if (subcommand) return this.#handleInteractionRun(interaction, context, subcommand);
@@ -109,7 +131,7 @@ export class SubCommandPluginCommand extends Command {
 
 			if (subcommand.type === 'method' && subcommand.to) {
 				if (typeof subcommand.to === 'string') {
-					const method = Reflect.get(this, subcommand.to) as ChatInputSubcommandToProperty | undefined;
+					const method: ChatInputSubcommandToProperty | undefined = Reflect.get(this, subcommand.to);
 					if (!method) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
 					result = await Reflect.apply(method, this, [interaction, context]);
 				} else {
@@ -162,7 +184,7 @@ export class SubCommandPluginCommand extends Command {
 
 			if (subcommand.type === 'method' && subcommand.to) {
 				if (typeof subcommand.to === 'string') {
-					const method = Reflect.get(this, subcommand.to) as MessageSubcommandToProperty | undefined;
+					const method: MessageSubcommandToProperty | undefined = Reflect.get(this, subcommand.to);
 					if (!method) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
 
 					result = await Reflect.apply(method, this, [message, args, context]);
@@ -182,4 +204,8 @@ export class SubCommandPluginCommand extends Command {
 
 export interface SubcommandPluginCommandOptions extends Command.Options {
 	subcommands?: SubcommandMappingsArray;
+}
+
+export namespace SubCommandPluginCommand {
+	export type Options = SubcommandPluginCommandOptions;
 }
