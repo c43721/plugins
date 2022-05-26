@@ -1,7 +1,12 @@
 import type { Args, Awaitable, ChatInputCommand, MessageCommand } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 
-export type SubcommandMappingsArray = (ChatInputSubcommandGroupMappings | ChatInputSubcommandMappings | MessageSubcommandMappings)[];
+export type SubcommandMappingsArray = (
+	| ChatInputSubcommandGroupMappings
+	| ChatInputSubcommandMappings
+	| MessageSubcommandMappings
+	| MessageSubcommandGroupMappings
+)[];
 export type ChatInputSubcommandToProperty = (interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
 export type MessageSubcommandToProperty = (message: Message, args: Args, context: MessageCommand.RunContext) => Awaitable<unknown>;
 export type SubcommandType = 'method' | 'command';
@@ -26,13 +31,34 @@ export class ChatInputSubcommandGroupMappings {
 	}
 }
 
+export class MessageSubcommandGroupMappings {
+	/**
+	 * Name of the subcommand group
+	 */
+	public groupName: string;
+
+	/**
+	 * Subcommands for this command with groups
+	 *
+	 * @example
+	 * !config   mod-roles  add         role
+	 * command   group      subcommand  option
+	 */
+	public subcommands: MessageSubcommandMappingValue[];
+
+	public constructor(groupName: string, mappings: MessageSubcommandMappingValue[]) {
+		this.groupName = groupName;
+		this.subcommands = mappings;
+	}
+}
+
 export class ChatInputSubcommandMappings {
 	/**
 	 * Subcommands for this Command
 	 *
 	 * @example
 	 * /config  language   en-US
-	 *          command    subcommand option
+	 * command  subcommand option
 	 */
 	public subcommands: ChatInputSubcommandMappingValue[];
 
@@ -46,8 +72,8 @@ export class MessageSubcommandMappings {
 	 * Subcommands for this Command
 	 *
 	 * @example
-	 * /config  language   en-US
-	 *          command    subcommand option
+	 * !config  language   en-US
+	 * command  subcommand option
 	 */
 	public subcommands: MessageSubcommandMappingValue[];
 
