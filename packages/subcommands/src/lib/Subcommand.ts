@@ -26,7 +26,7 @@ import { type ChatInputSubcommandAcceptedPayload, Events, type MessageSubcommand
 export class SubCommandPluginCommand extends Command {
 	private subcommandsInternalMapping: SubcommandMappingsArray;
 
-	public constructor(context: PieceContext, options: SubcommandPluginCommandOptions) {
+	public constructor(context: PieceContext, options: SubCommandPluginCommand.Options) {
 		super(context, options);
 		this.subcommandsInternalMapping = options.subcommands ?? [];
 	}
