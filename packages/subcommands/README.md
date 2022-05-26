@@ -96,7 +96,7 @@ module.exports = class UserCommand extends SubCommandPluginCommand {
 	constructor(context, options) {
 		super(context, {
 			...options,
-				subcommands: [
+			subcommands: [
 		new MessageSubcommandMappings([
 			{ name: 'add', to: 'messageAdd' },
 			{ name: 'remove', to: 'messageRemove' },
