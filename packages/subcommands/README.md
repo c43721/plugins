@@ -45,27 +45,46 @@ npm install @sapphire/plugin-subcommands @sapphire/framework @sapphire/utilities
 _With TypeScript:_
 
 ```typescript
-import { SubCommandPluginCommand } from '@sapphire/plugin-subcommands';
+import {
+	SubCommandPluginCommand,
+	MessageSubcommandMappings,
+	ChatInputSubcommandMappings,
+	SubcommandMappingsArray
+} from '@sapphire/plugin-subcommands';
 import { ApplyOptions } from '@sapphire/decorators';
 import type { Args } from '@sapphire/framework';
-import type { Message } from 'discord.js';
+import type { Message, CommandInteraction } from 'discord.js';
 
 // Using ApplyOptions decorator makes it easy to configure
 @ApplyOptions<SubCommandPluginCommand.Options>({
-	subCommands: ['add', 'remove', 'list', 'reset', { input: 'show', default: true }]
+	description: 'A command with subcommands'
 })
 // Extend `SubCommandPluginCommand` instead of `Command`
 export class UserCommand extends SubCommandPluginCommand {
-	// Do not include a `messageRun` method, each method name should match with the subcommand names
-	public async add(message: Message, args: Args) {}
+	public subcommandsMappings: SubcommandMappingsArray = [
+		new MessageSubcommandMappings([
+			{ name: 'add', to: 'messageAdd' },
+			{ name: 'remove', to: 'messageRemove' },
+			{ name: 'list', to: 'messageList', default: true }
+		]),
+		new ChatInputSubcommandMappings([
+			{ name: 'add', to: 'chatInputAdd' },
+			{ name: 'remove', to: 'chatInputRemove' },
+			{ name: 'list', to: 'chatInputList' }
+		])
+	];
 
-	public async remove(message: Message, args: Args) {}
+	public async messageAdd(message: Message, args: Args) {}
 
-	public async list(message: Message, args: Args) {}
+	public async messageRemove(message: Message, args: Args) {}
 
-	public async reset(message: Message, args: Args) {}
+	public async messageList(message: Message, args: Args) {}
 
-	public async show(message: Message, args: Args) {}
+	public async chatInputAdd(interaction: CommandInteraction) {}
+
+	public async chatInputRemove(interaction: CommandInteraction) {}
+
+	public async chatInputList(interaction: CommandInteraction) {}
 }
 ```
 
@@ -83,18 +102,34 @@ module.exports = class UserCommand extends SubCommandPluginCommand {
 		});
 	}
 
-	// Do not include a `messageRun` method, each method name should match with the subcommand names
-	async add(message, args) {}
+	subcommandsMappings = [
+		new MessageSubcommandMappings([
+			{ name: 'add', to: 'messageAdd' },
+			{ name: 'remove', to: 'messageRemove' },
+			{ name: 'list', to: 'messageList', default: true }
+		]),
+		new ChatInputSubcommandMappings([
+			{ name: 'add', to: 'chatInputAdd' },
+			{ name: 'remove', to: 'chatInputRemove' },
+			{ name: 'list', to: 'chatInputList' }
+		])
+	];
 
-	async remove(message, args) {}
+	async messageAdd(message, args) {}
 
-	async list(message, args) {}
+	async messageRemove(message, args) {}
 
-	async reset(message, args) {}
+	async messageList(message, args) {}
 
-	async show(message, args) {}
+	async chatInputAdd(interaction) {}
+
+	async chatInputRemove(interaction) {}
+
+	async chatInputList(interaction) {}
 };
 ```
+
+For more documentation please refer to [guide](unfinished)
 
 ## Buy us some doughnuts
 
