@@ -131,7 +131,7 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 
 			if (subcommand.type === 'method' && subcommand.to) {
 				if (typeof subcommand.to === 'string') {
-					const method = Reflect.get(this, subcommand.to) as ChatInputSubcommandToProperty | undefined;
+					const method: ChatInputSubcommandToProperty | undefined = Reflect.get(this, subcommand.to);
 					if (!method) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
 					result = await Reflect.apply(method, this, [interaction, context]);
 				} else {
@@ -184,7 +184,7 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 
 			if (subcommand.type === 'method' && subcommand.to) {
 				if (typeof subcommand.to === 'string') {
-					const method = Reflect.get(this, subcommand.to) as MessageSubcommandToProperty | undefined;
+					const method: MessageSubcommandToProperty | undefined = Reflect.get(this, subcommand.to);
 					if (!method) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
 
 					result = await Reflect.apply(method, this, [message, args, context]);
