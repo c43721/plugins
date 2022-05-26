@@ -18,7 +18,8 @@ import {
 	MessageSubcommandMappings,
 	MessageSubcommandMappingValue,
 	MessageSubcommandToProperty,
-	type SubcommandMappingsArray
+	type SubcommandMappingsArray,
+	MessageSubcommandGroupMappings
 } from './SubcommandMappings';
 import { type ChatInputSubcommandAcceptedPayload, Events, type MessageSubcommandAcceptedPayload } from './types/Events';
 
@@ -32,14 +33,24 @@ export class SubCommandPluginCommand extends Command {
 
 	public async messageRun(message: Message, args: Args, context: MessageCommand.RunContext) {
 		args.save();
-		const value = args.nextMaybe();
+		const subcommandOrGroup = args.nextMaybe();
+		const subcommandName = args.nextMaybe();
 		let defaultCommmand: MessageSubcommandMappingValue | null = null;
 
 		for (const mapping of this.subcommands) {
-			if (!(mapping instanceof MessageSubcommandMappings)) continue;
-			defaultCommmand = mapping.subcommands.find((s) => s.default === true) ?? null;
-			const subcommand = mapping.subcommands.find(({ name }) => name === value.value);
-			if (subcommand) return this.#handleMessageRun(message, args, context, subcommand);
+			if (mapping instanceof MessageSubcommandMappings && subcommandOrGroup.exists) {
+				defaultCommmand = mapping.subcommands.find((s) => s.default === true) ?? null;
+
+				const subcommand = mapping.subcommands.find(({ name }) => name === subcommandOrGroup.value);
+				if (subcommand) return this.#handleMessageRun(message, args, context, subcommand);
+			}
+
+			if (mapping instanceof MessageSubcommandGroupMappings && mapping.groupName === subcommandOrGroup.value) {
+				defaultCommmand = mapping.subcommands.find((s) => s.default === true) ?? null;
+
+				const subcommand = mapping.subcommands.find(({ name }) => name === subcommandName.value);
+				if (subcommand) return this.#handleMessageRun(message, args, context, subcommand);
+			}
 		}
 
 		// No subcommand matched, let's restore and try to run default, if any:
@@ -182,4 +193,8 @@ export class SubCommandPluginCommand extends Command {
 
 export interface SubcommandPluginCommandOptions extends Command.Options {
 	subcommands?: SubcommandMappingsArray;
+}
+
+export namespace SubCommandPluginCommand {
+	export type Options = SubcommandPluginCommandOptions;
 }
