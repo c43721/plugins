@@ -97,8 +97,7 @@ const { SubCommandPluginCommand } = require('@sapphire/plugin-subcommands');
 module.exports = class UserCommand extends SubCommandPluginCommand {
 	constructor(context, options) {
 		super(context, {
-			...options,
-			subCommands: ['add', 'remove', 'list', 'reset', { input: 'show', default: true }]
+			...options
 		});
 	}
 
