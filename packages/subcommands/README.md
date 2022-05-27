@@ -125,7 +125,7 @@ module.exports = class UserCommand extends SubCommandPluginCommand {
 };
 ```
 
-For more documentation please refer to [guide](unfinished)
+For more documentation please refer to [guide](https://www.sapphirejs.dev/docs/Guide/plugins/Subcommands/getting-started)
 
 ## Buy us some doughnuts
 
