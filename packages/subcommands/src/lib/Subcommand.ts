@@ -1,14 +1,4 @@
-import {
-	fromAsync,
-	isErr,
-	type Args,
-	Command,
-	type PieceContext,
-	type ChatInputCommand,
-	UserError,
-	Identifiers,
-	type MessageCommand
-} from '@sapphire/framework';
+import { fromAsync, isErr, type Args, Command, type PieceContext, type ChatInputCommand, UserError, type MessageCommand } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import {
 	ChatInputSubcommandMappings,
@@ -21,12 +11,20 @@ import {
 	type SubcommandMappingsArray,
 	MessageSubcommandGroupMappings
 } from './SubcommandMappings';
-import { type ChatInputSubcommandAcceptedPayload, Events, type MessageSubcommandAcceptedPayload } from './types/Events';
+import {
+	type ChatInputSubcommandAcceptedPayload,
+	SubcommandPluginEvents,
+	type MessageSubcommandAcceptedPayload,
+	SubcommandPluginIdentifiers
+} from './types/Events';
 
-export class SubCommandPluginCommand extends Command<Args, SubCommandPluginCommand.Options> {
+export class SubCommandPluginCommand<
+	PreParseReturn extends Args = Args,
+	O extends SubCommandPluginCommand.Options = SubCommandPluginCommand.Options
+> extends Command<PreParseReturn, O> {
 	private subcommandsInternalMapping: SubcommandMappingsArray;
 
-	public constructor(context: PieceContext, options: SubCommandPluginCommand.Options) {
+	public constructor(context: PieceContext, options: O) {
 		super(context, options);
 		this.subcommandsInternalMapping = options.subcommands ?? [];
 	}
@@ -36,13 +34,13 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 
 		const externalMapping: SubcommandMappingsArray | undefined = Reflect.get(this, 'subcommandMappings');
 		if (externalMapping) {
-			const subcommands = typeof externalMapping === 'object' ? externalMapping : [];
+			const subcommands = Array.isArray(externalMapping) ? externalMapping : [];
 			this.subcommandsInternalMapping = subcommands;
 			this.options.subcommands = subcommands;
 		}
 	}
 
-	public async messageRun(message: Message, args: Args, context: MessageCommand.RunContext) {
+	public async messageRun(message: Message, args: PreParseReturn, context: MessageCommand.RunContext) {
 		args.save();
 		const subcommandOrGroup = args.nextMaybe();
 		const subcommandName = args.nextMaybe();
@@ -69,7 +67,7 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 		if (defaultCommmand) return this.#handleMessageRun(message, args, context, defaultCommmand);
 
 		// No match and no subcommand, return an err:
-		throw new UserError({ identifier: Identifiers.MessageSubcommandNoMatch, context });
+		throw new UserError({ identifier: SubcommandPluginIdentifiers.MessageSubcommandNoMatch, context });
 	}
 
 	public async chatInputRun(interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext) {
@@ -89,7 +87,7 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 		}
 
 		// No match and no subcommand, return an err:
-		throw new UserError({ identifier: Identifiers.ChatInputSubcommandNoMatch, context });
+		throw new UserError({ identifier: SubcommandPluginIdentifiers.ChatInputSubcommandNoMatch, context });
 	}
 
 	async #handleInteractionRun(
@@ -99,14 +97,15 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 	) {
 		const payload: ChatInputSubcommandAcceptedPayload = { command: this, context, interaction };
 		const result = await fromAsync(async () => {
-			interaction.client.emit(Events.ChatInputSubcommandRun, interaction, subcommand, payload);
+			interaction.client.emit(SubcommandPluginEvents.ChatInputSubcommandRun, interaction, subcommand, payload);
 			subcommand.type ??= 'method';
 			let result: unknown;
 
 			if (subcommand.type === 'command') {
 				const parsedCommandName = subcommand.to && typeof subcommand.to === 'string' ? subcommand.to : subcommand.name;
 				const command = this.container.stores.get('commands').get(parsedCommandName);
-				if (!command?.chatInputRun) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
+				if (!command?.supportsChatInputCommands())
+					throw new UserError({ identifier: SubcommandPluginIdentifiers.SubcommandNotFound, context: { ...payload } });
 
 				// Run global preconditions:
 				const globalResult = await this.container.stores
@@ -114,7 +113,7 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 					.chatInputRun(interaction, command as ChatInputCommand, context as any);
 
 				if (!globalResult.success) {
-					this.container.client.emit(Events.ChatInputSubcommandDenied, globalResult.error, { ...payload, subcommand });
+					this.container.client.emit(SubcommandPluginEvents.ChatInputSubcommandDenied, globalResult.error, { ...payload, subcommand });
 					return;
 				}
 
@@ -122,7 +121,7 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 				const localResult = await command.preconditions.chatInputRun(interaction, command as ChatInputCommand, context as any);
 
 				if (!localResult.success) {
-					this.container.client.emit(Events.ChatInputSubcommandDenied, localResult.error, { ...payload, subcommand });
+					this.container.client.emit(SubcommandPluginEvents.ChatInputSubcommandDenied, localResult.error, { ...payload, subcommand });
 					return;
 				}
 
@@ -132,32 +131,33 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 			if (subcommand.type === 'method' && subcommand.to) {
 				if (typeof subcommand.to === 'string') {
 					const method: ChatInputSubcommandToProperty | undefined = Reflect.get(this, subcommand.to);
-					if (!method) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
+					if (!method) throw new UserError({ identifier: SubcommandPluginIdentifiers.SubcommandNotFound, context: { ...payload } });
 					result = await Reflect.apply(method, this, [interaction, context]);
 				} else {
 					result = await subcommand.to(interaction, context);
 				}
 			}
 
-			interaction.client.emit(Events.ChatInputSubcommandSuccess, interaction, subcommand, { ...payload, result });
+			interaction.client.emit(SubcommandPluginEvents.ChatInputSubcommandSuccess, interaction, subcommand, { ...payload, result });
 		});
 
 		if (isErr(result)) {
-			interaction.client.emit(Events.ChatInputSubcommandError, result.error, payload);
+			interaction.client.emit(SubcommandPluginEvents.ChatInputSubcommandError, result.error, payload);
 		}
 	}
 
 	async #handleMessageRun(message: Message, args: Args, context: MessageCommand.RunContext, subcommand: MessageSubcommandMappingValue) {
 		const payload: MessageSubcommandAcceptedPayload = { message, command: this, context };
 		const result = await fromAsync(async () => {
-			message.client.emit(Events.MessageSubcommandRun, message, subcommand, payload);
+			message.client.emit(SubcommandPluginEvents.MessageSubcommandRun, message, subcommand, payload);
 			subcommand.type ??= 'method';
 			let result: unknown;
 
 			if (subcommand.type === 'command') {
 				const parsedCommandName = subcommand.to && typeof subcommand.to === 'string' ? subcommand.to : subcommand.name;
 				const command = this.container.stores.get('commands').get(parsedCommandName);
-				if (!command?.messageRun) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
+				if (!command?.supportsMessageCommands())
+					throw new UserError({ identifier: SubcommandPluginIdentifiers.SubcommandNotFound, context: { ...payload } });
 
 				const prefixLess = message.content.slice(context.commandPrefix.length).trim();
 				const spaceIndex = prefixLess.indexOf(' ');
@@ -167,7 +167,11 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 				const globalResult = await this.container.stores.get('preconditions').messageRun(message, command as MessageCommand, payload as any);
 
 				if (!globalResult.success) {
-					this.container.client.emit(Events.MessageSubcommandDenied, globalResult.error, { ...payload, parameters, subcommand });
+					this.container.client.emit(SubcommandPluginEvents.MessageSubcommandDenied, globalResult.error, {
+						...payload,
+						parameters,
+						subcommand
+					});
 					return;
 				}
 
@@ -175,7 +179,11 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 				const localResult = await command.preconditions.messageRun(message, command as MessageCommand, context as any);
 
 				if (!localResult.success) {
-					this.container.client.emit(Events.MessageSubcommandDenied, localResult.error, { ...payload, parameters, subcommand });
+					this.container.client.emit(SubcommandPluginEvents.MessageSubcommandDenied, localResult.error, {
+						...payload,
+						parameters,
+						subcommand
+					});
 					return;
 				}
 
@@ -185,7 +193,7 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 			if (subcommand.type === 'method' && subcommand.to) {
 				if (typeof subcommand.to === 'string') {
 					const method: MessageSubcommandToProperty | undefined = Reflect.get(this, subcommand.to);
-					if (!method) throw new UserError({ identifier: Identifiers.SubcommandNotFound, context: { ...payload } });
+					if (!method) throw new UserError({ identifier: SubcommandPluginIdentifiers.SubcommandNotFound, context: { ...payload } });
 
 					result = await Reflect.apply(method, this, [message, args, context]);
 				} else {
@@ -193,11 +201,11 @@ export class SubCommandPluginCommand extends Command<Args, SubCommandPluginComma
 				}
 			}
 
-			message.client.emit(Events.MessageSubcommandSuccess, message, subcommand, { ...payload, result });
+			message.client.emit(SubcommandPluginEvents.MessageSubcommandSuccess, message, subcommand, { ...payload, result });
 		});
 
 		if (isErr(result)) {
-			message.client.emit(Events.MessageSubcommandError, result.error, payload);
+			message.client.emit(SubcommandPluginEvents.MessageSubcommandError, result.error, payload);
 		}
 	}
 }
