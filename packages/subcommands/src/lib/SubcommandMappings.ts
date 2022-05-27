@@ -10,6 +10,7 @@ export type SubcommandMappingsArray = (
 export type ChatInputSubcommandToProperty = (interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext) => Awaitable<unknown>;
 export type MessageSubcommandToProperty = (message: Message, args: Args, context: MessageCommand.RunContext) => Awaitable<unknown>;
 export type SubcommandType = 'method' | 'command';
+
 export class ChatInputSubcommandGroupMappings {
 	/**
 	 * Name of the subcommand group
