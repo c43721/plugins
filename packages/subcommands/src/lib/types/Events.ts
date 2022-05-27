@@ -1,8 +1,9 @@
 import type { ChatInputCommand, MessageCommand, UserError } from '@sapphire/framework';
 import type { Message } from 'discord.js';
+
 import type { ChatInputSubcommandMappingValue, MessageSubcommandMappingValue } from '../SubcommandMappings';
 
-export const Events = {
+export const SubcommandsEvents = {
 	ChatInputSubcommandRun: 'chatInputSubcommandRun' as const,
 	ChatInputSubcommandSuccess: 'chatInputSubcommandSuccess' as const,
 	ChatInputSubcommandNotFound: 'chatInputSubcommandNotFound' as const,
@@ -14,6 +15,12 @@ export const Events = {
 	MessageSubcommandDenied: 'messageSubcommandDenied' as const,
 	MessageSubcommandError: 'messageSubcommandError' as const
 };
+
+export const enum SubcommandsIdentifiers {
+	MessageSubcommandNoMatch = 'messageSubcommandNoMatch',
+	ChatInputSubcommandNoMatch = 'chatInputSubcommandNoMatch',
+	SubcommandNotFound = 'subcommandNotFound'
+}
 
 export interface IMessageSubcommandPayload {
 	message: Message;
@@ -60,35 +67,35 @@ export interface ChatInputSubcommandSuccessPayload extends ChatInputSubcommandRu
 
 declare module 'discord.js' {
 	interface ClientEvents {
-		[Events.ChatInputSubcommandRun]: [
+		[SubcommandsEvents.ChatInputSubcommandRun]: [
 			interaction: Interaction,
 			subcommand: ChatInputSubcommandMappingValue,
 			payload: ChatInputSubcommandRunPayload
 		];
-		[Events.ChatInputSubcommandSuccess]: [
+		[SubcommandsEvents.ChatInputSubcommandSuccess]: [
 			interaction: Interaction,
 			subcommand: ChatInputSubcommandMappingValue,
 			payload: ChatInputSubcommandSuccessPayload
 		];
-		[Events.ChatInputSubcommandNotFound]: [
+		[SubcommandsEvents.ChatInputSubcommandNotFound]: [
 			interaction: Interaction,
 			subcommand: ChatInputSubcommandMappingValue,
 			context: ChatInputCommand.Context
 		];
-		[Events.ChatInputSubcommandDenied]: [error: UserError, payload: ChatInputSubcommandDeniedPayload];
-		[Events.ChatInputSubcommandError]: [error: unknown, payload: ChatInputSubcommandErrorPayload];
-		[Events.MessageSubcommandRun]: [message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandRunPayload];
-		[Events.MessageSubcommandSuccess]: [message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandSuccessPayload];
-		[Events.MessageSubcommandNotFound]: [message: Message, subcommand: MessageSubcommandMappingValue, context: ChatInputCommand.Context];
-		[Events.MessageSubcommandDenied]: [error: UserError, payload: MessageSubcommandDeniedPayload];
-		[Events.MessageSubcommandError]: [error: unknown, payload: MessageSubcommandErrorPayload];
-	}
-}
-
-declare module '@sapphire/framework' {
-	const enum Identifiers {
-		MessageSubcommandNoMatch = 'messageSubcommandNoMatch',
-		ChatInputSubcommandNoMatch = 'chatInputSubcommandNoMatch',
-		SubcommandNotFound = 'subcommandNotFound'
+		[SubcommandsEvents.ChatInputSubcommandDenied]: [error: UserError, payload: ChatInputSubcommandDeniedPayload];
+		[SubcommandsEvents.ChatInputSubcommandError]: [error: unknown, payload: ChatInputSubcommandErrorPayload];
+		[SubcommandsEvents.MessageSubcommandRun]: [message: Message, subcommand: MessageSubcommandMappingValue, payload: MessageSubcommandRunPayload];
+		[SubcommandsEvents.MessageSubcommandSuccess]: [
+			message: Message,
+			subcommand: MessageSubcommandMappingValue,
+			payload: MessageSubcommandSuccessPayload
+		];
+		[SubcommandsEvents.MessageSubcommandNotFound]: [
+			message: Message,
+			subcommand: MessageSubcommandMappingValue,
+			context: ChatInputCommand.Context
+		];
+		[SubcommandsEvents.MessageSubcommandDenied]: [error: UserError, payload: MessageSubcommandDeniedPayload];
+		[SubcommandsEvents.MessageSubcommandError]: [error: unknown, payload: MessageSubcommandErrorPayload];
 	}
 }
