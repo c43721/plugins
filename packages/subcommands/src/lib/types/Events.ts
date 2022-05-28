@@ -1,105 +1,105 @@
 import type { ChatInputCommand, MessageCommand, UserError } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 
-import type { ChatInputSubcommandMappingValue, MessageSubcommandMappingValue } from '../SubcommandMappings';
+import type { ChatInputSubCommandMappingValue, MessageSubCommandMappingValue } from '../SubCommandMappings';
 
-export const SubcommandPluginEvents = {
-	ChatInputSubcommandRun: 'chatInputSubcommandRun' as const,
-	ChatInputSubcommandSuccess: 'chatInputSubcommandSuccess' as const,
-	ChatInputSubcommandNotFound: 'chatInputSubcommandNotFound' as const,
-	ChatInputSubcommandDenied: 'chatInputSubcommandDenied' as const,
-	ChatInputSubcommandError: 'chatInputSubcommandError' as const,
-	MessageSubcommandRun: 'messageSubcommandRun' as const,
-	MessageSubcommandSuccess: 'messageSubcommandSuccess' as const,
-	MessageSubcommandNotFound: 'messageSubcommandNotFound' as const,
-	MessageSubcommandDenied: 'messageSubcommandDenied' as const,
-	MessageSubcommandError: 'messageSubcommandError' as const
+export const SubCommandPluginEvents = {
+	ChatInputSubCommandRun: 'chatInputSubCommandRun' as const,
+	ChatInputSubCommandSuccess: 'chatInputSubCommandSuccess' as const,
+	ChatInputSubCommandNotFound: 'chatInputSubCommandNotFound' as const,
+	ChatInputSubCommandDenied: 'chatInputSubCommandDenied' as const,
+	ChatInputSubCommandError: 'chatInputSubCommandError' as const,
+	MessageSubCommandRun: 'messageSubCommandRun' as const,
+	MessageSubCommandSuccess: 'messageSubCommandSuccess' as const,
+	MessageSubCommandNotFound: 'messageSubCommandNotFound' as const,
+	MessageSubCommandDenied: 'messageSubCommandDenied' as const,
+	MessageSubCommandError: 'messageSubCommandError' as const
 };
 
-export const enum SubcommandPluginIdentifiers {
-	MessageSubcommandNoMatch = 'messageSubcommandNoMatch',
-	ChatInputSubcommandNoMatch = 'chatInputSubcommandNoMatch',
-	SubcommandNotFound = 'subcommandNotFound'
+export const enum SubCommandPluginIdentifiers {
+	MessageSubCommandNoMatch = 'messageSubCommandNoMatch',
+	ChatInputSubCommandNoMatch = 'chatInputSubCommandNoMatch',
+	SubCommandNotFound = 'subcommandNotFound'
 }
 
-export interface IMessageSubcommandPayload {
+export interface IMessageSubCommandPayload {
 	message: Message;
 	command: MessageCommand;
 }
 
-export interface MessageSubcommandAcceptedPayload extends IMessageSubcommandPayload {
+export interface MessageSubCommandAcceptedPayload extends IMessageSubCommandPayload {
 	context: MessageCommand.RunContext;
 }
 
-export interface MessageSubcommandRunPayload extends MessageSubcommandAcceptedPayload {}
+export interface MessageSubCommandRunPayload extends MessageSubCommandAcceptedPayload {}
 
-export interface MessageSubcommandErrorPayload extends MessageSubcommandRunPayload {}
+export interface MessageSubCommandErrorPayload extends MessageSubCommandRunPayload {}
 
-export interface MessageSubcommandDeniedPayload extends MessageSubcommandRunPayload {
+export interface MessageSubCommandDeniedPayload extends MessageSubCommandRunPayload {
 	parameters: string;
-	subcommand: MessageSubcommandMappingValue;
+	subcommand: MessageSubCommandMappingValue;
 }
 
-export interface MessageSubcommandSuccessPayload extends MessageSubcommandRunPayload {
+export interface MessageSubCommandSuccessPayload extends MessageSubCommandRunPayload {
 	result: unknown;
 }
 
-export interface IChatInputSubcommandPayload {
+export interface IChatInputSubCommandPayload {
 	interaction: ChatInputCommand.Interaction;
 	command: ChatInputCommand;
 }
 
-export interface ChatInputSubcommandAcceptedPayload extends IChatInputSubcommandPayload {
+export interface ChatInputSubCommandAcceptedPayload extends IChatInputSubCommandPayload {
 	context: ChatInputCommand.RunContext;
 }
 
-export interface ChatInputSubcommandRunPayload extends ChatInputSubcommandAcceptedPayload {}
+export interface ChatInputSubCommandRunPayload extends ChatInputSubCommandAcceptedPayload {}
 
-export interface ChatInputSubcommandErrorPayload extends ChatInputSubcommandRunPayload {}
+export interface ChatInputSubCommandErrorPayload extends ChatInputSubCommandRunPayload {}
 
-export interface ChatInputSubcommandDeniedPayload extends ChatInputSubcommandRunPayload {
-	subcommand: ChatInputSubcommandMappingValue;
+export interface ChatInputSubCommandDeniedPayload extends ChatInputSubCommandRunPayload {
+	subcommand: ChatInputSubCommandMappingValue;
 }
 
-export interface ChatInputSubcommandSuccessPayload extends ChatInputSubcommandRunPayload {
+export interface ChatInputSubCommandSuccessPayload extends ChatInputSubCommandRunPayload {
 	result: unknown;
 }
 
 declare module 'discord.js' {
 	interface ClientEvents {
-		[SubcommandPluginEvents.ChatInputSubcommandRun]: [
+		[SubCommandPluginEvents.ChatInputSubCommandRun]: [
 			interaction: Interaction,
-			subcommand: ChatInputSubcommandMappingValue,
-			payload: ChatInputSubcommandRunPayload
+			subcommand: ChatInputSubCommandMappingValue,
+			payload: ChatInputSubCommandRunPayload
 		];
-		[SubcommandPluginEvents.ChatInputSubcommandSuccess]: [
+		[SubCommandPluginEvents.ChatInputSubCommandSuccess]: [
 			interaction: Interaction,
-			subcommand: ChatInputSubcommandMappingValue,
-			payload: ChatInputSubcommandSuccessPayload
+			subcommand: ChatInputSubCommandMappingValue,
+			payload: ChatInputSubCommandSuccessPayload
 		];
-		[SubcommandPluginEvents.ChatInputSubcommandNotFound]: [
+		[SubCommandPluginEvents.ChatInputSubCommandNotFound]: [
 			interaction: Interaction,
-			subcommand: ChatInputSubcommandMappingValue,
+			subcommand: ChatInputSubCommandMappingValue,
 			context: ChatInputCommand.Context
 		];
-		[SubcommandPluginEvents.ChatInputSubcommandDenied]: [error: UserError, payload: ChatInputSubcommandDeniedPayload];
-		[SubcommandPluginEvents.ChatInputSubcommandError]: [error: unknown, payload: ChatInputSubcommandErrorPayload];
-		[SubcommandPluginEvents.MessageSubcommandRun]: [
+		[SubCommandPluginEvents.ChatInputSubCommandDenied]: [error: UserError, payload: ChatInputSubCommandDeniedPayload];
+		[SubCommandPluginEvents.ChatInputSubCommandError]: [error: unknown, payload: ChatInputSubCommandErrorPayload];
+		[SubCommandPluginEvents.MessageSubCommandRun]: [
 			message: Message,
-			subcommand: MessageSubcommandMappingValue,
-			payload: MessageSubcommandRunPayload
+			subcommand: MessageSubCommandMappingValue,
+			payload: MessageSubCommandRunPayload
 		];
-		[SubcommandPluginEvents.MessageSubcommandSuccess]: [
+		[SubCommandPluginEvents.MessageSubCommandSuccess]: [
 			message: Message,
-			subcommand: MessageSubcommandMappingValue,
-			payload: MessageSubcommandSuccessPayload
+			subcommand: MessageSubCommandMappingValue,
+			payload: MessageSubCommandSuccessPayload
 		];
-		[SubcommandPluginEvents.MessageSubcommandNotFound]: [
+		[SubCommandPluginEvents.MessageSubCommandNotFound]: [
 			message: Message,
-			subcommand: MessageSubcommandMappingValue,
+			subcommand: MessageSubCommandMappingValue,
 			context: ChatInputCommand.Context
 		];
-		[SubcommandPluginEvents.MessageSubcommandDenied]: [error: UserError, payload: MessageSubcommandDeniedPayload];
-		[SubcommandPluginEvents.MessageSubcommandError]: [error: unknown, payload: MessageSubcommandErrorPayload];
+		[SubCommandPluginEvents.MessageSubCommandDenied]: [error: UserError, payload: MessageSubCommandDeniedPayload];
+		[SubCommandPluginEvents.MessageSubCommandError]: [error: unknown, payload: MessageSubCommandErrorPayload];
 	}
 }
