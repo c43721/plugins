@@ -22,7 +22,7 @@ export class SubCommandPluginCommand<
 	PreParseReturn extends Args = Args,
 	O extends SubCommandPluginCommand.Options = SubCommandPluginCommand.Options
 > extends Command<PreParseReturn, O> {
-	private subcommandsInternalMapping: SubcommandMappingsArray;
+	public subcommandsInternalMapping: SubcommandMappingsArray;
 
 	public constructor(context: PieceContext, options: O) {
 		super(context, options);
@@ -97,7 +97,7 @@ export class SubCommandPluginCommand<
 	) {
 		const payload: ChatInputSubcommandAcceptedPayload = { command: this, context, interaction };
 		const result = await fromAsync(async () => {
-			interaction.client.emit(SubcommandPluginEvents.ChatInputSubcommandRun, interaction, subcommand, payload);
+			this.container.client.emit(SubcommandPluginEvents.ChatInputSubcommandRun, interaction, subcommand, payload);
 			subcommand.type ??= 'method';
 			let result: unknown;
 
@@ -138,18 +138,18 @@ export class SubCommandPluginCommand<
 				}
 			}
 
-			interaction.client.emit(SubcommandPluginEvents.ChatInputSubcommandSuccess, interaction, subcommand, { ...payload, result });
+			this.container.client.emit(SubcommandPluginEvents.ChatInputSubcommandSuccess, interaction, subcommand, { ...payload, result });
 		});
 
 		if (isErr(result)) {
-			interaction.client.emit(SubcommandPluginEvents.ChatInputSubcommandError, result.error, payload);
+			this.container.client.emit(SubcommandPluginEvents.ChatInputSubcommandError, result.error, payload);
 		}
 	}
 
 	async #handleMessageRun(message: Message, args: Args, context: MessageCommand.RunContext, subcommand: MessageSubcommandMappingValue) {
 		const payload: MessageSubcommandAcceptedPayload = { message, command: this, context };
 		const result = await fromAsync(async () => {
-			message.client.emit(SubcommandPluginEvents.MessageSubcommandRun, message, subcommand, payload);
+			this.container.client.emit(SubcommandPluginEvents.MessageSubcommandRun, message, subcommand, payload);
 			subcommand.type ??= 'method';
 			let result: unknown;
 
@@ -201,11 +201,11 @@ export class SubCommandPluginCommand<
 				}
 			}
 
-			message.client.emit(SubcommandPluginEvents.MessageSubcommandSuccess, message, subcommand, { ...payload, result });
+			this.container.client.emit(SubcommandPluginEvents.MessageSubcommandSuccess, message, subcommand, { ...payload, result });
 		});
 
 		if (isErr(result)) {
-			message.client.emit(SubcommandPluginEvents.MessageSubcommandError, result.error, payload);
+			this.container.client.emit(SubcommandPluginEvents.MessageSubcommandError, result.error, payload);
 		}
 	}
 }
