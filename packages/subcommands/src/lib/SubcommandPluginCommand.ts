@@ -17,11 +17,22 @@ export class SubcommandPluginCommand<
 	PreParseReturn extends Args = Args,
 	O extends SubcommandPluginCommand.Options = SubcommandPluginCommand.Options
 > extends Command<PreParseReturn, O> {
-	public subcommandMappings: SubcommandMappingArray;
+	public parsedSubcommandMappings: SubcommandMappingArray;
 
 	public constructor(context: PieceContext, options: O) {
 		super(context, options);
-		this.subcommandMappings = options.subcommands ?? [];
+		this.parsedSubcommandMappings = options.subcommands ?? [];
+	}
+
+	public onLoad() {
+		super.onLoad();
+
+		const externalMapping: SubcommandMappingArray | undefined = Reflect.get(this, 'subcommandMappings');
+		if (externalMapping) {
+			const subcommands = Array.isArray(externalMapping) ? externalMapping : [];
+			this.parsedSubcommandMappings = subcommands;
+			this.options.subcommands = subcommands;
+		}
 	}
 
 	public async messageRun(message: Message, args: PreParseReturn, context: MessageCommand.RunContext) {
@@ -31,7 +42,7 @@ export class SubcommandPluginCommand<
 		let defaultCommand: SubcommandMappingMethod | null = null;
 		let actualSubcommandToRun: SubcommandMappingMethod | null = null;
 
-		for (const mapping of this.subcommandMappings) {
+		for (const mapping of this.parsedSubcommandMappings) {
 			if (mapping.type === 'method') {
 				if (mapping.default) {
 					defaultCommand = mapping;
@@ -99,7 +110,7 @@ export class SubcommandPluginCommand<
 		const subcommandName = interaction.options.getSubcommand(false);
 		const subcommandGroupName = interaction.options.getSubcommandGroup(false);
 
-		for (const mapping of this.subcommandMappings) {
+		for (const mapping of this.parsedSubcommandMappings) {
 			// If we have a group, we know we also have a subcommand and we should find and run it
 			if (subcommandGroupName && subcommandName) {
 				if (mapping.type !== 'group') continue;
