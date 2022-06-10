@@ -15,7 +15,7 @@ import {
 
 export class SubcommandPluginCommand<
 	PreParseReturn extends Args = Args,
-	O extends SubCommandPluginCommand.Options = SubCommandPluginCommand.Options
+	O extends SubcommandPluginCommand.Options = SubcommandPluginCommand.Options
 > extends Command<PreParseReturn, O> {
 	public subcommandMappings: SubcommandMappingArray;
 
@@ -213,6 +213,6 @@ export interface SubcommandPluginCommandOptions extends Command.Options {
 	subcommands?: SubcommandMappingArray;
 }
 
-export namespace SubCommandPluginCommand {
+export namespace SubcommandPluginCommand {
 	export type Options = SubcommandPluginCommandOptions;
 }
