@@ -18,10 +18,15 @@ export const SubcommandPluginEvents = {
 	SubcommandMappingIsMissingChatInputCommandHandler: 'subcommandMappingIsMissingChatInputCommandHandler' as const
 };
 
-export const enum SubcommandPluginIdentifiers {
+export enum SubcommandPluginIdentifiers {
 	MessageSubcommandNoMatch = 'messageSubcommandNoMatch',
 	ChatInputSubcommandNoMatch = 'chatInputSubcommandNoMatch',
 	SubcommandNotFound = 'subcommandNotFound'
+}
+
+export interface MessageSubcommandNoMatchContext extends MessageCommand.RunContext {
+	possibleSubcommandName: string | null;
+	possibleSubcommandGroupOrName: string | null;
 }
 
 export interface IMessageSubcommandPayload {

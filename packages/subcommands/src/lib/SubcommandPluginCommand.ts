@@ -103,7 +103,14 @@ export class SubcommandPluginCommand<
 		}
 
 		// No match and no subcommand, return an err:
-		throw new UserError({ identifier: SubcommandPluginIdentifiers.MessageSubcommandNoMatch, context });
+		throw new UserError({
+			identifier: SubcommandPluginIdentifiers.MessageSubcommandNoMatch,
+			context: {
+				...context,
+				possibleSubcommandName: subcommandName.value ?? null,
+				possibleSubcommandGroupOrName: subcommandOrGroup.value ?? null
+			}
+		});
 	}
 
 	public async chatInputRun(interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext) {
