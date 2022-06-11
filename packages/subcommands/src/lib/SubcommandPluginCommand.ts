@@ -43,6 +43,8 @@ export class SubcommandPluginCommand<
 		let actualSubcommandToRun: SubcommandMappingMethod | null = null;
 
 		for (const mapping of this.parsedSubcommandMappings) {
+			mapping.type ??= 'method';
+
 			if (mapping.type === 'method') {
 				if (mapping.default) {
 					defaultCommand = mapping;
@@ -118,6 +120,8 @@ export class SubcommandPluginCommand<
 		const subcommandGroupName = interaction.options.getSubcommandGroup(false);
 
 		for (const mapping of this.parsedSubcommandMappings) {
+			mapping.type ??= 'method';
+
 			// If we have a group, we know we also have a subcommand and we should find and run it
 			if (subcommandGroupName && subcommandName) {
 				if (mapping.type !== 'group') continue;
@@ -214,6 +218,8 @@ export class SubcommandPluginCommand<
 		let foundDefault: SubcommandMappingMethod | null = null;
 
 		for (const mapping of mappings) {
+			mapping.type ??= 'method';
+
 			if (mapping.default) {
 				foundDefault = mapping;
 			}

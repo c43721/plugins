@@ -60,7 +60,7 @@ export interface SubcommandMappingMethod<Cmd extends SubcommandPluginCommand = S
 	/**
 	 * This subcommand mapping describes a subcommand method and can therefore only ever be `'method'`
 	 */
-	type: 'method';
+	type?: 'method';
 	/**
 	 * Whether this is the default subcommand when none is provided.
 	 *
