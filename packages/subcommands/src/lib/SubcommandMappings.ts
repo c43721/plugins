@@ -89,7 +89,7 @@ export interface SubcommandMappingMethod<Cmd extends SubcommandPluginCommand = S
 	 * }
 	 * ```
 	 */
-	messageRun?: AllowedFunctionKeys<Cmd> | Cmd['messageRun'];
+	messageRun?: AllowedFunctionKeys<Cmd> | Command['messageRun'];
 	/**
 	 * The class method to call when invoking this subcommand through a **chat input command**,
 	 * or a callback implementation of the subcommand.
@@ -110,7 +110,7 @@ export interface SubcommandMappingMethod<Cmd extends SubcommandPluginCommand = S
 	 * }
 	 * ```
 	 */
-	chatInputRun?: AllowedFunctionKeys<Cmd> | Cmd['chatInputRun'];
+	chatInputRun?: AllowedFunctionKeys<Cmd> | Command['chatInputRun'];
 }
 
 export interface SubcommandMappingGroup<Cmd extends SubcommandPluginCommand = SubcommandPluginCommand> extends SubcommandMappingBase {
