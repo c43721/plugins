@@ -1,7 +1,7 @@
 import type { ChatInputCommand, MessageCommand } from '@sapphire/framework';
 import type { Message } from 'discord.js';
-import type { ChatInputCommandSubcommandMappingMethod, MessageSubcommandMappingMethod, SubcommandMappingMethod } from '../SubcommandMappings';
 import type { Subcommand } from '../Subcommand';
+import type { ChatInputCommandSubcommandMappingMethod, MessageSubcommandMappingMethod, SubcommandMappingMethod } from '../SubcommandMappings';
 
 export const SubcommandPluginEvents = {
 	ChatInputSubcommandRun: 'chatInputSubcommandRun' as const,
