@@ -1,5 +1,5 @@
 import { Command, fromAsync, isErr, UserError, type Args, type ChatInputCommand, type MessageCommand, type PieceContext } from '@sapphire/framework';
-import type { Message } from 'discord.js';
+import type { CacheType, Message } from 'discord.js';
 import type {
 	ChatInputCommandSubcommandMappingMethod,
 	MessageSubcommandMappingMethod,
@@ -236,4 +236,11 @@ export interface SubcommandOptions extends Command.Options {
 
 export namespace Subcommand {
 	export type Options = SubcommandOptions;
+	export type JSON = Command.JSON;
+	export type Context = Command.Context;
+	export type RunInTypes = Command.RunInTypes;
+	export type ChatInputInteraction<Cached extends CacheType = CacheType> = Command.ChatInputInteraction<Cached>;
+	export type ContextMenuInteraction<Cached extends CacheType = CacheType> = Command.ContextMenuInteraction<Cached>;
+	export type AutocompleteInteraction<Cached extends CacheType = CacheType> = Command.AutocompleteInteraction<Cached>;
+	export type Registry = Command.Registry;
 }
