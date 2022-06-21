@@ -1,3 +1,3 @@
 export * from './lib/types/Events';
-export * from './lib/SubcommandPluginCommand';
+export * from './lib/Subcommand';
 export * from './lib/SubcommandMappings';

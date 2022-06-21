@@ -13,10 +13,7 @@ import {
 	type MessageSubcommandAcceptedPayload
 } from './types/Events';
 
-export class SubcommandPluginCommand<
-	PreParseReturn extends Args = Args,
-	O extends SubcommandPluginCommand.Options = SubcommandPluginCommand.Options
-> extends Command<PreParseReturn, O> {
+export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand.Options = Subcommand.Options> extends Command<PreParseReturn, O> {
 	public parsedSubcommandMappings: SubcommandMappingArray;
 
 	public constructor(context: PieceContext, options: O) {
@@ -233,10 +230,10 @@ export class SubcommandPluginCommand<
 	}
 }
 
-export interface SubcommandPluginCommandOptions extends Command.Options {
+export interface SubcommandOptions extends Command.Options {
 	subcommands?: SubcommandMappingArray;
 }
 
-export namespace SubcommandPluginCommand {
-	export type Options = SubcommandPluginCommandOptions;
+export namespace Subcommand {
+	export type Options = SubcommandOptions;
 }

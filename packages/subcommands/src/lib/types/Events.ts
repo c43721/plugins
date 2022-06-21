@@ -1,7 +1,7 @@
 import type { ChatInputCommand, MessageCommand } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import type { ChatInputCommandSubcommandMappingMethod, MessageSubcommandMappingMethod, SubcommandMappingMethod } from '../SubcommandMappings';
-import type { SubcommandPluginCommand } from '../SubcommandPluginCommand';
+import type { Subcommand } from '../Subcommand';
 
 export const SubcommandPluginEvents = {
 	ChatInputSubcommandRun: 'chatInputSubcommandRun' as const,
@@ -31,7 +31,7 @@ export interface MessageSubcommandNoMatchContext extends MessageCommand.RunConte
 
 export interface IMessageSubcommandPayload {
 	message: Message;
-	command: SubcommandPluginCommand;
+	command: Subcommand;
 }
 
 export interface MessageSubcommandAcceptedPayload extends IMessageSubcommandPayload {
@@ -48,7 +48,7 @@ export interface MessageSubcommandSuccessPayload extends MessageSubcommandRunPay
 
 export interface IChatInputSubcommandPayload {
 	interaction: ChatInputCommand.Interaction;
-	command: SubcommandPluginCommand;
+	command: Subcommand;
 }
 
 export interface ChatInputSubcommandAcceptedPayload extends IChatInputSubcommandPayload {

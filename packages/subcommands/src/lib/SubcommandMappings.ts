@@ -1,5 +1,5 @@
 import type { Command } from '@sapphire/framework';
-import type { SubcommandPluginCommand } from './SubcommandPluginCommand';
+import type { Subcommand } from './Subcommand';
 
 /**
  * FunctionKeys
@@ -18,7 +18,7 @@ type FunctionKeys<T extends object> = {
 	[K in keyof T]-?: NonUndefined<T[K]> extends Function ? K : never;
 }[keyof T];
 
-export type AllowedFunctionKeys<C extends SubcommandPluginCommand> = Exclude<FunctionKeys<C>, FunctionKeys<Command>>;
+export type AllowedFunctionKeys<C extends Subcommand> = Exclude<FunctionKeys<C>, FunctionKeys<Command>>;
 
 /**
  * NonUndefined
@@ -32,11 +32,9 @@ export type AllowedFunctionKeys<C extends SubcommandPluginCommand> = Exclude<Fun
  */
 export type NonUndefined<A> = A extends undefined ? never : A;
 
-export type SubcommandMapping<Cmd extends SubcommandPluginCommand = SubcommandPluginCommand> =
-	| SubcommandMappingMethod<Cmd>
-	| SubcommandMappingGroup<Cmd>;
+export type SubcommandMapping<Cmd extends Subcommand = Subcommand> = SubcommandMappingMethod<Cmd> | SubcommandMappingGroup<Cmd>;
 
-export type SubcommandMappingArray<Cmd extends SubcommandPluginCommand = SubcommandPluginCommand> = SubcommandMapping<Cmd>[];
+export type SubcommandMappingArray<Cmd extends Subcommand = Subcommand> = SubcommandMapping<Cmd>[];
 
 /**
  * Describes the mapping of all the subcommands to their respective implementations for this command.
@@ -56,7 +54,7 @@ interface SubcommandMappingBase {
 /**
  * Describes how a subcommand method maps to the actual implementation of that subcommand.
  */
-export interface SubcommandMappingMethod<Cmd extends SubcommandPluginCommand = SubcommandPluginCommand> extends SubcommandMappingBase {
+export interface SubcommandMappingMethod<Cmd extends Subcommand = Subcommand> extends SubcommandMappingBase {
 	/**
 	 * This subcommand mapping describes a subcommand method and can therefore only ever be `'method'`
 	 */
@@ -113,7 +111,7 @@ export interface SubcommandMappingMethod<Cmd extends SubcommandPluginCommand = S
 	chatInputRun?: AllowedFunctionKeys<Cmd> | Command['chatInputRun'];
 }
 
-export interface SubcommandMappingGroup<Cmd extends SubcommandPluginCommand = SubcommandPluginCommand> extends SubcommandMappingBase {
+export interface SubcommandMappingGroup<Cmd extends Subcommand = Subcommand> extends SubcommandMappingBase {
 	/**
 	 * This subcommand mapping describes a subcommand group and can therefore only ever be `'group'`
 	 */
@@ -125,14 +123,8 @@ export interface SubcommandMappingGroup<Cmd extends SubcommandPluginCommand = Su
 }
 
 // Type aliases
-export type MessageSubcommandMappingMethod<Cmd extends SubcommandPluginCommand = SubcommandPluginCommand> = Omit<
-	SubcommandMappingMethod<Cmd>,
-	'messageRun'
-> &
+export type MessageSubcommandMappingMethod<Cmd extends Subcommand = Subcommand> = Omit<SubcommandMappingMethod<Cmd>, 'messageRun'> &
 	Required<Pick<SubcommandMappingMethod<Cmd>, 'messageRun'>>;
 
-export type ChatInputCommandSubcommandMappingMethod<Cmd extends SubcommandPluginCommand = SubcommandPluginCommand> = Omit<
-	SubcommandMappingMethod<Cmd>,
-	'chatInputRun'
-> &
+export type ChatInputCommandSubcommandMappingMethod<Cmd extends Subcommand = Subcommand> = Omit<SubcommandMappingMethod<Cmd>, 'chatInputRun'> &
 	Required<Pick<SubcommandMappingMethod<Cmd>, 'chatInputRun'>>;
