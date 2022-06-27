@@ -158,6 +158,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 
 	async #handleMessageRun(message: Message, args: Args, context: MessageCommand.RunContext, subcommand: SubcommandMappingMethod) {
 		const payload: MessageSubcommandAcceptedPayload = { message, command: this, context };
+		// @ts-expect-error no i dont want to return everywhere
 		const result = await fromAsync(async () => {
 			if (subcommand.messageRun) {
 				const casted = subcommand as MessageSubcommandMappingMethod;
@@ -169,7 +170,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 					const preconditions = new PreconditionContainerArray(casted.preconditions);
 					const result = await preconditions.messageRun(message, this, context);
 					if (!result.success) {
-						this.container.client.emit(Events.MessageCommandDenied, result.error, {
+						return this.container.client.emit(Events.MessageCommandDenied, result.error, {
 							message,
 							command: this,
 							parameters: 'Preconditions failed to run',
@@ -204,6 +205,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 		subcommand: SubcommandMappingMethod
 	) {
 		const payload: ChatInputSubcommandAcceptedPayload = { command: this, context, interaction };
+		// @ts-expect-error no i dont want to return everywhere
 		const result = await fromAsync(async () => {
 			if (subcommand.chatInputRun) {
 				const casted = subcommand as ChatInputCommandSubcommandMappingMethod;
@@ -215,7 +217,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 					const preconditions = new PreconditionContainerArray(casted.preconditions);
 					const result = await preconditions.chatInputRun(interaction, this, context);
 					if (!result.success) {
-						this.container.client.emit(Events.ChatInputCommandDenied, result.error, {
+						return this.container.client.emit(Events.ChatInputCommandDenied, result.error, {
 							interaction,
 							command: this,
 							context
