@@ -1,4 +1,15 @@
-import { Command, fromAsync, isErr, UserError, type Args, type ChatInputCommand, type MessageCommand, type PieceContext } from '@sapphire/framework';
+import {
+	Command,
+	Events,
+	fromAsync,
+	isErr,
+	PreconditionContainerArray,
+	UserError,
+	type Args,
+	type ChatInputCommand,
+	type MessageCommand,
+	type PieceContext
+} from '@sapphire/framework';
 import type { CacheType, Message } from 'discord.js';
 import type {
 	ChatInputCommandSubcommandMappingMethod,
@@ -154,6 +165,19 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 				this.container.client.emit(SubcommandPluginEvents.MessageSubcommandRun, message, casted, payload);
 				let result: unknown;
 
+				if (casted.preconditions) {
+					const preconditions = new PreconditionContainerArray(casted.preconditions);
+					const result = await preconditions.messageRun(message, this, context);
+					if (!result.success) {
+						this.container.client.emit(Events.MessageCommandDenied, result.error, {
+							message,
+							command: this,
+							parameters: 'Preconditions failed to run',
+							context
+						});
+					}
+				}
+
 				if (typeof subcommand.messageRun === 'string') {
 					const method: this['messageRun'] | undefined = Reflect.get(this, subcommand.messageRun);
 					if (!method) throw new UserError({ identifier: SubcommandPluginIdentifiers.SubcommandNotFound, context: { ...payload } });
@@ -187,6 +211,17 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 				this.container.client.emit(SubcommandPluginEvents.ChatInputSubcommandRun, interaction, casted, payload);
 				let result: unknown;
 
+				if (casted.preconditions) {
+					const preconditions = new PreconditionContainerArray(casted.preconditions);
+					const result = await preconditions.chatInputRun(interaction, this, context);
+					if (!result.success) {
+						this.container.client.emit(Events.ChatInputCommandDenied, result.error, {
+							interaction,
+							command: this,
+							context
+						});
+					}
+				}
 				if (typeof subcommand.chatInputRun === 'string') {
 					const method: this['chatInputRun'] | undefined = Reflect.get(this, subcommand.chatInputRun);
 					if (!method) throw new UserError({ identifier: SubcommandPluginIdentifiers.SubcommandNotFound, context: { ...payload } });

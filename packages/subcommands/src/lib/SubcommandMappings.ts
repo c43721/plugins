@@ -1,4 +1,4 @@
-import type { Command } from '@sapphire/framework';
+import type { Command, PreconditionEntryResolvable } from '@sapphire/framework';
 
 export type SubcommandMapping = SubcommandMappingMethod | SubcommandMappingGroup;
 
@@ -77,6 +77,11 @@ export interface SubcommandMappingMethod extends SubcommandMappingBase {
 	 * ```
 	 */
 	chatInputRun?: string | Command['chatInputRun'];
+
+	/**
+	 * The preconditions
+	 */
+	preconditions?: readonly PreconditionEntryResolvable[];
 }
 
 export interface SubcommandMappingGroup extends SubcommandMappingBase {
