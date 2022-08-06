@@ -1,4 +1,4 @@
-import { Listener, type PreconditionStore } from '@sapphire/framework';
+import { Listener } from '@sapphire/framework';
 import type { PieceContext } from '@sapphire/pieces';
 import { PatternCommandEvents } from '../lib/utils/PaternCommandEvents';
 import type { PatternPreCommandRunPayload } from '../lib/utils/PatternCommandInterfaces';
