@@ -76,7 +76,7 @@ export class ScheduledTaskHandler {
 			return;
 		}
 
-		const result = await Result.fromAsync<number | null>(async () => {
+		const result = await Result.fromAsync(async () => {
 			container.client.emit(ScheduledTaskEvents.ScheduledTaskRun, task, payload);
 
 			const stopwatch = new Stopwatch();
