@@ -126,7 +126,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 				if (mapping.type !== 'group') continue;
 				if (mapping.name !== subcommandGroupName) continue;
 
-				const foundSubcommand = this.#findSubcommand(mapping.entries, subcommandName!);
+				const foundSubcommand = this.#findSubcommand(mapping.entries, subcommandName);
 
 				// Only run if its not the "default" found command mapping, as interactions don't have that
 				if (!foundSubcommand.defaultMatch) {

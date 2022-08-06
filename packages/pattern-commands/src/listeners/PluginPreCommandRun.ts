@@ -12,11 +12,7 @@ export class PreCommandRunListener extends Listener<typeof PatternCommandEvents.
 		const { message, command } = payload;
 
 		// Run global preconditions:
-		const globalResult = await (this.container.stores.get('preconditions') as unknown as PreconditionStore).messageRun(
-			message,
-			command,
-			payload as any
-		);
+		const globalResult = await this.container.stores.get('preconditions').messageRun(message, command, payload as any);
 
 		if (globalResult.isErr()) {
 			message.client.emit(PatternCommandEvents.CommandDenied, globalResult.unwrapErr(), payload);

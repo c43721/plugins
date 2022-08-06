@@ -22,19 +22,20 @@ export class CommandAcceptedListener extends Listener<typeof PatternCommandEvent
 	public async runPatternCommand(payload: PatternCommandAcceptedPayload) {
 		const { message, command } = payload;
 
+		let duration = -1;
 		const result = await Result.fromAsync(async () => {
 			message.client.emit(PatternCommandEvents.CommandRun, message, command, payload);
 
 			const stopwatch = new Stopwatch();
 			const result = await command.messageRun(message);
-			const { duration } = stopwatch.stop();
+			duration = stopwatch.stop().duration;
 
 			message.client.emit(PatternCommandEvents.CommandSuccess, { ...payload, result, duration });
 
 			return duration;
 		});
 
-		result.inspectErr((error) => message.client.emit(PatternCommandEvents.CommandError, error, { ...payload, duration: -1 }));
+		result.inspectErr((error) => message.client.emit(PatternCommandEvents.CommandError, error, { ...payload, duration }));
 
 		message.client.emit(PatternCommandEvents.CommandFinished, message, command, {
 			...payload,
