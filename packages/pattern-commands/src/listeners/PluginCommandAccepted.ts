@@ -22,25 +22,15 @@ export class CommandAcceptedListener extends Listener<typeof PatternCommandEvent
 	public async runPatternCommand(payload: PatternCommandAcceptedPayload) {
 		const { message, command } = payload;
 
-		let duration = -1;
-		const result = await Result.fromAsync(async () => {
-			message.client.emit(PatternCommandEvents.CommandRun, message, command, payload);
+		message.client.emit(PatternCommandEvents.CommandRun, message, command, payload);
+		const stopwatch = new Stopwatch();
+		const result = await Result.fromAsync(() => command.messageRun(message));
+		const { duration } = stopwatch.stop();
 
-			const stopwatch = new Stopwatch();
-			const result = await command.messageRun(message);
-			duration = stopwatch.stop().duration;
+		result
+			.inspect((result) => message.client.emit(PatternCommandEvents.CommandSuccess, { ...payload, result, duration }))
+			.inspectErr((error) => message.client.emit(PatternCommandEvents.CommandError, error, { ...payload, duration }));
 
-			message.client.emit(PatternCommandEvents.CommandSuccess, { ...payload, result, duration });
-
-			return duration;
-		});
-
-		result.inspectErr((error) => message.client.emit(PatternCommandEvents.CommandError, error, { ...payload, duration }));
-
-		message.client.emit(PatternCommandEvents.CommandFinished, message, command, {
-			...payload,
-			success: result.isOk(),
-			duration: result.unwrapOr(-1)
-		});
+		message.client.emit(PatternCommandEvents.CommandFinished, message, command, { ...payload, success: result.isOk(), duration });
 	}
 }
