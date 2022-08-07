@@ -1,4 +1,4 @@
-import { fromAsync, isErr, Listener } from '@sapphire/framework';
+import { Result, Listener } from '@sapphire/framework';
 import type { PieceContext } from '@sapphire/pieces';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { PatternCommandEvents } from '../lib/utils/PaternCommandEvents';
@@ -12,7 +12,7 @@ export class CommandAcceptedListener extends Listener<typeof PatternCommandEvent
 	public async run(payload: PatternCommandAcceptedPayload) {
 		const { message, command, alias } = payload;
 
-		if (command.chance > Math.round(Math.random() * 99) + 1) {
+		if (command.chance >= Math.round(Math.random() * 99) + 1) {
 			await this.runPatternCommand(payload);
 		} else {
 			message.client.emit(PatternCommandEvents.CommandNoLuck, message, command, alias);
@@ -22,22 +22,15 @@ export class CommandAcceptedListener extends Listener<typeof PatternCommandEvent
 	public async runPatternCommand(payload: PatternCommandAcceptedPayload) {
 		const { message, command } = payload;
 
-		const result = await fromAsync(async () => {
-			message.client.emit(PatternCommandEvents.CommandRun, message, command, payload);
+		message.client.emit(PatternCommandEvents.CommandRun, message, command, payload);
+		const stopwatch = new Stopwatch();
+		const result = await Result.fromAsync(() => command.messageRun(message));
+		const { duration } = stopwatch.stop();
 
-			const stopwatch = new Stopwatch();
-			const result = await command.messageRun(message);
-			const { duration } = stopwatch.stop();
+		result
+			.inspect((result) => message.client.emit(PatternCommandEvents.CommandSuccess, { ...payload, result, duration }))
+			.inspectErr((error) => message.client.emit(PatternCommandEvents.CommandError, error, { ...payload, duration }));
 
-			message.client.emit(PatternCommandEvents.CommandSuccess, { ...payload, result, duration });
-
-			return duration;
-		});
-
-		if (isErr(result)) {
-			message.client.emit(PatternCommandEvents.CommandError, result.error, { ...payload, duration: result.value ?? -1 });
-		}
-
-		message.client.emit(PatternCommandEvents.CommandFinished, message, command, { ...payload, duration: result.value ?? -1 });
+		message.client.emit(PatternCommandEvents.CommandFinished, message, command, { ...payload, success: result.isOk(), duration });
 	}
 }

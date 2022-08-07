@@ -1,4 +1,4 @@
-import { container, from, isErr } from '@sapphire/framework';
+import { container, Result } from '@sapphire/framework';
 import type { SendMessageBatchResultEntryList } from 'aws-sdk/clients/sqs';
 import { randomBytes } from 'crypto';
 import { Consumer, ConsumerOptions } from 'sqs-consumer';
@@ -31,7 +31,7 @@ export class ScheduledTaskSQSStrategy implements ScheduledTaskBaseStrategy {
 	}
 
 	public connect() {
-		const connectResult = from(() => {
+		const connectResult = Result.from(() => {
 			const consumer = Consumer.create({
 				...this.options,
 				handleMessage: this.handleMessage.bind(this),
@@ -41,9 +41,7 @@ export class ScheduledTaskSQSStrategy implements ScheduledTaskBaseStrategy {
 			consumer.start();
 		});
 
-		if (isErr(connectResult)) {
-			container.client.emit(ScheduledTaskEvents.ScheduledTaskStrategyConnectError, connectResult.error);
-		}
+		connectResult.inspectErr((error) => container.client.emit(ScheduledTaskEvents.ScheduledTaskStrategyConnectError, error));
 	}
 
 	public create(task: string, payload?: unknown, options?: ScheduledTasksTaskOptions): Promise<SendMessageBatchResultEntryList> {
@@ -52,7 +50,7 @@ export class ScheduledTaskSQSStrategy implements ScheduledTaskBaseStrategy {
 		}
 
 		let delay = (options?.delay ?? 0) / 1000;
-		if (options?.type === 'repeated') {
+		if (options?.repeated) {
 			delay = options.interval! / 1000;
 		}
 
@@ -99,7 +97,7 @@ export class ScheduledTaskSQSStrategy implements ScheduledTaskBaseStrategy {
 		const data = JSON.parse(message.Body!) as ScheduledTaskSQSStrategyMessageBody;
 		await this.run(data.task, data.payload);
 
-		if (data.options.type === 'repeated') {
+		if (data.options.repeated) {
 			await this.create(data.task, data.payload, data.options);
 		}
 	}

@@ -1,15 +1,4 @@
-import {
-	Command,
-	Events,
-	fromAsync,
-	isErr,
-	PreconditionContainerArray,
-	UserError,
-	type Args,
-	type ChatInputCommand,
-	type MessageCommand,
-	type PieceContext
-} from '@sapphire/framework';
+import { Command, Result, UserError, type Args, type ChatInputCommand, type MessageCommand, type PieceContext } from '@sapphire/framework';
 import type { CacheType, Message } from 'discord.js';
 import type {
 	ChatInputCommandSubcommandMappingMethod,
@@ -58,7 +47,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 					defaultCommand = mapping;
 				}
 
-				if (subcommandOrGroup.exists && mapping.name === subcommandOrGroup.value) {
+				if (subcommandOrGroup.isSomeAnd((value) => mapping.name === value)) {
 					actualSubcommandToRun = mapping;
 					// Exit early
 					break;
@@ -66,11 +55,13 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 			}
 
 			// We expect a group mapping
-			if (mapping.type === 'group' && subcommandName.exists) {
+			if (mapping.type === 'group' && subcommandName.isSome()) {
+				const value = subcommandName.unwrap();
+
 				// We know a group was passed in here
-				if (mapping.name === subcommandOrGroup.value) {
+				if (mapping.name === value) {
 					// Find the actual subcommand to run
-					const findResult = this.#findSubcommand(mapping.entries, subcommandName.value);
+					const findResult = this.#findSubcommand(mapping.entries, value);
 
 					if (findResult.defaultMatch) {
 						defaultCommand = findResult.mapping;
@@ -91,7 +82,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 			args.next();
 
 			// We might've matched a group subcommand
-			if (subcommandName.exists && subcommandName.value === actualSubcommandToRun.name) {
+			if (subcommandOrGroup.isSomeAnd((value) => actualSubcommandToRun!.name === value)) {
 				args.next();
 			}
 
@@ -100,12 +91,12 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 
 		// No subcommand matched, let's try to run default, if any:
 		if (defaultCommand) {
-			if (subcommandOrGroup.exists) {
+			if (subcommandOrGroup.isSome()) {
 				args.next();
 			}
 
 			// We might've ran `!example group subcm` but the default subcommand is `subcmd` instead, we should strip that out
-			if (subcommandName.exists) {
+			if (subcommandName.isSome()) {
 				args.next();
 			}
 
@@ -117,8 +108,8 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 			identifier: SubcommandPluginIdentifiers.MessageSubcommandNoMatch,
 			context: {
 				...context,
-				possibleSubcommandName: subcommandName.value ?? null,
-				possibleSubcommandGroupOrName: subcommandOrGroup.value ?? null
+				possibleSubcommandName: subcommandName.unwrapOr(null),
+				possibleSubcommandGroupOrName: subcommandOrGroup.unwrapOr(null)
 			}
 		});
 	}
@@ -135,7 +126,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 				if (mapping.type !== 'group') continue;
 				if (mapping.name !== subcommandGroupName) continue;
 
-				const foundSubcommand = this.#findSubcommand(mapping.entries, subcommandName!);
+				const foundSubcommand = this.#findSubcommand(mapping.entries, subcommandName);
 
 				// Only run if its not the "default" found command mapping, as interactions don't have that
 				if (!foundSubcommand.defaultMatch) {
@@ -158,7 +149,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 
 	async #handleMessageRun(message: Message, args: Args, context: MessageCommand.RunContext, subcommand: SubcommandMappingMethod) {
 		const payload: MessageSubcommandAcceptedPayload = { message, command: this, context };
-		const result = await fromAsync(async () => {
+		const result = await Result.fromAsync(async () => {
 			if (subcommand.messageRun) {
 				const casted = subcommand as MessageSubcommandMappingMethod;
 
@@ -194,9 +185,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 			}
 		});
 
-		if (isErr(result)) {
-			this.container.client.emit(SubcommandPluginEvents.MessageSubcommandError, result.error, payload);
-		}
+		result.inspectErr((error) => this.container.client.emit(SubcommandPluginEvents.MessageSubcommandError, error, payload));
 	}
 
 	async #handleChatInputInteractionRun(
@@ -205,7 +194,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 		subcommand: SubcommandMappingMethod
 	) {
 		const payload: ChatInputSubcommandAcceptedPayload = { command: this, context, interaction };
-		const result = await fromAsync(async () => {
+		const result = await Result.fromAsync(async () => {
 			if (subcommand.chatInputRun) {
 				const casted = subcommand as ChatInputCommandSubcommandMappingMethod;
 
@@ -243,9 +232,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 			}
 		});
 
-		if (isErr(result)) {
-			this.container.client.emit(SubcommandPluginEvents.ChatInputSubcommandError, result.error, payload);
-		}
+		result.inspectErr((error) => this.container.client.emit(SubcommandPluginEvents.ChatInputSubcommandError, error, payload));
 	}
 
 	#findSubcommand(mappings: SubcommandMappingMethod[], expectedName: string) {

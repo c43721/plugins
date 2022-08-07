@@ -1,8 +1,8 @@
-import { container, fromAsync, isErr } from '@sapphire/framework';
+import { container, Result } from '@sapphire/framework';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { ScheduledTaskRedisStrategy } from './strategies/ScheduledTaskRedisStrategy';
 import type { ScheduledTaskStore } from './structures/ScheduledTaskStore';
-import type { ScheduledTaskBaseStrategy } from './types/ScheduledTaskBaseStrategy';
+import type { ScheduledTaskBaseStrategy, ScheduledTasks } from './types/ScheduledTaskBaseStrategy';
 import { ScheduledTaskEvents } from './types/ScheduledTaskEvents';
 import type { ScheduledTasksOptions } from './types/ScheduledTasksOptions';
 import type { ScheduledTasksTaskOptions } from './types/ScheduledTasksTaskOptions';
@@ -19,10 +19,10 @@ export class ScheduledTaskHandler {
 		return this.strategy.client;
 	}
 
-	public create(task: string, payload: unknown, options?: ScheduledTasksTaskOptions | number) {
+	public create(task: keyof ScheduledTasks, payload: unknown, options?: ScheduledTasksTaskOptions | number) {
 		if (typeof options === 'number') {
 			options = {
-				type: 'default',
+				repeated: false,
 				delay: options
 			};
 		}
@@ -37,15 +37,15 @@ export class ScheduledTaskHandler {
 			store.repeatedTasks.map((piece) => ({
 				name: piece.name,
 				options: {
-					type: 'repeated',
+					repeated: true,
 					...(piece.interval
 						? {
 								interval: piece.interval,
-								bullJobOptions: piece.bullJobOptions
+								bullJobsOptions: piece.bullJobsOptions
 						  }
 						: {
 								cron: piece.cron!,
-								bullJobOptions: piece.bullJobOptions
+								bullJobsOptions: piece.bullJobsOptions
 						  })
 				}
 			}))
@@ -76,7 +76,7 @@ export class ScheduledTaskHandler {
 			return;
 		}
 
-		const result = await fromAsync(async () => {
+		const result = await Result.fromAsync(async () => {
 			container.client.emit(ScheduledTaskEvents.ScheduledTaskRun, task, payload);
 
 			const stopwatch = new Stopwatch();
@@ -88,16 +88,16 @@ export class ScheduledTaskHandler {
 			return duration;
 		});
 
-		if (isErr(result)) {
-			container.client.emit(ScheduledTaskEvents.ScheduledTaskError, result.error, task, payload);
-		}
+		result.inspectErr((error) => container.client.emit(ScheduledTaskEvents.ScheduledTaskError, error, task, payload));
 
-		container.client.emit(ScheduledTaskEvents.ScheduledTaskFinished, task, result.value, payload);
+		const value = result.unwrapOr(null);
 
-		return result.value;
+		container.client.emit(ScheduledTaskEvents.ScheduledTaskFinished, task, value, payload);
+
+		return value;
 	}
 
 	private get store(): ScheduledTaskStore {
-		return container.client.stores.get('scheduled-tasks') as unknown as ScheduledTaskStore;
+		return container.client.stores.get('scheduled-tasks');
 	}
 }

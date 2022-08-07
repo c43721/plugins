@@ -1,4 +1,4 @@
-import { fromAsync, isErr } from '@sapphire/framework';
+import { Result } from '@sapphire/framework';
 import { container, getRootData } from '@sapphire/pieces';
 import { Awaitable, isFunction, NonNullObject } from '@sapphire/utilities';
 import { Backend, PathResolvable } from '@skyra/i18next-backend';
@@ -58,7 +58,9 @@ export class InternationalizationHandler {
 	public constructor(options?: InternationalizationOptions) {
 		this.options = options ?? { i18next: { ignoreJSONStructure: false } };
 		this.languagesDirectory =
-			this.options.defaultLanguageDirectory ?? join(container.client?.options?.baseUserDirectory ?? getRootData().root, 'languages');
+			this.options.defaultLanguageDirectory ??
+			// FIXME: This is a bypass until this plugin is updated for Sapphire v3 because during building docs it already considers `baseUserDirectory` as potentially an `URL`
+			join((container.client?.options?.baseUserDirectory as string | null | undefined) ?? (getRootData().root as string), 'languages');
 
 		const languagePaths = new Set<PathResolvable>([
 			join(this.languagesDirectory, '{{lng}}', '{{ns}}.json'), //
@@ -218,7 +220,7 @@ export class InternationalizationHandler {
 	}
 
 	public async reloadResources() {
-		const result = await fromAsync(async () => {
+		const result = await Result.fromAsync(async () => {
 			let languages = this.options.hmr?.languages;
 			let namespaces = this.options.hmr?.namespaces;
 			if (!languages || !namespaces) {
@@ -231,9 +233,7 @@ export class InternationalizationHandler {
 			container.logger.info('[i18next-Plugin] Reloaded language resources.');
 		});
 
-		if (isErr(result)) {
-			container.logger.error('[i18next-Plugin]: Failed to reload language resources.', result.error);
-		}
+		result.inspectErr((error) => container.logger.error('[i18next-Plugin]: Failed to reload language resources.', error));
 	}
 
 	/**

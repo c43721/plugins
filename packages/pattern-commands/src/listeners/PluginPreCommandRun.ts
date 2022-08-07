@@ -1,4 +1,4 @@
-import { Listener, type PreconditionStore } from '@sapphire/framework';
+import { Listener } from '@sapphire/framework';
 import type { PieceContext } from '@sapphire/pieces';
 import { PatternCommandEvents } from '../lib/utils/PaternCommandEvents';
 import type { PatternPreCommandRunPayload } from '../lib/utils/PatternCommandInterfaces';
@@ -12,20 +12,17 @@ export class PreCommandRunListener extends Listener<typeof PatternCommandEvents.
 		const { message, command } = payload;
 
 		// Run global preconditions:
-		const globalResult = await (this.container.stores.get('preconditions') as unknown as PreconditionStore).messageRun(
-			message,
-			command,
-			payload as any
-		);
-		if (!globalResult.success) {
-			message.client.emit(PatternCommandEvents.CommandDenied, globalResult.error, payload);
+		const globalResult = await this.container.stores.get('preconditions').messageRun(message, command, payload as any);
+
+		if (globalResult.isErr()) {
+			message.client.emit(PatternCommandEvents.CommandDenied, globalResult.unwrapErr(), payload);
 			return;
 		}
 
 		// Run command-specific preconditions:
 		const localResult = await command.preconditions.messageRun(message, command, payload as any);
-		if (!localResult.success) {
-			message.client.emit(PatternCommandEvents.CommandDenied, localResult.error, payload);
+		if (localResult.isErr()) {
+			message.client.emit(PatternCommandEvents.CommandDenied, localResult.unwrapErr(), payload);
 			return;
 		}
 

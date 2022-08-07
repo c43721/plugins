@@ -45,68 +45,73 @@ npm install @sapphire/plugin-subcommands @sapphire/framework @sapphire/utilities
 _With TypeScript:_
 
 ```typescript
-import {
-	SubCommandPluginCommand,
-	MessageSubcommandMappings,
-	ChatInputSubcommandMappings,
-	SubcommandMappingsArray
-} from '@sapphire/plugin-subcommands';
+import { Subcommand } from '@sapphire/plugin-subcommands';
 import { ApplyOptions } from '@sapphire/decorators';
 import type { Args } from '@sapphire/framework';
 import type { Message, CommandInteraction } from 'discord.js';
 
 // Using ApplyOptions decorator makes it easy to configure
-@ApplyOptions<SubCommandPluginCommand.Options>({
+@ApplyOptions<Subcommand.Options>({
 	subcommands: [
-		new MessageSubcommandMappings([
-			{ name: 'add', to: 'messageAdd' },
-			{ name: 'remove', to: 'messageRemove' },
-			{ name: 'list', to: 'messageList', default: true }
-		]),
-		new ChatInputSubcommandMappings([
-			{ name: 'add', to: 'chatInputAdd' },
-			{ name: 'remove', to: 'chatInputRemove' },
-			{ name: 'list', to: 'chatInputList' }
-		])
+		{
+			name: 'add',
+			messageRun: 'messageAdd',
+			chatInputRun: 'chatInputAdd'
+		},
+		{
+			name: 'remove',
+			messageRun: 'messageRemove',
+			chatInputRun: 'chatInputRemove'
+		},
+		{
+			name: 'list',
+			messageRun: 'messageList',
+			chatInputRun: 'chatInputList'
+		}
 	]
 })
-// Extend `SubCommandPluginCommand` instead of `Command`
-export class UserCommand extends SubCommandPluginCommand {
+// Extend `Subcommand` instead of `Command`
+export class UserCommand extends Subcommand {
 	public async messageAdd(message: Message, args: Args) {}
 
 	public async messageRemove(message: Message, args: Args) {}
 
 	public async messageList(message: Message, args: Args) {}
 
-	public async chatInputAdd(interaction: CommandInteraction) {}
+	public async chatInputAdd(interaction: Subcommand.ChatInputInteraction) {}
 
-	public async chatInputRemove(interaction: CommandInteraction) {}
+	public async chatInputRemove(interaction: Subcommand.ChatInputInteraction) {}
 
-	public async chatInputList(interaction: CommandInteraction) {}
+	public async chatInputList(interaction: Subcommand.ChatInputInteraction) {}
 }
 ```
 
 _With JavaScript:_
 
 ```javascript
-const { SubCommandPluginCommand } = require('@sapphire/plugin-subcommands');
+const { Subcommand } = require('@sapphire/plugin-subcommands');
 
-// Extend `SubCommandPluginCommand` instead of `Command`
-module.exports = class UserCommand extends SubCommandPluginCommand {
+// Extend `Subcommand` instead of `Command`
+module.exports = class UserCommand extends Subcommand {
 	constructor(context, options) {
 		super(context, {
 			...options,
 			subcommands: [
-				new MessageSubcommandMappings([
-					{ name: 'add', to: 'messageAdd' },
-					{ name: 'remove', to: 'messageRemove' },
-					{ name: 'list', to: 'messageList', default: true }
-				]),
-				new ChatInputSubcommandMappings([
-					{ name: 'add', to: 'chatInputAdd' },
-					{ name: 'remove', to: 'chatInputRemove' },
-					{ name: 'list', to: 'chatInputList' }
-				])
+				{
+					name: 'add',
+					messageRun: 'messageAdd',
+					chatInputRun: 'chatInputAdd'
+				},
+				{
+					name: 'remove',
+					messageRun: 'messageRemove',
+					chatInputRun: 'chatInputRemove'
+				},
+				{
+					name: 'list',
+					messageRun: 'messageList',
+					chatInputRun: 'chatInputList'
+				}
 			]
 		});
 	}
