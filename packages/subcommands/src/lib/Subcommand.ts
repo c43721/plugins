@@ -204,7 +204,7 @@ export class Subcommand<PreParseReturn extends Args = Args, O extends Subcommand
 				if (casted.preconditions) {
 					const preconditions = new PreconditionContainerArray(casted.preconditions);
 					const result = await preconditions.chatInputRun(interaction, this, context);
-					if (!result.success) {
+					if (result.isErr()) {
 						this.container.client.emit(Events.ChatInputCommandDenied, result.error, {
 							interaction,
 							command: this,
